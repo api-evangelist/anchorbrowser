@@ -1,0 +1,154 @@
+aid: anchorbrowser
+name: Anchor Browser
+description: Anchor Browser is an AI-native cloud browser infrastructure platform that lets AI agents interact with the web
+  the same way a human would. It provides hosted, isolated Chromium sessions ("Anchor Chromium"), built-in stealth and bot-evasion
+  tuning, an authentication layer (OmniConnect) for managing logged-in user credentials, a built-in enterprise VPN, residential
+  and sticky-IP proxies, a Web Action Cache that hardens flaky workflows into deterministic code, and a REST API plus SDKs
+  for Playwright, Puppeteer, MCP, LangChain, and CrewAI. The platform is positioned as the sandbox runtime for agentic browser
+  automation.
+type: Index
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+tags:
+- Browser Infrastructure
+- AI Agents
+- Cloud Browser
+- Browser Automation
+- Sandbox
+- Stealth Browser
+- MCP
+url: https://raw.githubusercontent.com/api-evangelist/anchorbrowser/refs/heads/main/apis.yml
+created: '2026-05-23'
+modified: '2026-05-23'
+specificationVersion: '0.19'
+apis:
+- aid: anchorbrowser:anchor-browser-api
+  name: Anchor Browser API
+  description: The Anchor Browser REST API exposes cloud browser sessions for AI agents. It covers session lifecycle (create,
+    async create, status, end, list history), batch session creation (up to 5,000 simultaneous sessions), browser profiles
+    (save/load cookies, local storage, cache), file upload/download inside sessions, recording with pause/resume, custom browser
+    extensions, AI-driven task execution (Claude, Gemini, OpenAI), web unlocker for bot-protected sites, captcha solving,
+    ad/popup blocking, sticky residential IPs, secret management, and CA certificate management. SDKs are Stainless-generated
+    and an OpenAPI specification is published.
+  humanURL: https://docs.anchorbrowser.io
+  tags:
+  - Browser Sessions
+  - REST API
+  - Browser Automation
+  - AI Agents
+  properties:
+  - type: Documentation
+    url: https://docs.anchorbrowser.io/introduction
+  - type: GettingStarted
+    url: https://docs.anchorbrowser.io/quickstart/use-via-sdk
+  - type: APIReference
+    url: https://docs.anchorbrowser.io
+  - type: Authentication
+    url: https://docs.anchorbrowser.io
+  - type: Console
+    url: https://app.anchorbrowser.io/playground
+- aid: anchorbrowser:anchor-browser-mcp
+  name: Anchor Browser MCP Server
+  description: A Model Context Protocol server (hosted and open-source) that lets MCP-compatible AI clients drive Anchor Browser
+    sessions as tools.
+  humanURL: https://browsermcp.com
+  tags:
+  - MCP
+  - AI Agents
+  - Browser Automation
+  properties:
+  - type: Documentation
+    url: https://docs.anchorbrowser.io
+  - type: MCPServer
+    url: https://browsermcp.com
+- aid: anchorbrowser:anchor-browser-langchain
+  name: LangChain Anchor Browser Tools
+  description: LangChain-ready tools that wrap Anchor Browser-powered browser actions for use inside LangChain and LangGraph
+    agent workflows.
+  humanURL: https://github.com/anchorbrowser/langchain-anchorbrowser
+  tags:
+  - LangChain
+  - AI Agents
+  - Integration
+  properties:
+  - type: GitHubRepository
+    url: https://github.com/anchorbrowser/langchain-anchorbrowser
+common:
+- type: Portal
+  url: https://anchorbrowser.io
+- type: Documentation
+  url: https://docs.anchorbrowser.io
+- type: GettingStarted
+  url: https://docs.anchorbrowser.io/quickstart/use-via-sdk
+- type: Authentication
+  url: https://docs.anchorbrowser.io
+- type: SignUp
+  url: https://app.anchorbrowser.io
+- type: Console
+  url: https://app.anchorbrowser.io/playground
+- type: Blog
+  url: https://anchorbrowser.io/blog
+- type: StatusPage
+  url: https://status.anchorbrowser.io
+- type: TrustCenter
+  url: https://trust.anchorbrowser.io
+- type: SDK
+  url: https://docs.anchorbrowser.io/quickstart/use-via-sdk
+  name: Anchor Browser SDKs (Stainless-generated)
+- type: GitHubRepository
+  url: https://github.com/anchorbrowser/langchain-anchorbrowser
+  name: LangChain Anchor Browser Tools
+- type: MCPServer
+  url: https://browsermcp.com
+  name: BrowserMCP
+- type: Features
+  data:
+  - name: Cloud Browser Sessions
+    description: Hosted, isolated Chromium sessions ("Anchor Chromium") allocated on demand and torn down per task, no local
+      browser setup needed.
+  - name: Stealth and Bot Evasion
+    description: Humanized Chromium fork tuned to be recognized as legitimate by major bot-protection systems.
+  - name: OmniConnect Authentication
+    description: Manages user credentials and authentication lifecycles so agents can operate inside logged-in surfaces.
+  - name: Anchor VPN
+    description: Built-in enterprise VPN for routing browser traffic over trusted networks.
+  - name: Residential and Sticky IPs
+    description: Built-in residential proxy rotation, geo-targeting, and dedicated sticky IPs.
+  - name: Web Action Cache
+    description: Captures repeatable workflows as deterministic code so previously flaky automations become reliable.
+  - name: AI Agent Integration
+    description: Natural-language task execution against Claude, Gemini, and OpenAI, plus first-party MCP, LangChain, and CrewAI
+      integrations.
+  - name: Playwright and Puppeteer Support
+    description: Existing Playwright and Puppeteer code can target Anchor sessions without code changes.
+  - name: Recording and File I/O
+    description: Per-session video recording with pause/resume and bidirectional file upload/download.
+- type: UseCases
+  data:
+  - name: Agentic Web Automation
+    description: Give AI agents a real browser to navigate sites that lack APIs, submit forms, and extract data.
+  - name: Authenticated Workflow Automation
+    description: Automate operations behind login flows (banking, SaaS dashboards, internal portals) without storing credentials
+      on developer laptops.
+  - name: Web Scraping at Scale
+    description: Run up to 5,000 simultaneous sessions with rotating residential IPs and built-in captcha handling.
+  - name: AI Agent Sandbox
+    description: Give frontier model agents a safe, isolated browser to operate in without exposing the user's machine.
+- type: Integrations
+  data:
+  - name: Model Context Protocol (MCP)
+    description: Hosted and open-source MCP servers let any MCP-compatible client use Anchor Browser as a tool.
+  - name: LangChain
+    description: First-party LangChain tools wrap Anchor actions for use in LangChain and LangGraph agents.
+  - name: CrewAI
+    description: Integration for orchestrating multi-agent crews on top of Anchor sessions.
+  - name: Playwright and Puppeteer
+    description: Drop-in target for existing Playwright and Puppeteer automation code.
+  - name: Cloudflare Web Bot Auth
+    description: Integration with Cloudflare's signed-agent / Web Bot Auth scheme so Anchor sessions are recognized as legitimate
+      agent traffic.
+  - name: AWS Marketplace
+    description: Available for procurement via AWS Marketplace.
+maintainers:
+- FN: Kin Lane
+  url: http://apievangelist.com
+  email: kin@apievangelist.com
