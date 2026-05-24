@@ -148,6 +148,8 @@ common:
       agent traffic.
   - name: AWS Marketplace
     description: Available for procurement via AWS Marketplace.
+- type: LLMsTxt
+  url: https://docs.anchorbrowser.io/llms.txt
 maintainers:
 - FN: Kin Lane
   url: http://apievangelist.com
