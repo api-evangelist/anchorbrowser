@@ -81,7 +81,7 @@ common:
   url: https://docs.anchorbrowser.io/quickstart/use-via-sdk
 - type: Authentication
   url: https://docs.anchorbrowser.io
-- type: SignUp
+- type: Signup
   url: https://app.anchorbrowser.io
 - type: Console
   url: https://app.anchorbrowser.io/playground
@@ -91,7 +91,7 @@ common:
   url: https://status.anchorbrowser.io
 - type: TrustCenter
   url: https://trust.anchorbrowser.io
-- type: SDK
+- type: SDKs
   url: https://docs.anchorbrowser.io/quickstart/use-via-sdk
   name: Anchor Browser SDKs (Stainless-generated)
 - type: GitHubRepository
@@ -148,7 +148,7 @@ common:
       agent traffic.
   - name: AWS Marketplace
     description: Available for procurement via AWS Marketplace.
-- type: LLMsTxt
+- type: LlmsText
   url: https://docs.anchorbrowser.io/llms.txt
 maintainers:
 - FN: Kin Lane
