@@ -73,6 +73,12 @@ apis:
   - type: GitHubRepository
     url: https://github.com/anchorbrowser/langchain-anchorbrowser
 common:
+- type: TrustCenter
+  url: security/anchorbrowser-trust-center.yml
+- type: DomainSecurity
+  url: security/anchorbrowser-domain-security.yml
+- type: Authentication
+  url: authentication/anchorbrowser-authentication.yml
 - type: Portal
   url: https://anchorbrowser.io
 - type: Documentation

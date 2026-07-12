@@ -1,0 +1,16 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/anchorbrowser-openapi.yml
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+schemes:
+- name: api_key_header
+  type: apiKey
+  in: header
+  parameter: anchor-api-key
+  description: API key passed in the header
+  sources:
+  - openapi/anchorbrowser-openapi.yml
