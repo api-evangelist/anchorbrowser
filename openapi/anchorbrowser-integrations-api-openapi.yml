@@ -1,0 +1,224 @@
+openapi: 3.1.0
+info:
+  title: AnchorBrowser Agentic capabilities Integrations API
+  version: 1.0.0
+  description: APIs to manage all browser-related actions and configuration.
+servers:
+- url: https://api.anchorbrowser.io
+  description: API server
+tags:
+- name: Integrations
+paths:
+  /v1/integrations:
+    post:
+      summary: Create Integration
+      description: "Creates a new integration with a third-party service like 1Password. \nThe integration can then be used in browser sessions to automatically load secrets and credentials.\n"
+      security:
+      - api_key_header: []
+      tags:
+      - Integrations
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateIntegrationRequest'
+            examples:
+              onePasswordIntegration:
+                summary: Create a 1Password integration
+                value:
+                  name: My 1Password Integration
+                  type: 1PASSWORD
+                  credentials:
+                    type: serviceAccount
+                    data:
+                      serviceAccount: ops_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+      responses:
+        '200':
+          description: Integration created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IntegrationResponse'
+        '400':
+          description: Invalid request or validation failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Failed to create integration
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    get:
+      summary: List Integrations
+      description: Retrieves all integrations for the authenticated team.
+      security:
+      - api_key_header: []
+      tags:
+      - Integrations
+      responses:
+        '200':
+          description: List of integrations retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IntegrationListResponse'
+        '500':
+          description: Failed to list integrations
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/integrations/{integrationId}:
+    delete:
+      summary: Delete Integration
+      description: Deletes an existing integration and removes its stored credentials.
+      security:
+      - api_key_header: []
+      tags:
+      - Integrations
+      parameters:
+      - name: integrationId
+        in: path
+        required: true
+        description: The ID of the integration to delete
+        schema:
+          type: string
+          format: uuid
+          example: 550e8400-e29b-41d4-a716-446655440000
+      responses:
+        '200':
+          description: Integration deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      integration:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                            format: uuid
+                          deleted:
+                            type: boolean
+                          path:
+                            type: string
+        '404':
+          description: Integration not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Failed to delete integration
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    ServiceAccountCredentials:
+      type: object
+      required:
+      - type
+      - data
+      properties:
+        type:
+          type: string
+          enum:
+          - serviceAccount
+          description: Credential type
+        data:
+          type: object
+          required:
+          - serviceAccount
+          properties:
+            serviceAccount:
+              type: string
+              description: Service account token
+              example: ops_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    IntegrationType:
+      type: string
+      enum:
+      - 1PASSWORD
+      description: The type of integration
+    IntegrationResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            integration:
+              $ref: '#/components/schemas/IntegrationItem'
+    CreateIntegrationRequest:
+      type: object
+      required:
+      - name
+      - type
+      - credentials
+      properties:
+        name:
+          type: string
+          minLength: 1
+          description: Name for the integration
+          example: My 1Password Integration
+        type:
+          $ref: '#/components/schemas/IntegrationType'
+        credentials:
+          $ref: '#/components/schemas/ServiceAccountCredentials'
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: integer
+            message:
+              type: string
+    IntegrationItem:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique integration ID
+          example: 550e8400-e29b-41d4-a716-446655440000
+        name:
+          type: string
+          description: Integration name
+          example: My 1Password Integration
+        type:
+          $ref: '#/components/schemas/IntegrationType'
+        path:
+          type: string
+          description: Storage path for the integration
+          example: integrations/team-id/550e8400-e29b-41d4-a716-446655440000
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the integration was created
+          example: '2024-01-01T00:00:00.000Z'
+    IntegrationListResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            integrations:
+              type: array
+              items:
+                $ref: '#/components/schemas/IntegrationItem'
+  securitySchemes:
+    api_key_header:
+      type: apiKey
+      in: header
+      name: anchor-api-key
+      description: API key passed in the header

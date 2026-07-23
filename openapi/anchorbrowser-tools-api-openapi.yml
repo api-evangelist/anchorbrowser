@@ -1,0 +1,345 @@
+openapi: 3.1.0
+info:
+  title: AnchorBrowser Agentic capabilities Tools API
+  version: 1.0.0
+  description: APIs to manage all browser-related actions and configuration.
+servers:
+- url: https://api.anchorbrowser.io
+  description: API server
+tags:
+- name: Tools
+paths:
+  /v1/tools/fetch-webpage:
+    post:
+      summary: Get Webpage Content
+      description: Retrieve the rendered content of a webpage in Markdown or HTML format. Text content is also extracted from PDFs.
+      tags:
+      - Tools
+      security:
+      - api_key_header: []
+      parameters:
+      - in: query
+        name: sessionId
+        schema:
+          type: string
+        description: An optional browser session identifier to reference an existing running browser session. If provided, the tool will execute within that browser session.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FetchWebpageRequestSchema'
+      responses:
+        '200':
+          description: The fetched webpage content in the specified format.
+          content:
+            text/plain:
+              schema:
+                type: string
+                description: The rendered content of the webpage.
+        '400':
+          description: Invalid request, such as missing or invalid URL.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error while processing the request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/tools/fetch/webpage:
+    post:
+      summary: Web Unlocker
+      description: 'Fetch fully-rendered page content from any URL — including bot-protected sites — without managing a browser session.
+
+        Requests are routed through stealth browsers with residential proxies, captcha solving, and fingerprint randomization.
+
+        No session is required. See the [Web Unlocker guide](/advanced/web-unlocker) for more details.
+
+        '
+      tags:
+      - Tools
+      security:
+      - api_key_header: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebUnlockerRequestSchema'
+      responses:
+        '200':
+          description: Page content returned successfully.
+          content:
+            text/html:
+              schema:
+                type: string
+                description: The rendered HTML content of the webpage.
+        '400':
+          description: Invalid request — check the URL and try again.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Could not reach the requested URL.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Failed to fetch the requested page.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '504':
+          description: The page took too long to load.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/tools/screenshot:
+    post:
+      summary: Screenshot Webpage
+      description: This endpoint captures a screenshot of the specified webpage using Chromium. Users can customize the viewport dimensions and capture options.
+      tags:
+      - Tools
+      security:
+      - api_key_header: []
+      parameters:
+      - in: query
+        name: sessionId
+        schema:
+          type: string
+        description: An optional browser session identifier to reference an existing running browser sessions. When passed, the tool will be executed on the provided browser session.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScreenshotRequestSchema'
+      responses:
+        '200':
+          description: Screenshot successfully captured.
+          content:
+            image/png:
+              schema:
+                type: string
+                format: binary
+        '400':
+          description: Invalid input parameters.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Failed to take screenshot.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/tools/page-pdf:
+    post:
+      summary: Get Page PDF
+      description: Generates a PDF of the current page for a browser session and returns it as a binary PDF file.
+      tags:
+      - Tools
+      security:
+      - api_key_header: []
+      parameters:
+      - in: query
+        name: sessionId
+        required: false
+        schema:
+          type: string
+          format: uuid
+        description: Optional browser session ID. If omitted, `url` in the request body is required.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - url
+              properties:
+                url:
+                  type: string
+                  format: uri
+                  description: The URL of the page to print to PDF.
+                landscape:
+                  type: boolean
+                  description: Paper orientation. Defaults to false.
+                displayHeaderFooter:
+                  type: boolean
+                  description: Display header and footer. Defaults to false.
+                printBackground:
+                  type: boolean
+                  description: Print background graphics. Defaults to false.
+                scale:
+                  type: number
+                  minimum: 0.1
+                  maximum: 2
+                  description: Scale of the webpage rendering. Defaults to 1.
+                paperWidth:
+                  type: number
+                  exclusiveMinimum: 0
+                  description: Paper width in inches. Defaults to 8.5.
+                paperHeight:
+                  type: number
+                  exclusiveMinimum: 0
+                  description: Paper height in inches. Defaults to 11.
+                marginTop:
+                  type: number
+                  minimum: 0
+                  description: Top margin in inches. Defaults to ~0.4.
+                marginBottom:
+                  type: number
+                  minimum: 0
+                  description: Bottom margin in inches. Defaults to ~0.4.
+                marginLeft:
+                  type: number
+                  minimum: 0
+                  description: Left margin in inches. Defaults to ~0.4.
+                marginRight:
+                  type: number
+                  minimum: 0
+                  description: Right margin in inches. Defaults to ~0.4.
+                pageRanges:
+                  type: string
+                  pattern: ^\d+(-\d+)?(,\s*\d+(-\d+)?)*$
+                  description: Page ranges to print, e.g. '1-5, 8, 11-13'. Defaults to all pages.
+                headerTemplate:
+                  type: string
+                  description: HTML template for the print header.
+                footerTemplate:
+                  type: string
+                  description: HTML template for the print footer.
+                preferCSSPageSize:
+                  type: boolean
+                  description: Prefer page size as defined by CSS. Defaults to false.
+      responses:
+        '200':
+          description: PDF generated successfully
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+        '400':
+          description: Invalid parameters
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  details:
+                    type: array
+                    items:
+                      type: string
+        '404':
+          description: Session not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        '500':
+          description: Failed to generate PDF
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+components:
+  schemas:
+    ScreenshotRequestSchema:
+      type: object
+      properties:
+        url:
+          type: string
+          description: The URL of the webpage to capture.
+        width:
+          type: integer
+          description: The width of the browser viewport in pixels.
+        height:
+          type: integer
+          description: The height of the browser viewport in pixels.
+        image_quality:
+          type: integer
+          description: Quality of the output image, on the range 1-100. 100 will not perform any compression.
+        wait:
+          type: integer
+          description: Duration in milliseconds to wait after page has loaded, mainly used for sites with JS animations.
+        scroll_all_content:
+          type: boolean
+          description: If true, scrolls the page and captures all visible content.
+        capture_full_height:
+          type: boolean
+          description: If true, captures the entire height of the page, ignoring the viewport height.
+        s3_target_address:
+          type: string
+          description: Presigned S3 url target to upload the image to.
+    WebUnlockerRequestSchema:
+      type: object
+      required:
+      - url
+      properties:
+        url:
+          type: string
+          description: The fully-qualified URL to fetch (e.g. `https://www.linkedin.com/company/openai`).
+    FetchWebpageRequestSchema:
+      type: object
+      properties:
+        url:
+          type: string
+          description: The URL of the webpage or PDF to fetch content from. When left empty, the current webpage is used.
+        format:
+          type: string
+          description: The output format of the content.
+          enum:
+          - html
+          - markdown
+        wait:
+          type: integer
+          description: The time to wait for **dynamic** content to load in **milliseconds**.
+        new_page:
+          type: boolean
+          description: Whether to create a new page for the content.
+        page_index:
+          type: integer
+          description: The index of the page to fetch content from. **Overides new_page**.
+        return_partial_on_timeout:
+          type: boolean
+          description: Whether to return partial content if the content is not loaded within the 20 seconds.
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: integer
+            message:
+              type: string
+  securitySchemes:
+    api_key_header:
+      type: apiKey
+      in: header
+      name: anchor-api-key
+      description: API key passed in the header

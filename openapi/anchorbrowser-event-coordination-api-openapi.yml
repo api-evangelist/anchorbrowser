@@ -1,0 +1,163 @@
+openapi: 3.1.0
+info:
+  title: AnchorBrowser Agentic capabilities Event Coordination API
+  version: 1.0.0
+  description: APIs to manage all browser-related actions and configuration.
+servers:
+- url: https://api.anchorbrowser.io
+  description: API server
+tags:
+- name: Event Coordination
+paths:
+  /v1/events/{event_name}/wait:
+    post:
+      summary: Wait for Event
+      description: "Waits for a specific event to be signaled by another process, workflow, or session. \nThis endpoint blocks until the event is signaled or the timeout is reached.\nUseful for coordinating between multiple browser sessions or workflows.\n"
+      security:
+      - api_key_header: []
+      tags:
+      - Event Coordination
+      parameters:
+      - name: event_name
+        in: path
+        required: true
+        description: The name of the event to wait for
+        schema:
+          type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WaitForEventRequestSchema'
+      responses:
+        '200':
+          description: Event was signaled successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EventResponseSchema'
+        '401':
+          description: Unauthorized - Invalid API key
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '408':
+          description: Timeout - Event was not signaled within the specified timeout
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Failed to wait for event
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/events/{event_name}:
+    post:
+      summary: Signal Event
+      description: 'Signals an event with associated data, unblocking any clients waiting for this event.
+
+        This enables coordination between different browser sessions, workflows, or external processes.
+
+        '
+      security:
+      - api_key_header: []
+      tags:
+      - Event Coordination
+      parameters:
+      - name: event_name
+        in: path
+        required: true
+        description: The name of the event to signal
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignalEventRequestSchema'
+      responses:
+        '200':
+          description: Event signaled successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '400':
+          description: Invalid request - Event data is required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized - Invalid API key
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Failed to signal event
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    WaitForEventRequestSchema:
+      type: object
+      properties:
+        timeoutMs:
+          type: integer
+          description: Timeout in milliseconds to wait for the event. Defaults to 60000ms (1 minute).
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: integer
+            message:
+              type: string
+    SuccessResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            status:
+              type: string
+    EventResponseSchema:
+      type: object
+      properties:
+        data:
+          type: object
+          description: The event data that was signaled
+          additionalProperties: true
+          example:
+            message: Task completed
+            result: success
+            timestamp: '2024-01-01T12:00:00Z'
+    SignalEventRequestSchema:
+      type: object
+      required:
+      - data
+      properties:
+        data:
+          type: object
+          description: Event data to be passed to waiting clients
+          additionalProperties: true
+          example:
+            message: Task completed
+            result: success
+            timestamp: '2024-01-01T12:00:00Z'
+  securitySchemes:
+    api_key_header:
+      type: apiKey
+      in: header
+      name: anchor-api-key
+      description: API key passed in the header

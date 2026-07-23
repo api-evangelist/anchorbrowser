@@ -1,0 +1,429 @@
+openapi: 3.1.0
+info:
+  title: AnchorBrowser Agentic capabilities Identities API
+  version: 1.0.0
+  description: APIs to manage all browser-related actions and configuration.
+servers:
+- url: https://api.anchorbrowser.io
+  description: API server
+tags:
+- name: Identities
+paths:
+  /v1/identities:
+    post:
+      summary: Create Identity
+      description: 'Creates a new identity for the given source. Credentials are optional.
+
+        '
+      security:
+      - api_key_header: []
+      tags:
+      - Identities
+      parameters:
+      - name: validateAsync
+        in: query
+        required: false
+        description: Whether to validate the identity asynchronously. Defaults to true.
+        schema:
+          type: boolean
+          default: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateIdentityRequest'
+            examples:
+              createEmptyIdentity:
+                summary: Minimal create request (source only, no credentials)
+                value:
+                  name: My Work Account
+                  source: https://example.com/login
+              createIdentityWithPassword:
+                summary: Create identity with username/password credential
+                value:
+                  name: My Work Account
+                  source: https://example.com/login
+                  credentials:
+                  - type: username_password
+                    username: user@example.com
+                    password: securepassword123
+                  metadata:
+                    department: Engineering
+              createIdentityWithAuthenticator:
+                summary: Create identity with authenticator
+                value:
+                  name: Two-Factor Account
+                  source: https://secure.example.com/login
+                  credentials:
+                  - type: username_password
+                    username: user@example.com
+                    password: securepassword123
+                  - type: authenticator
+                    secret: JBSWY3DPEHPK3PXP
+      responses:
+        '201':
+          description: Identity created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateIdentityResponse'
+        '400':
+          description: Invalid request parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Failed to create identity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/identities/{identityId}:
+    get:
+      summary: Get Identity
+      description: 'Retrieves details of a specific identity by its ID.
+
+        '
+      security:
+      - api_key_header: []
+      tags:
+      - Identities
+      parameters:
+      - name: identityId
+        in: path
+        required: true
+        description: The ID of the identity to retrieve
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: Identity details retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetIdentityResponse'
+        '404':
+          description: Identity not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Failed to get identity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    put:
+      summary: Update Identity
+      description: 'Updates an existing identity''s name, metadata, or credentials.
+
+        '
+      security:
+      - api_key_header: []
+      tags:
+      - Identities
+      parameters:
+      - name: identityId
+        in: path
+        required: true
+        description: The ID of the identity to update
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateIdentityRequest'
+            examples:
+              updateIdentityName:
+                summary: Update identity name
+                value:
+                  name: Updated Account Name
+              updateIdentityCredentials:
+                summary: Update identity credentials
+                value:
+                  credentials:
+                  - type: username_password
+                    username: newuser@example.com
+                    password: newpassword123
+      responses:
+        '200':
+          description: Identity updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateIdentityResponse'
+        '404':
+          description: Identity not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Failed to update identity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      summary: Delete Identity
+      description: 'Deletes an existing identity.
+
+        '
+      security:
+      - api_key_header: []
+      tags:
+      - Identities
+      parameters:
+      - name: identityId
+        in: path
+        required: true
+        description: The ID of the identity to delete
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: Identity deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteIdentityResponse'
+        '404':
+          description: Identity not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Failed to delete identity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    AuthenticatorCredential:
+      title: authenticator
+      type: object
+      required:
+      - type
+      - secret
+      properties:
+        type:
+          type: string
+          enum:
+          - authenticator
+          description: Credential type
+        secret:
+          type: string
+          description: TOTP secret for authenticator
+        otp:
+          type: string
+          description: Optional OTP code
+    UpdateIdentityRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the identity
+        metadata:
+          type: object
+          additionalProperties: true
+          description: Metadata for the identity
+        credentials:
+          type: array
+          items:
+            $ref: '#/components/schemas/CredentialData'
+          description: Array of credentials for authentication
+    CustomCredential:
+      title: custom
+      type: object
+      required:
+      - type
+      - fields
+      properties:
+        type:
+          type: string
+          enum:
+          - custom
+          description: Credential type
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomFieldItem'
+          description: Array of custom fields
+    UpdateIdentityResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the identity
+        name:
+          type: string
+          description: Name of the identity
+        metadata:
+          type: object
+          additionalProperties: true
+          description: Metadata associated with the identity
+        updated_at:
+          type: string
+          format: date-time
+          description: Timestamp when the identity was last updated
+    CredentialData:
+      oneOf:
+      - $ref: '#/components/schemas/UsernamePasswordCredential'
+      - $ref: '#/components/schemas/AuthenticatorCredential'
+      - $ref: '#/components/schemas/CustomCredential'
+      discriminator:
+        propertyName: type
+    DeleteIdentityResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Deletion result message
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: integer
+            message:
+              type: string
+    UsernamePasswordCredential:
+      title: username_password
+      type: object
+      required:
+      - type
+      - username
+      - password
+      properties:
+        type:
+          type: string
+          enum:
+          - username_password
+          description: Credential type
+        username:
+          type: string
+          description: Username for authentication
+        password:
+          type: string
+          description: Password for authentication
+    CustomFieldItem:
+      type: object
+      required:
+      - name
+      - value
+      properties:
+        name:
+          type: string
+          description: Field name
+        value:
+          type: string
+          description: Field value
+    GetIdentityResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the identity
+        name:
+          type: string
+          description: Name of the identity
+        source:
+          type: string
+          description: Source URL for the identity
+        status:
+          type: string
+          enum:
+          - pending
+          - validated
+          - failed
+          description: Status of the identity
+        metadata:
+          type: object
+          additionalProperties: true
+          description: Metadata associated with the identity
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp when the identity was created
+        updated_at:
+          type: string
+          format: date-time
+          description: Timestamp when the identity was last updated
+    CreateIdentityResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the identity
+        name:
+          type: string
+          description: Name of the identity
+        status:
+          type: string
+          enum:
+          - pending
+          - validated
+          - failed
+          description: Status of the identity
+        metadata:
+          type: object
+          additionalProperties: true
+          description: Metadata associated with the identity
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp when the identity was created
+    CreateIdentityRequest:
+      type: object
+      required:
+      - source
+      properties:
+        name:
+          type: string
+          description: Name of the identity. Defaults to "Unnamed Identity" if not provided.
+        source:
+          type: string
+          format: uri
+          description: The source URL for the identity (e.g., login page URL)
+        credentials:
+          type: array
+          items:
+            $ref: '#/components/schemas/CredentialData'
+          description: 'Optional credentials to associate with this identity (for example username/password
+
+            or authenticator secrets). Omit this field or supply an empty array when you only
+
+            need an identity for the given source URL and optional metadata.
+
+            '
+        metadata:
+          type: object
+          additionalProperties: true
+          description: Optional metadata for the identity
+        applicationName:
+          type: string
+          description: Optional application name to associate with the identity
+        applicationDescription:
+          type: string
+          description: Optional application description
+  securitySchemes:
+    api_key_header:
+      type: apiKey
+      in: header
+      name: anchor-api-key
+      description: API key passed in the header

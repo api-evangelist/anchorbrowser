@@ -1,0 +1,183 @@
+openapi: 3.1.0
+info:
+  title: AnchorBrowser Agentic capabilities Certificates API
+  version: 1.0.0
+  description: APIs to manage all browser-related actions and configuration.
+servers:
+- url: https://api.anchorbrowser.io
+  description: API server
+tags:
+- name: Certificates
+paths:
+  /v1/certificates:
+    post:
+      summary: Upload Certificate
+      description: 'Upload a CA certificate to trust in browser sessions. Certificates are managed at the team level.
+
+        Once uploaded, reference the certificate by name when creating sessions to trust services using that CA.
+
+
+        See [CA Certificates documentation](/advanced/ca-certificates) for more details.
+
+        '
+      security:
+      - api_key_header: []
+      tags:
+      - Certificates
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+              - name
+              - file
+              properties:
+                name:
+                  type: string
+                  description: Unique identifier for the certificate (alphanumeric, hyphens, underscores only, 1-255 characters)
+                  pattern: ^[a-zA-Z0-9\-_]+$
+                file:
+                  type: string
+                  format: binary
+                  description: Certificate file (.crt, .pem, .cer, or .der format)
+                description:
+                  type: string
+                  description: Optional description of the certificate (max 1000 characters)
+                  maxLength: 1000
+      responses:
+        '200':
+          description: Certificate uploaded successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertificateResponse'
+        '400':
+          description: Invalid request - missing file, invalid name format, or unsupported file type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: A certificate with this name already exists for your team
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Unable to upload certificate
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    get:
+      summary: List Certificates
+      description: Get all CA certificates uploaded for the team
+      security:
+      - api_key_header: []
+      tags:
+      - Certificates
+      responses:
+        '200':
+          description: List of certificates retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertificateListResponse'
+        '500':
+          description: Unable to list certificates
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/certificates/{name}:
+    delete:
+      summary: Delete Certificate
+      description: Delete a CA certificate by name. The certificate will be removed from storage and can no longer be used in new sessions.
+      security:
+      - api_key_header: []
+      tags:
+      - Certificates
+      parameters:
+      - name: name
+        in: path
+        required: true
+        description: The name of the certificate to delete
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Certificate deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '404':
+          description: Certificate not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Unable to delete certificate
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    CertificateResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/CertificateResponseSchema'
+    CertificateResponseSchema:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the certificate
+        name:
+          type: string
+          description: Certificate name (used to reference in sessions)
+        description:
+          type: string
+          nullable: true
+          description: Optional description of the certificate
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the certificate was uploaded
+    CertificateListResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/CertificateResponseSchema'
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: integer
+            message:
+              type: string
+    SuccessResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            status:
+              type: string
+  securitySchemes:
+    api_key_header:
+      type: apiKey
+      in: header
+      name: anchor-api-key
+      description: API key passed in the header

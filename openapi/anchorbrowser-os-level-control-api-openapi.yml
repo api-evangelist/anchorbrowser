@@ -1,0 +1,762 @@
+openapi: 3.1.0
+info:
+  title: AnchorBrowser Agentic capabilities OS Level Control API
+  version: 1.0.0
+  description: APIs to manage all browser-related actions and configuration.
+servers:
+- url: https://api.anchorbrowser.io
+  description: API server
+tags:
+- name: OS Level Control
+paths:
+  /v1/sessions/{sessionId}/screenshot:
+    get:
+      summary: Take Screenshot
+      description: Takes a screenshot of the current browser session and returns it as an image.
+      security:
+      - api_key_header: []
+      tags:
+      - OS Level Control
+      parameters:
+      - name: sessionId
+        in: path
+        required: true
+        description: The ID of the browser session
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: Screenshot taken successfully
+          content:
+            image/png:
+              schema:
+                type: string
+                format: binary
+        '404':
+          description: Session not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        '500':
+          description: Failed to take screenshot
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+  /v1/sessions/{sessionId}/mouse/click:
+    post:
+      summary: Mouse Click
+      description: Performs a mouse click at the specified coordinates
+      security:
+      - api_key_header: []
+      tags:
+      - OS Level Control
+      parameters:
+      - name: sessionId
+        in: path
+        required: true
+        description: The ID of the browser session
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MouseSingleClickRequestSchema'
+      responses:
+        '200':
+          description: Click performed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+        '400':
+          description: Invalid coordinates or parameters
+        '404':
+          description: Session not found
+        '500':
+          description: Failed to perform click
+  /v1/sessions/{sessionId}/mouse/doubleClick:
+    post:
+      summary: Mouse Double Click
+      description: Performs a double click at the specified coordinates
+      security:
+      - api_key_header: []
+      tags:
+      - OS Level Control
+      parameters:
+      - name: sessionId
+        in: path
+        required: true
+        description: The ID of the browser session
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MouseClickRequestSchema'
+      responses:
+        '200':
+          description: Double click performed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+        '400':
+          description: Invalid coordinates or parameters
+        '404':
+          description: Session not found
+        '500':
+          description: Failed to perform double click
+  /v1/sessions/{sessionId}/mouse/down:
+    post:
+      summary: Mouse Down
+      description: Performs a mouse button down action at the specified coordinates
+      security:
+      - api_key_header: []
+      tags:
+      - OS Level Control
+      parameters:
+      - name: sessionId
+        in: path
+        required: true
+        description: The ID of the browser session
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MouseClickRequestSchema'
+      responses:
+        '200':
+          description: Mouse down performed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+        '400':
+          description: Invalid coordinates or parameters
+        '404':
+          description: Session not found
+        '500':
+          description: Failed to perform mouse down
+  /v1/sessions/{sessionId}/mouse/up:
+    post:
+      summary: Mouse Up
+      description: Performs a mouse button up action at the specified coordinates
+      security:
+      - api_key_header: []
+      tags:
+      - OS Level Control
+      parameters:
+      - name: sessionId
+        in: path
+        required: true
+        description: The ID of the browser session
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MouseClickRequestSchema'
+      responses:
+        '200':
+          description: Mouse up performed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+        '400':
+          description: Invalid coordinates or parameters
+        '404':
+          description: Session not found
+        '500':
+          description: Failed to perform mouse up
+  /v1/sessions/{sessionId}/mouse/move:
+    post:
+      summary: Mouse Move
+      description: Moves the mouse cursor to the specified coordinates
+      security:
+      - api_key_header: []
+      tags:
+      - OS Level Control
+      parameters:
+      - name: sessionId
+        in: path
+        required: true
+        description: The ID of the browser session
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CoordinatesRequestSchema'
+      responses:
+        '200':
+          description: Mouse move performed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+        '400':
+          description: Invalid coordinates
+        '404':
+          description: Session not found
+        '500':
+          description: Failed to perform mouse move
+  /v1/sessions/{sessionId}/drag-and-drop:
+    post:
+      summary: Drag and Drop
+      description: Performs a drag and drop operation from start coordinates to end coordinates
+      security:
+      - api_key_header: []
+      tags:
+      - OS Level Control
+      parameters:
+      - name: sessionId
+        in: path
+        required: true
+        description: The ID of the browser session
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DragDropRequestSchema'
+      responses:
+        '200':
+          description: Drag and drop performed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+        '400':
+          description: Invalid coordinates or parameters
+        '404':
+          description: Session not found
+        '500':
+          description: Failed to perform drag and drop
+  /v1/sessions/{sessionId}/scroll:
+    post:
+      summary: Scroll
+      description: Performs a scroll action at the specified coordinates
+      security:
+      - api_key_header: []
+      tags:
+      - OS Level Control
+      parameters:
+      - name: sessionId
+        in: path
+        required: true
+        description: The ID of the browser session
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScrollRequestSchema'
+      responses:
+        '200':
+          description: Scroll performed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+        '400':
+          description: Invalid coordinates or parameters
+        '404':
+          description: Session not found
+        '500':
+          description: Failed to perform scroll
+  /v1/sessions/{sessionId}/keyboard/type:
+    post:
+      summary: Type Text
+      description: Types the specified text with optional delay between keystrokes
+      security:
+      - api_key_header: []
+      tags:
+      - OS Level Control
+      parameters:
+      - name: sessionId
+        in: path
+        required: true
+        description: The ID of the browser session
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TypeTextRequestSchema'
+      responses:
+        '200':
+          description: Text typed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+        '400':
+          description: Invalid parameters
+        '404':
+          description: Session not found
+        '500':
+          description: Failed to type text
+  /v1/sessions/{sessionId}/keyboard/shortcut:
+    post:
+      summary: Keyboard Shortcut
+      description: Performs a keyboard shortcut using the specified keys
+      security:
+      - api_key_header: []
+      tags:
+      - OS Level Control
+      parameters:
+      - name: sessionId
+        in: path
+        required: true
+        description: The ID of the browser session
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/KeyboardShortcutRequestSchema'
+      responses:
+        '200':
+          description: Shortcut performed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+        '400':
+          description: Invalid parameters
+        '404':
+          description: Session not found
+        '500':
+          description: Failed to perform shortcut
+  /v1/sessions/{sessionId}/clipboard:
+    get:
+      summary: Get Clipboard Content
+      description: Retrieves the current content of the clipboard
+      security:
+      - api_key_header: []
+      tags:
+      - OS Level Control
+      parameters:
+      - name: sessionId
+        in: path
+        required: true
+        description: The ID of the browser session
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: Clipboard content retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClipboardResponseSchema'
+        '404':
+          description: Session not found
+        '500':
+          description: Failed to get clipboard content
+    post:
+      summary: Set Clipboard Content
+      description: Sets the content of the clipboard
+      security:
+      - api_key_header: []
+      tags:
+      - OS Level Control
+      parameters:
+      - name: sessionId
+        in: path
+        required: true
+        description: The ID of the browser session
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClipboardRequestSchema'
+      responses:
+        '200':
+          description: Clipboard content set successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+        '400':
+          description: Invalid parameters
+        '404':
+          description: Session not found
+        '500':
+          description: Failed to set clipboard content
+  /v1/sessions/{sessionId}/copy:
+    post:
+      summary: Copy Selected Text
+      description: Copies the currently selected text to the clipboard
+      security:
+      - api_key_header: []
+      tags:
+      - OS Level Control
+      parameters:
+      - name: sessionId
+        in: path
+        required: true
+        description: The ID of the browser session
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: Text copied successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CopyResponseSchema'
+        '404':
+          description: Session not found
+        '500':
+          description: Failed to copy text
+  /v1/sessions/{sessionId}/paste:
+    post:
+      summary: Paste Text
+      description: Pastes text at the current cursor position
+      security:
+      - api_key_header: []
+      tags:
+      - OS Level Control
+      parameters:
+      - name: sessionId
+        in: path
+        required: true
+        description: The ID of the browser session
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PasteRequestSchema'
+      responses:
+        '200':
+          description: Text pasted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+        '400':
+          description: Invalid parameters
+        '404':
+          description: Session not found
+        '500':
+          description: Failed to paste text
+  /v1/sessions/{sessionId}/goto:
+    post:
+      summary: Navigate to URL
+      description: Navigates the browser session to the specified URL
+      security:
+      - api_key_header: []
+      tags:
+      - OS Level Control
+      parameters:
+      - name: sessionId
+        in: path
+        required: true
+        description: The ID of the browser session
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NavigateRequestSchema'
+      responses:
+        '200':
+          description: Navigation successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+        '400':
+          description: Invalid URL or parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Session not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Failed to navigate to URL
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    TypeTextRequestSchema:
+      type: object
+      required:
+      - text
+      properties:
+        text:
+          type: string
+          description: Text to type
+        delay:
+          type: integer
+          description: Delay between keystrokes in milliseconds
+    MouseClickRequestSchema:
+      allOf:
+      - $ref: '#/components/schemas/CoordinatesRequestSchema'
+      - type: object
+        properties:
+          button:
+            type: string
+            description: Mouse button to use
+            enum:
+            - left
+            - middle
+            - right
+    ClipboardRequestSchema:
+      type: object
+      required:
+      - text
+      properties:
+        text:
+          type: string
+          description: Text to set in the clipboard
+    NavigateRequestSchema:
+      type: object
+      required:
+      - url
+      properties:
+        url:
+          type: string
+          description: The URL to navigate to
+    DragDropRequestSchema:
+      type: object
+      required:
+      - startX
+      - startY
+      - endX
+      - endY
+      properties:
+        startX:
+          type: integer
+          description: Starting X coordinate
+        startY:
+          type: integer
+          description: Starting Y coordinate
+        endX:
+          type: integer
+          description: Ending X coordinate
+        endY:
+          type: integer
+          description: Ending Y coordinate
+        button:
+          type: string
+          description: Mouse button to use
+          enum:
+          - left
+          - middle
+          - right
+    KeyboardShortcutRequestSchema:
+      type: object
+      required:
+      - keys
+      properties:
+        keys:
+          type: array
+          description: Array of keys to press simultaneously
+          items:
+            type: string
+        holdTime:
+          type: integer
+          description: Time to hold the keys down in milliseconds
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: integer
+            message:
+              type: string
+    CoordinatesRequestSchema:
+      type: object
+      required:
+      - x
+      - y
+      properties:
+        x:
+          type: integer
+          description: X coordinate
+        y:
+          type: integer
+          description: Y coordinate
+    ClipboardResponseSchema:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            text:
+              type: string
+              description: Text content of the clipboard
+    PasteRequestSchema:
+      type: object
+      required:
+      - text
+      properties:
+        text:
+          type: string
+          description: Text to paste
+    ScrollRequestSchema:
+      allOf:
+      - $ref: '#/components/schemas/CoordinatesRequestSchema'
+      - type: object
+        required:
+        - deltaY
+        properties:
+          deltaX:
+            type: integer
+            description: Horizontal scroll amount (positive is right, negative is left)
+          deltaY:
+            type: integer
+            description: Vertical scroll amount (positive is down, negative is up)
+          steps:
+            type: integer
+            description: Number of steps to break the scroll into for smoother scrolling
+          useOs:
+            type: boolean
+            description: Whether to use the OS scroll or the Playwright scroll
+    CopyResponseSchema:
+      type: object
+      properties:
+        text:
+          type: string
+          description: The text that was copied
+    MouseSingleClickRequestSchema:
+      type: object
+      description: Mouse click request. Must provide either (x, y) coordinates or a selector, but not both.
+      properties:
+        x:
+          type: number
+          description: X coordinate
+        y:
+          type: number
+          description: Y coordinate
+        button:
+          type: string
+          description: Mouse button to use
+          enum:
+          - left
+          - middle
+          - right
+        selector:
+          type: string
+          description: A valid CSS selector for the requested element
+        timeout:
+          type: number
+          description: If a selector was passed, timeout in ms for waiting for the DOM element to be selected. Defaults to 5000 (5 seconds).
+          x-stainless-naming:
+            python:
+              method_argument: selector_timeout_ms
+            typescript:
+              method_argument: selectorTimeoutMs
+        index:
+          type: number
+          description: If a selector was passed and multiple elements match the selector, the index of the element in the list (0-based). Defaults to 0.
+  securitySchemes:
+    api_key_header:
+      type: apiKey
+      in: header
+      name: anchor-api-key
+      description: API key passed in the header

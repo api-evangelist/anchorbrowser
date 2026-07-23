@@ -1,0 +1,306 @@
+openapi: 3.1.0
+info:
+  title: AnchorBrowser Agentic capabilities Session Recordings API
+  version: 1.0.0
+  description: APIs to manage all browser-related actions and configuration.
+servers:
+- url: https://api.anchorbrowser.io
+  description: API server
+tags:
+- name: Session Recordings
+paths:
+  /v1/sessions/{session_id}/recordings/pause:
+    post:
+      summary: Pause Session Recording
+      description: Pauses the video recording for the specified browser session.
+      tags:
+      - Session Recordings
+      parameters:
+      - in: path
+        name: session_id
+        required: true
+        description: The ID of the browser session for which to pause recording.
+        schema:
+          type: string
+      security:
+      - api_key_header: []
+      responses:
+        '200':
+          description: Recording paused successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          description: Invalid API Key.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Session not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Failed to pause recording.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    $ref: '#/components/schemas/ErrorResponse'
+  /v1/sessions/{session_id}/recordings/resume:
+    post:
+      summary: Resume Session Recording
+      description: Resumes the video recording for the specified browser session.
+      tags:
+      - Session Recordings
+      parameters:
+      - in: path
+        name: session_id
+        required: true
+        description: The ID of the browser session for which to resume recording.
+        schema:
+          type: string
+      security:
+      - api_key_header: []
+      responses:
+        '200':
+          description: Recording resumed successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          description: Invalid API Key.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Session not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Failed to resume recording.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    $ref: '#/components/schemas/ErrorResponse'
+  /v1/sessions/{session_id}/recordings:
+    get:
+      summary: List Session Recordings
+      description: Retrieves the URLs of the browser session's video recordings. Requires a valid API key for authentication.
+      tags:
+      - Session Recordings
+      parameters:
+      - in: path
+        name: session_id
+        required: true
+        description: The ID of the browser session to retrieve recordings for.
+        schema:
+          type: string
+      security:
+      - api_key_header: []
+      responses:
+        '200':
+          description: A set of recording URLs associated with the browser session.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecordingListResponse'
+        '401':
+          description: Invalid API Key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Session recordings not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too many requests, please try again later.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/sessions/{session_id}/recordings/primary/fetch:
+    get:
+      summary: Get Session Recording
+      description: Downloads the primary recording file for the specified browser session. Returns the recording as an MP4 file.
+      tags:
+      - Session Recordings
+      parameters:
+      - in: path
+        name: session_id
+        required: true
+        description: The ID of the browser session to download the recording for.
+        schema:
+          type: string
+      security:
+      - api_key_header: []
+      responses:
+        '200':
+          description: The browser session recording file
+          content:
+            video/mp4:
+              schema:
+                type: string
+                format: binary
+        '401':
+          description: Invalid API Key - Authentication failed or API key is missing.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Recording not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/sessions/{session_id}/recordings/{recording_id}:
+    delete:
+      summary: Delete Session Recording
+      description: Deletes a specific recording from a browser session. Use "primary" as the recording_id to delete the primary recording.
+      tags:
+      - Session Recordings
+      parameters:
+      - in: path
+        name: session_id
+        required: true
+        description: The ID of the browser session the recording belongs to.
+        schema:
+          type: string
+      - in: path
+        name: recording_id
+        required: true
+        description: The ID of the recording to delete. Use "primary" to delete the primary recording.
+        schema:
+          type: string
+      security:
+      - api_key_header: []
+      responses:
+        '200':
+          description: Recording deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '400':
+          description: Recording feature is disabled for this session.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Invalid API Key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Failed to delete recording.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    SuccessResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            status:
+              type: string
+    RecordingListResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            count:
+              type: integer
+              description: Total number of video recordings
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/RecordingItem'
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: integer
+            message:
+              type: string
+    RecordingItem:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the recording
+        is_primary:
+          type: boolean
+          description: Indicates if this is the primary recording
+        file_link:
+          type: string
+          description: URL to access the recording file
+        suggested_file_name:
+          type: string
+          description: Suggested filename for the recording
+        duration:
+          type: string
+          description: Duration of the recording
+        size:
+          type: number
+          description: Size of the recording file in bytes
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp when the recording was created
+  securitySchemes:
+    api_key_header:
+      type: apiKey
+      in: header
+      name: anchor-api-key
+      description: API key passed in the header

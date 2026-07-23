@@ -1,0 +1,106 @@
+openapi: 3.1.0
+info:
+  title: AnchorBrowser Agentic capabilities Billing API
+  version: 1.0.0
+  description: APIs to manage all browser-related actions and configuration.
+servers:
+- url: https://api.anchorbrowser.io
+  description: API server
+tags:
+- name: Billing
+paths:
+  /v1/billing:
+    get:
+      summary: Get Billing Info
+      description: Retrieves credit balance, current-period credit usage, tier, and billing limits for the authenticated project.
+      security:
+      - api_key_header: []
+      tags:
+      - Billing
+      responses:
+        '200':
+          description: Billing information retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BillingInfoResponse'
+              examples:
+                billingInfo:
+                  summary: Example billing info
+                  value:
+                    data:
+                      credits: 42.5
+                      credits_used: 12.5
+                      included_credits: 50
+                      billing_period: 2026-04
+                      tier: monthly_starter
+                      gifts_balance: 42.5
+                      max_concurrent_browsers: 25
+                      cost_limit: 100
+        '401':
+          description: Invalid API Key
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    BillingInfoResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            credits:
+              type: number
+              description: Available credit balance for the authenticated project.
+            credits_used:
+              type: number
+              description: Credits used in the current billing period.
+            included_credits:
+              type: number
+              description: Credits included in the current tier before overage.
+            billing_period:
+              type: string
+              description: Current billing period in YYYY-MM format.
+            tier:
+              type: string
+              description: Billing tier for the project.
+            gifts_balance:
+              type: number
+              description: Available gift or prepaid credit balance before applicable overage.
+            max_concurrent_browsers:
+              type: number
+              description: Maximum concurrent browser sessions allowed for the project. `-1` means unlimited.
+            cost_limit:
+              type: number
+              nullable: true
+              description: Optional configured credit spend limit for the project.
+          required:
+          - credits
+          - credits_used
+          - included_credits
+          - billing_period
+          - tier
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: integer
+            message:
+              type: string
+  securitySchemes:
+    api_key_header:
+      type: apiKey
+      in: header
+      name: anchor-api-key
+      description: API key passed in the header

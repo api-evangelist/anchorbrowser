@@ -1,0 +1,219 @@
+openapi: 3.1.0
+info:
+  title: AnchorBrowser Agentic capabilities Extensions API
+  version: 1.0.0
+  description: APIs to manage all browser-related actions and configuration.
+servers:
+- url: https://api.anchorbrowser.io
+  description: API server
+tags:
+- name: Extensions
+paths:
+  /v1/extensions:
+    post:
+      summary: Upload Extension
+      description: Upload a new browser extension as a ZIP file. The extension will be validated and stored for use in browser sessions.
+      security:
+      - api_key_header: []
+      tags:
+      - Extensions
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+              - name
+              - file
+              properties:
+                name:
+                  type: string
+                  description: User-friendly name for the extension (1-255 characters)
+                file:
+                  type: string
+                  format: binary
+                  description: ZIP file containing the browser extension
+      responses:
+        '200':
+          description: Extension uploaded successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/ExtensionResponseSchema'
+        '400':
+          description: Invalid request or extension validation failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Unable to upload extension
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    get:
+      summary: List Extensions
+      description: Get all extensions for the authenticated user
+      security:
+      - api_key_header: []
+      tags:
+      - Extensions
+      responses:
+        '200':
+          description: List of user extensions retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExtensionListResponse'
+        '500':
+          description: Unable to list extensions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/extensions/{id}:
+    get:
+      summary: Get Extension Details
+      description: Get details of a specific extension by its ID
+      security:
+      - api_key_header: []
+      tags:
+      - Extensions
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: The ID of the extension to retrieve
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: Extension details retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExtensionResponseSchema'
+        '404':
+          description: Extension not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Unable to get extension
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      summary: Delete Extension
+      description: Delete an extension and remove it from storage
+      security:
+      - api_key_header: []
+      tags:
+      - Extensions
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: The ID of the extension to delete
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: Extension deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/SuccessResponse'
+        '404':
+          description: Extension not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Unable to delete extension
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: integer
+            message:
+              type: string
+    ExtensionManifest:
+      type: object
+      properties:
+        name:
+          type: string
+        version:
+          type: string
+        manifest_version:
+          type: integer
+        description:
+          type: string
+        permissions:
+          type: array
+          items:
+            type: string
+      additionalProperties: true
+    SuccessResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            status:
+              type: string
+    ExtensionResponseSchema:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the extension
+        name:
+          type: string
+          description: Extension name
+        manifest:
+          $ref: '#/components/schemas/ExtensionManifest'
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the extension was created
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the extension was last updated
+    ExtensionListResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExtensionResponseSchema'
+  securitySchemes:
+    api_key_header:
+      type: apiKey
+      in: header
+      name: anchor-api-key
+      description: API key passed in the header
