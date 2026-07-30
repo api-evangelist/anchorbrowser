@@ -7,7 +7,20 @@ description: Anchor Browser is an AI-native cloud browser infrastructure platfor
   for Playwright, Puppeteer, MCP, LangChain, and CrewAI. The platform is positioned as the sandbox runtime for agentic browser
   automation.
 type: Index
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: free
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Free · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/anchorbrowser.png
 tags:
 - Browser Infrastructure
 - AI Agents
@@ -23,12 +36,14 @@ specificationVersion: '0.19'
 apis:
 - aid: anchorbrowser:anchor-browser-api
   name: Anchor Browser API
-  description: The Anchor Browser REST API exposes cloud browser sessions for AI agents. It covers session lifecycle (create,
-    async create, status, end, list history), batch session creation (up to 5,000 simultaneous sessions), browser profiles
-    (save/load cookies, local storage, cache), file upload/download inside sessions, recording with pause/resume, custom browser
-    extensions, AI-driven task execution (Claude, Gemini, OpenAI), web unlocker for bot-protected sites, captcha solving,
-    ad/popup blocking, sticky residential IPs, secret management, and CA certificate management. SDKs are Stainless-generated
-    and an OpenAPI specification is published.
+  description: >-
+    The Anchor Browser REST API exposes cloud browser sessions for AI agents. It covers session lifecycle
+    (create, async create, status, end, list history), batch session creation (up to 5,000 simultaneous
+    sessions), browser profiles (save/load cookies, local storage, cache), file upload/download inside
+    sessions, recording with pause/resume, custom browser extensions, AI-driven task execution (Claude,
+    Gemini, OpenAI), web unlocker for bot-protected sites, captcha solving, ad/popup blocking, sticky
+    residential IPs, secret management, and CA certificate management. SDKs are Stainless-generated and
+    an OpenAPI specification is published.
   humanURL: https://docs.anchorbrowser.io
   tags:
   - Browser Sessions
@@ -48,8 +63,9 @@ apis:
     url: https://app.anchorbrowser.io/playground
 - aid: anchorbrowser:anchor-browser-mcp
   name: Anchor Browser MCP Server
-  description: A Model Context Protocol server (hosted and open-source) that lets MCP-compatible AI clients drive Anchor Browser
-    sessions as tools.
+  description: >-
+    A Model Context Protocol server (hosted and open-source) that lets MCP-compatible AI clients drive
+    Anchor Browser sessions as tools.
   humanURL: https://browsermcp.com
   tags:
   - MCP
@@ -62,8 +78,9 @@ apis:
     url: https://browsermcp.com
 - aid: anchorbrowser:anchor-browser-langchain
   name: LangChain Anchor Browser Tools
-  description: LangChain-ready tools that wrap Anchor Browser-powered browser actions for use inside LangChain and LangGraph
-    agent workflows.
+  description: >-
+    LangChain-ready tools that wrap Anchor Browser-powered browser actions for use inside LangChain and
+    LangGraph agent workflows.
   humanURL: https://github.com/anchorbrowser/langchain-anchorbrowser
   tags:
   - LangChain
@@ -72,6 +89,160 @@ apis:
   properties:
   - type: GitHubRepository
     url: https://github.com/anchorbrowser/langchain-anchorbrowser
+- aid: anchorbrowser:anchorbrowser-agentic-capabilities-api
+  name: Anchor Browser Agentic capabilities API
+  description: >-
+    The Agentic capabilities API from Anchor Browser — 3 operation(s) for agentic capabilities.
+  humanURL: https://docs.anchorbrowser.io
+  tags:
+  - Agentic capabilities
+  properties:
+  - type: OpenAPI
+    url: openapi/anchorbrowser-agentic-capabilities-api-openapi.yml
+- aid: anchorbrowser:anchorbrowser-ai-tools-api
+  name: Anchor Browser AI Tools API
+  description: The AI Tools API from Anchor Browser — 2 operation(s) for ai tools.
+  humanURL: https://docs.anchorbrowser.io
+  tags:
+  - AI Tools
+  properties:
+  - type: OpenAPI
+    url: openapi/anchorbrowser-ai-tools-api-openapi.yml
+- aid: anchorbrowser:anchorbrowser-applications-api
+  name: Anchor Browser Applications API
+  description: The Applications API from Anchor Browser — 6 operation(s) for applications.
+  humanURL: https://docs.anchorbrowser.io
+  tags:
+  - Applications
+  properties:
+  - type: OpenAPI
+    url: openapi/anchorbrowser-applications-api-openapi.yml
+- aid: anchorbrowser:anchorbrowser-batch-sessions-api
+  name: Anchor Browser Batch Sessions API
+  description: The Batch Sessions API from Anchor Browser — 3 operation(s) for batch sessions.
+  humanURL: https://docs.anchorbrowser.io
+  tags:
+  - Batch Sessions
+  properties:
+  - type: OpenAPI
+    url: openapi/anchorbrowser-batch-sessions-api-openapi.yml
+- aid: anchorbrowser:anchorbrowser-billing-api
+  name: Anchor Browser Billing API
+  description: The Billing API from Anchor Browser — 1 operation(s) for billing.
+  humanURL: https://docs.anchorbrowser.io
+  tags:
+  - Billing
+  properties:
+  - type: OpenAPI
+    url: openapi/anchorbrowser-billing-api-openapi.yml
+- aid: anchorbrowser:anchorbrowser-browser-sessions-api
+  name: Anchor Browser Browser Sessions API
+  description: The Browser Sessions API from Anchor Browser — 10 operation(s) for browser sessions.
+  humanURL: https://docs.anchorbrowser.io
+  tags:
+  - Browser Sessions
+  properties:
+  - type: OpenAPI
+    url: openapi/anchorbrowser-browser-sessions-api-openapi.yml
+- aid: anchorbrowser:anchorbrowser-certificates-api
+  name: Anchor Browser Certificates API
+  description: The Certificates API from Anchor Browser — 2 operation(s) for certificates.
+  humanURL: https://docs.anchorbrowser.io
+  tags:
+  - Certificates
+  properties:
+  - type: OpenAPI
+    url: openapi/anchorbrowser-certificates-api-openapi.yml
+- aid: anchorbrowser:anchorbrowser-event-coordination-api
+  name: Anchor Browser Event Coordination API
+  description: The Event Coordination API from Anchor Browser — 2 operation(s) for event coordination.
+  humanURL: https://docs.anchorbrowser.io
+  tags:
+  - Event Coordination
+  properties:
+  - type: OpenAPI
+    url: openapi/anchorbrowser-event-coordination-api-openapi.yml
+- aid: anchorbrowser:anchorbrowser-extensions-api
+  name: Anchor Browser Extensions API
+  description: The Extensions API from Anchor Browser — 2 operation(s) for extensions.
+  humanURL: https://docs.anchorbrowser.io
+  tags:
+  - Extensions
+  properties:
+  - type: OpenAPI
+    url: openapi/anchorbrowser-extensions-api-openapi.yml
+- aid: anchorbrowser:anchorbrowser-identities-api
+  name: Anchor Browser Identities API
+  description: The Identities API from Anchor Browser — 2 operation(s) for identities.
+  humanURL: https://docs.anchorbrowser.io
+  tags:
+  - Identities
+  properties:
+  - type: OpenAPI
+    url: openapi/anchorbrowser-identities-api-openapi.yml
+- aid: anchorbrowser:anchorbrowser-integrations-api
+  name: Anchor Browser Integrations API
+  description: The Integrations API from Anchor Browser — 2 operation(s) for integrations.
+  humanURL: https://docs.anchorbrowser.io
+  tags:
+  - Integrations
+  properties:
+  - type: OpenAPI
+    url: openapi/anchorbrowser-integrations-api-openapi.yml
+- aid: anchorbrowser:anchorbrowser-os-level-control-api
+  name: Anchor Browser OS Level Control API
+  description: The OS Level Control API from Anchor Browser — 14 operation(s) for os level control.
+  humanURL: https://docs.anchorbrowser.io
+  tags:
+  - OS Level Control
+  properties:
+  - type: OpenAPI
+    url: openapi/anchorbrowser-os-level-control-api-openapi.yml
+- aid: anchorbrowser:anchorbrowser-profiles-api
+  name: Anchor Browser Profiles API
+  description: The Profiles API from Anchor Browser — 2 operation(s) for profiles.
+  humanURL: https://docs.anchorbrowser.io
+  tags:
+  - Profiles
+  properties:
+  - type: OpenAPI
+    url: openapi/anchorbrowser-profiles-api-openapi.yml
+- aid: anchorbrowser:anchorbrowser-session-recordings-api
+  name: Anchor Browser Session Recordings API
+  description: The Session Recordings API from Anchor Browser — 5 operation(s) for session recordings.
+  humanURL: https://docs.anchorbrowser.io
+  tags:
+  - Session Recordings
+  properties:
+  - type: OpenAPI
+    url: openapi/anchorbrowser-session-recordings-api-openapi.yml
+- aid: anchorbrowser:anchorbrowser-tasks-api
+  name: Anchor Browser Tasks API
+  description: The Tasks API from Anchor Browser — 2 operation(s) for tasks.
+  humanURL: https://docs.anchorbrowser.io
+  tags:
+  - Tasks
+  properties:
+  - type: OpenAPI
+    url: openapi/anchorbrowser-tasks-api-openapi.yml
+- aid: anchorbrowser:anchorbrowser-tasks-legacy-api
+  name: Anchor Browser Tasks (Legacy) API
+  description: The Tasks (Legacy) API from Anchor Browser — 11 operation(s) for tasks (legacy).
+  humanURL: https://docs.anchorbrowser.io
+  tags:
+  - Tasks (Legacy)
+  properties:
+  - type: OpenAPI
+    url: openapi/anchorbrowser-tasks-legacy-api-openapi.yml
+- aid: anchorbrowser:anchorbrowser-tools-api
+  name: Anchor Browser Tools API
+  description: The Tools API from Anchor Browser — 4 operation(s) for tools.
+  humanURL: https://docs.anchorbrowser.io
+  tags:
+  - Tools
+  properties:
+  - type: OpenAPI
+    url: openapi/anchorbrowser-tools-api-openapi.yml
 common:
 - type: AgenticAccess
   url: agentic-access/anchorbrowser-agentic-access.yml
