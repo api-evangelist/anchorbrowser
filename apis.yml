@@ -244,6 +244,11 @@ apis:
   - type: OpenAPI
     url: openapi/anchorbrowser-tools-api-openapi.yml
 common:
+- type: IssueTracker
+  url: https://github.com/anchorbrowser/langchain-anchorbrowser/issues
+- type: License
+  name: MIT
+  url: https://github.com/anchorbrowser/langchain-anchorbrowser/blob/main/LICENSE
 - type: AgenticAccess
   url: agentic-access/anchorbrowser-agentic-access.yml
 - type: TrustCenter
