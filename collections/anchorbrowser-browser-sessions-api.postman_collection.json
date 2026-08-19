@@ -1,0 +1,3527 @@
+{
+  "item": [
+    {
+      "id": "61d0dbce-1d03-4fb9-bcc1-4ae2fb2160ee",
+      "name": "Browser Sessions",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "855e596f-1519-4311-b107-a7a5f49b82c8",
+          "name": "List Sessions History Page",
+          "request": {
+            "name": "List Sessions History Page",
+            "description": {
+              "content": "Retrieves a paginated list of sessions for the authenticated team with support for\nsorting and advanced filtering. This endpoint mirrors the backend session history-page\nfiltering behavior.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "sessions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number to fetch."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "10",
+                  "description": "Number of sessions per page. Supported values are 10, 20, and 50."
+                },
+                {
+                  "disabled": false,
+                  "key": "sort_by",
+                  "value": "created_at",
+                  "description": "Sort field. Common values are `created_at`, `session_id`, `used_credits`,\n`created_at`, and `api_key_name`.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "sort_order",
+                  "value": "asc",
+                  "description": "Sort direction."
+                },
+                {
+                  "disabled": false,
+                  "key": "search",
+                  "value": "<string>",
+                  "description": "Comma-separated tag search terms (partial, case-insensitive)."
+                },
+                {
+                  "disabled": false,
+                  "key": "status",
+                  "value": "<string>",
+                  "description": "Exact session status filter."
+                },
+                {
+                  "disabled": false,
+                  "key": "tags",
+                  "value": "<string>",
+                  "description": "Comma-separated tag list. Session must include all provided tags."
+                },
+                {
+                  "disabled": false,
+                  "key": "domains",
+                  "value": "<string>",
+                  "description": "Comma-separated domain list. Session must include all provided domains."
+                },
+                {
+                  "disabled": false,
+                  "key": "created_from",
+                  "value": "<dateTime>",
+                  "description": "Include sessions created at or after this timestamp (ISO 8601)."
+                },
+                {
+                  "disabled": false,
+                  "key": "created_to",
+                  "value": "<dateTime>",
+                  "description": "Include sessions created at or before this timestamp (ISO 8601)."
+                },
+                {
+                  "disabled": false,
+                  "key": "batch_id",
+                  "value": "<string>",
+                  "description": "Filter by batch identifier."
+                },
+                {
+                  "disabled": false,
+                  "key": "task_initiated",
+                  "value": "<boolean>",
+                  "description": "Filter by whether the session was task-initiated."
+                },
+                {
+                  "disabled": false,
+                  "key": "playground",
+                  "value": "<boolean>",
+                  "description": "Filter by whether the session is a playground session."
+                },
+                {
+                  "disabled": false,
+                  "key": "proxy",
+                  "value": "<boolean>",
+                  "description": "Filter by whether proxy was active for the session."
+                },
+                {
+                  "disabled": false,
+                  "key": "extra_stealth",
+                  "value": "<boolean>",
+                  "description": "Filter by whether extra stealth mode was active."
+                },
+                {
+                  "disabled": false,
+                  "key": "profile_name",
+                  "value": "<string>",
+                  "description": "Case-insensitive partial match on browser profile name."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "anchor-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "fbf2320b-c6f6-4e86-9b0f-f919f1fcf6f9",
+              "name": "Paginated sessions history retrieved successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "sessions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "sort_by",
+                      "value": "created_at"
+                    },
+                    {
+                      "key": "sort_order",
+                      "value": "asc"
+                    },
+                    {
+                      "key": "search",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "status",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "tags",
+                      "value": "production,scraping"
+                    },
+                    {
+                      "key": "domains",
+                      "value": "example.com,anchorbrowser.io"
+                    },
+                    {
+                      "key": "created_from",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "created_to",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "batch_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "task_initiated",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "playground",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "proxy",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "extra_stealth",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "profile_name",
+                      "value": "Default profile"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"sessions\": [\n      {\n        \"id\": \"sess_123456\",\n        \"status\": \"completed\",\n        \"tags\": [\n          \"production\",\n          \"scraping\"\n        ],\n        \"headless\": false,\n        \"recording\": true,\n        \"used_credits\": 12.5,\n        \"proxy_bytes\": 102400,\n        \"proxy_type\": \"anchor_proxy\",\n        \"steps\": 48,\n        \"duration\": 420,\n        \"created_at\": \"2026-03-09T12:34:56.789Z\",\n        \"user_configuration\": {\n          \"session\": {\n            \"idle_timeout\": 300\n          }\n        },\n        \"task_initiated\": true,\n        \"task_executions_count\": 2,\n        \"api_key_name\": \"automation-key\",\n        \"browser_ip\": \"192.0.2.10\",\n        \"domains\": [\n          \"example.com\"\n        ]\n      }\n    ],\n    \"total\": 145,\n    \"page\": 1,\n    \"total_pages\": 15\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "092829d7-2cfc-40f4-b27f-0f4ec3d8b60f",
+              "name": "Invalid query parameters (for example unsupported limit or sort options).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "sessions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "sort_by",
+                      "value": "created_at"
+                    },
+                    {
+                      "key": "sort_order",
+                      "value": "asc"
+                    },
+                    {
+                      "key": "search",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "status",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "tags",
+                      "value": "production,scraping"
+                    },
+                    {
+                      "key": "domains",
+                      "value": "example.com,anchorbrowser.io"
+                    },
+                    {
+                      "key": "created_from",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "created_to",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "batch_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "task_initiated",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "playground",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "proxy",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "extra_stealth",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "profile_name",
+                      "value": "Default profile"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": 4764,\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "842e61b6-8932-4318-b8dd-12e3d8be2bdd",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "sessions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "sort_by",
+                      "value": "created_at"
+                    },
+                    {
+                      "key": "sort_order",
+                      "value": "asc"
+                    },
+                    {
+                      "key": "search",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "status",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "tags",
+                      "value": "production,scraping"
+                    },
+                    {
+                      "key": "domains",
+                      "value": "example.com,anchorbrowser.io"
+                    },
+                    {
+                      "key": "created_from",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "created_to",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "batch_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "task_initiated",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "playground",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "proxy",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "extra_stealth",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "profile_name",
+                      "value": "Default profile"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": 4764,\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "86d3c5af-3437-41d1-a268-fe1cdf585e70",
+          "name": "Start Browser Session",
+          "request": {
+            "name": "Start Browser Session",
+            "description": {
+              "content": "Allocates a new browser session for the user, with optional configurations for ad-blocking, captcha solving, proxy usage, and idle timeout.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "sessions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "anchor-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"session\": {\n    \"initial_url\": \"<uri>\",\n    \"tags\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"recording\": {\n      \"active\": \"<boolean>\"\n    },\n    \"proxy\": {\n      \"active\": \"<boolean>\",\n      \"type\": \"<string>\",\n      \"country_code\": \"us\",\n      \"region\": \"<string>\",\n      \"city\": \"<string>\"\n    },\n    \"timeout\": {\n      \"max_duration\": \"<integer>\",\n      \"idle_timeout\": \"<integer>\"\n    },\n    \"live_view\": {\n      \"read_only\": \"<boolean>\",\n      \"one_time_url\": \"<boolean>\"\n    }\n  },\n  \"browser\": {\n    \"profile\": {\n      \"name\": \"<string>\",\n      \"persist\": \"<boolean>\"\n    },\n    \"adblock\": {\n      \"active\": \"<boolean>\"\n    },\n    \"popup_blocker\": {\n      \"active\": \"<boolean>\"\n    },\n    \"captcha_solver\": {\n      \"active\": \"<boolean>\"\n    },\n    \"headless\": {\n      \"active\": \"<boolean>\"\n    },\n    \"viewport\": {\n      \"width\": \"<integer>\",\n      \"height\": \"<integer>\"\n    },\n    \"fullscreen\": {\n      \"active\": \"<boolean>\"\n    },\n    \"pdf_viewer\": {\n      \"active\": \"<boolean>\"\n    },\n    \"p2p_download\": {\n      \"active\": \"<boolean>\"\n    },\n    \"extensions\": [\n      \"<uuid>\",\n      \"<uuid>\"\n    ],\n    \"disable_web_security\": {\n      \"active\": \"<boolean>\"\n    },\n    \"extra_stealth\": {\n      \"active\": \"<boolean>\"\n    },\n    \"force_popups_as_tabs\": {\n      \"active\": \"<boolean>\"\n    },\n    \"web_bot_auth\": {\n      \"active\": \"<boolean>\"\n    },\n    \"disable_dialogs\": {\n      \"active\": \"<boolean>\"\n    },\n    \"tracing\": {\n      \"active\": \"<boolean>\",\n      \"snapshots\": \"<boolean>\",\n      \"sources\": \"<boolean>\"\n    },\n    \"sensitive_data_mask\": {\n      \"active\": \"<boolean>\",\n      \"custom_selectors\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"site_selectors\": {\n        \"key_0\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      },\n      \"custom_patterns\": [\n        {\n          \"regex\": \"<string>\",\n          \"mask\": \"<string>\"\n        },\n        {\n          \"regex\": \"<string>\",\n          \"mask\": \"<string>\"\n        }\n      ]\n    }\n  },\n  \"integrations\": [\n    {\n      \"id\": \"<uuid>\",\n      \"type\": \"<string>\",\n      \"configuration\": {\n        \"load_mode\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    },\n    {\n      \"id\": \"<uuid>\",\n      \"type\": \"<string>\",\n      \"configuration\": {\n        \"load_mode\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    }\n  ],\n  \"identities\": [\n    {\n      \"id\": \"<string>\"\n    },\n    {\n      \"id\": \"<string>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "8d5538e6-df09-44ea-9284-3f2481600443",
+              "name": "Successfully returned a browser object",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "sessions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"session\": {\n    \"initial_url\": \"http://uVSXjSJrFEyanRMfMr.kcE6eb+FGwtrr+dz\",\n    \"tags\": [\n      \"production\",\n      \"scraping\",\n      \"customer-123\"\n    ],\n    \"recording\": {\n      \"active\": true\n    },\n    \"proxy\": {\n      \"active\": false,\n      \"type\": \"anchor_proxy\",\n      \"country_code\": \"us\",\n      \"region\": \"string\",\n      \"city\": \"string\"\n    },\n    \"timeout\": {\n      \"max_duration\": 9023,\n      \"idle_timeout\": 9117\n    },\n    \"live_view\": {\n      \"read_only\": false,\n      \"one_time_url\": false\n    }\n  },\n  \"browser\": {\n    \"profile\": {\n      \"name\": \"string\",\n      \"persist\": true\n    },\n    \"adblock\": {\n      \"active\": true\n    },\n    \"popup_blocker\": {\n      \"active\": false\n    },\n    \"captcha_solver\": {\n      \"active\": true\n    },\n    \"headless\": {\n      \"active\": true\n    },\n    \"viewport\": {\n      \"width\": 4255,\n      \"height\": 1657\n    },\n    \"fullscreen\": {\n      \"active\": true\n    },\n    \"pdf_viewer\": {\n      \"active\": true\n    },\n    \"p2p_download\": {\n      \"active\": false\n    },\n    \"extensions\": [\n      \"e289899f-c783-1969-81c7-b6d688ccc7c8\",\n      \"14b9c0ef-eb1c-6473-e452-076ae2c52f21\"\n    ],\n    \"disable_web_security\": {\n      \"active\": false\n    },\n    \"extra_stealth\": {\n      \"active\": true\n    },\n    \"force_popups_as_tabs\": {\n      \"active\": false\n    },\n    \"web_bot_auth\": {\n      \"active\": true\n    },\n    \"disable_dialogs\": {\n      \"active\": true\n    },\n    \"tracing\": {\n      \"active\": true,\n      \"snapshots\": false,\n      \"sources\": true\n    },\n    \"sensitive_data_mask\": {\n      \"active\": false,\n      \"custom_selectors\": [\n        \"string\",\n        \"string\"\n      ],\n      \"site_selectors\": {\n        \"key_0\": [\n          \"string\",\n          \"string\"\n        ]\n      },\n      \"custom_patterns\": [\n        {\n          \"regex\": \"string\",\n          \"mask\": \"string\"\n        },\n        {\n          \"regex\": \"string\",\n          \"mask\": \"string\"\n        }\n      ]\n    }\n  },\n  \"integrations\": [\n    {\n      \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n      \"type\": \"1PASSWORD\",\n      \"configuration\": {\n        \"load_mode\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    },\n    {\n      \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n      \"type\": \"1PASSWORD\",\n      \"configuration\": {\n        \"load_mode\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    }\n  ],\n  \"identities\": [\n    {}\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": \"string\",\n    \"cdp_url\": \"string\",\n    \"live_view_url\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1b13fe78-110b-48fc-b5fe-1c544a59b51b",
+              "name": "Bad Request - Invalid request parameters or configuration.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "sessions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"session\": {\n    \"initial_url\": \"http://uVSXjSJrFEyanRMfMr.kcE6eb+FGwtrr+dz\",\n    \"tags\": [\n      \"production\",\n      \"scraping\",\n      \"customer-123\"\n    ],\n    \"recording\": {\n      \"active\": true\n    },\n    \"proxy\": {\n      \"active\": false,\n      \"type\": \"anchor_proxy\",\n      \"country_code\": \"us\",\n      \"region\": \"string\",\n      \"city\": \"string\"\n    },\n    \"timeout\": {\n      \"max_duration\": 9023,\n      \"idle_timeout\": 9117\n    },\n    \"live_view\": {\n      \"read_only\": false,\n      \"one_time_url\": false\n    }\n  },\n  \"browser\": {\n    \"profile\": {\n      \"name\": \"string\",\n      \"persist\": true\n    },\n    \"adblock\": {\n      \"active\": true\n    },\n    \"popup_blocker\": {\n      \"active\": false\n    },\n    \"captcha_solver\": {\n      \"active\": true\n    },\n    \"headless\": {\n      \"active\": true\n    },\n    \"viewport\": {\n      \"width\": 4255,\n      \"height\": 1657\n    },\n    \"fullscreen\": {\n      \"active\": true\n    },\n    \"pdf_viewer\": {\n      \"active\": true\n    },\n    \"p2p_download\": {\n      \"active\": false\n    },\n    \"extensions\": [\n      \"e289899f-c783-1969-81c7-b6d688ccc7c8\",\n      \"14b9c0ef-eb1c-6473-e452-076ae2c52f21\"\n    ],\n    \"disable_web_security\": {\n      \"active\": false\n    },\n    \"extra_stealth\": {\n      \"active\": true\n    },\n    \"force_popups_as_tabs\": {\n      \"active\": false\n    },\n    \"web_bot_auth\": {\n      \"active\": true\n    },\n    \"disable_dialogs\": {\n      \"active\": true\n    },\n    \"tracing\": {\n      \"active\": true,\n      \"snapshots\": false,\n      \"sources\": true\n    },\n    \"sensitive_data_mask\": {\n      \"active\": false,\n      \"custom_selectors\": [\n        \"string\",\n        \"string\"\n      ],\n      \"site_selectors\": {\n        \"key_0\": [\n          \"string\",\n          \"string\"\n        ]\n      },\n      \"custom_patterns\": [\n        {\n          \"regex\": \"string\",\n          \"mask\": \"string\"\n        },\n        {\n          \"regex\": \"string\",\n          \"mask\": \"string\"\n        }\n      ]\n    }\n  },\n  \"integrations\": [\n    {\n      \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n      \"type\": \"1PASSWORD\",\n      \"configuration\": {\n        \"load_mode\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    },\n    {\n      \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n      \"type\": \"1PASSWORD\",\n      \"configuration\": {\n        \"load_mode\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    }\n  ],\n  \"identities\": [\n    {}\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": 400,\n    \"message\": \"CAPTCHA solver requires proxy to be active.\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "25fc2143-382b-48aa-aa97-00ecda8d5158",
+              "name": "Payment Required - Insufficient credits to allocate a new browser",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "sessions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"session\": {\n    \"initial_url\": \"http://uVSXjSJrFEyanRMfMr.kcE6eb+FGwtrr+dz\",\n    \"tags\": [\n      \"production\",\n      \"scraping\",\n      \"customer-123\"\n    ],\n    \"recording\": {\n      \"active\": true\n    },\n    \"proxy\": {\n      \"active\": false,\n      \"type\": \"anchor_proxy\",\n      \"country_code\": \"us\",\n      \"region\": \"string\",\n      \"city\": \"string\"\n    },\n    \"timeout\": {\n      \"max_duration\": 9023,\n      \"idle_timeout\": 9117\n    },\n    \"live_view\": {\n      \"read_only\": false,\n      \"one_time_url\": false\n    }\n  },\n  \"browser\": {\n    \"profile\": {\n      \"name\": \"string\",\n      \"persist\": true\n    },\n    \"adblock\": {\n      \"active\": true\n    },\n    \"popup_blocker\": {\n      \"active\": false\n    },\n    \"captcha_solver\": {\n      \"active\": true\n    },\n    \"headless\": {\n      \"active\": true\n    },\n    \"viewport\": {\n      \"width\": 4255,\n      \"height\": 1657\n    },\n    \"fullscreen\": {\n      \"active\": true\n    },\n    \"pdf_viewer\": {\n      \"active\": true\n    },\n    \"p2p_download\": {\n      \"active\": false\n    },\n    \"extensions\": [\n      \"e289899f-c783-1969-81c7-b6d688ccc7c8\",\n      \"14b9c0ef-eb1c-6473-e452-076ae2c52f21\"\n    ],\n    \"disable_web_security\": {\n      \"active\": false\n    },\n    \"extra_stealth\": {\n      \"active\": true\n    },\n    \"force_popups_as_tabs\": {\n      \"active\": false\n    },\n    \"web_bot_auth\": {\n      \"active\": true\n    },\n    \"disable_dialogs\": {\n      \"active\": true\n    },\n    \"tracing\": {\n      \"active\": true,\n      \"snapshots\": false,\n      \"sources\": true\n    },\n    \"sensitive_data_mask\": {\n      \"active\": false,\n      \"custom_selectors\": [\n        \"string\",\n        \"string\"\n      ],\n      \"site_selectors\": {\n        \"key_0\": [\n          \"string\",\n          \"string\"\n        ]\n      },\n      \"custom_patterns\": [\n        {\n          \"regex\": \"string\",\n          \"mask\": \"string\"\n        },\n        {\n          \"regex\": \"string\",\n          \"mask\": \"string\"\n        }\n      ]\n    }\n  },\n  \"integrations\": [\n    {\n      \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n      \"type\": \"1PASSWORD\",\n      \"configuration\": {\n        \"load_mode\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    },\n    {\n      \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n      \"type\": \"1PASSWORD\",\n      \"configuration\": {\n        \"load_mode\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    }\n  ],\n  \"identities\": [\n    {}\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Payment Required",
+              "code": 402,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": 4764,\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5de958d4-7d5d-44d6-9f21-021be95bdb87",
+              "name": "Too many requests — session creation rate limit exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "sessions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"session\": {\n    \"initial_url\": \"http://uVSXjSJrFEyanRMfMr.kcE6eb+FGwtrr+dz\",\n    \"tags\": [\n      \"production\",\n      \"scraping\",\n      \"customer-123\"\n    ],\n    \"recording\": {\n      \"active\": true\n    },\n    \"proxy\": {\n      \"active\": false,\n      \"type\": \"anchor_proxy\",\n      \"country_code\": \"us\",\n      \"region\": \"string\",\n      \"city\": \"string\"\n    },\n    \"timeout\": {\n      \"max_duration\": 9023,\n      \"idle_timeout\": 9117\n    },\n    \"live_view\": {\n      \"read_only\": false,\n      \"one_time_url\": false\n    }\n  },\n  \"browser\": {\n    \"profile\": {\n      \"name\": \"string\",\n      \"persist\": true\n    },\n    \"adblock\": {\n      \"active\": true\n    },\n    \"popup_blocker\": {\n      \"active\": false\n    },\n    \"captcha_solver\": {\n      \"active\": true\n    },\n    \"headless\": {\n      \"active\": true\n    },\n    \"viewport\": {\n      \"width\": 4255,\n      \"height\": 1657\n    },\n    \"fullscreen\": {\n      \"active\": true\n    },\n    \"pdf_viewer\": {\n      \"active\": true\n    },\n    \"p2p_download\": {\n      \"active\": false\n    },\n    \"extensions\": [\n      \"e289899f-c783-1969-81c7-b6d688ccc7c8\",\n      \"14b9c0ef-eb1c-6473-e452-076ae2c52f21\"\n    ],\n    \"disable_web_security\": {\n      \"active\": false\n    },\n    \"extra_stealth\": {\n      \"active\": true\n    },\n    \"force_popups_as_tabs\": {\n      \"active\": false\n    },\n    \"web_bot_auth\": {\n      \"active\": true\n    },\n    \"disable_dialogs\": {\n      \"active\": true\n    },\n    \"tracing\": {\n      \"active\": true,\n      \"snapshots\": false,\n      \"sources\": true\n    },\n    \"sensitive_data_mask\": {\n      \"active\": false,\n      \"custom_selectors\": [\n        \"string\",\n        \"string\"\n      ],\n      \"site_selectors\": {\n        \"key_0\": [\n          \"string\",\n          \"string\"\n        ]\n      },\n      \"custom_patterns\": [\n        {\n          \"regex\": \"string\",\n          \"mask\": \"string\"\n        },\n        {\n          \"regex\": \"string\",\n          \"mask\": \"string\"\n        }\n      ]\n    }\n  },\n  \"integrations\": [\n    {\n      \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n      \"type\": \"1PASSWORD\",\n      \"configuration\": {\n        \"load_mode\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    },\n    {\n      \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n      \"type\": \"1PASSWORD\",\n      \"configuration\": {\n        \"load_mode\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    }\n  ],\n  \"identities\": [\n    {}\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "IETF draft-8 Rate-limit headers.\n",
+                  "key": "RateLimit",
+                  "value": "\"5-in-1min\"; r=0; t=58"
+                },
+                {
+                  "disabled": false,
+                  "key": "RateLimit-Policy",
+                  "value": "\"5-in-1min\"; q=5; w=60; pk=:ZGQ0YzBjYzVhZjQ1:",
+                  "description": ""
+                },
+                {
+                  "disabled": false,
+                  "description": "Seconds until the rate-limit window resets (matches the `t` parameter in `RateLimit` when the limit is exceeded).",
+                  "key": "Retry-After",
+                  "value": "58"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"Session creation rate limit exceeded.\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "82f3553a-47ac-42f3-8d9f-82b14ff1ea71",
+          "name": "Start Browser Session (async)",
+          "request": {
+            "name": "Start Browser Session (async)",
+            "description": {
+              "content": "Non-blocking variant of `POST /v1/sessions`. Returns a `request_id`\nimmediately and provisions the underlying browser pod in the\nbackground. Poll `GET /v1/sessions/async/{request_id}/status` until\n`status` becomes `ready` to obtain the resolved `session_id`,\n`cdp_url` and `live_view_url`.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "sessions",
+                "async"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "anchor-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"session\": {\n    \"initial_url\": \"<uri>\",\n    \"tags\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"recording\": {\n      \"active\": \"<boolean>\"\n    },\n    \"proxy\": {\n      \"active\": \"<boolean>\",\n      \"type\": \"<string>\",\n      \"country_code\": \"us\",\n      \"region\": \"<string>\",\n      \"city\": \"<string>\"\n    },\n    \"timeout\": {\n      \"max_duration\": \"<integer>\",\n      \"idle_timeout\": \"<integer>\"\n    },\n    \"live_view\": {\n      \"read_only\": \"<boolean>\",\n      \"one_time_url\": \"<boolean>\"\n    }\n  },\n  \"browser\": {\n    \"profile\": {\n      \"name\": \"<string>\",\n      \"persist\": \"<boolean>\"\n    },\n    \"adblock\": {\n      \"active\": \"<boolean>\"\n    },\n    \"popup_blocker\": {\n      \"active\": \"<boolean>\"\n    },\n    \"captcha_solver\": {\n      \"active\": \"<boolean>\"\n    },\n    \"headless\": {\n      \"active\": \"<boolean>\"\n    },\n    \"viewport\": {\n      \"width\": \"<integer>\",\n      \"height\": \"<integer>\"\n    },\n    \"fullscreen\": {\n      \"active\": \"<boolean>\"\n    },\n    \"pdf_viewer\": {\n      \"active\": \"<boolean>\"\n    },\n    \"p2p_download\": {\n      \"active\": \"<boolean>\"\n    },\n    \"extensions\": [\n      \"<uuid>\",\n      \"<uuid>\"\n    ],\n    \"disable_web_security\": {\n      \"active\": \"<boolean>\"\n    },\n    \"extra_stealth\": {\n      \"active\": \"<boolean>\"\n    },\n    \"force_popups_as_tabs\": {\n      \"active\": \"<boolean>\"\n    },\n    \"web_bot_auth\": {\n      \"active\": \"<boolean>\"\n    },\n    \"disable_dialogs\": {\n      \"active\": \"<boolean>\"\n    },\n    \"tracing\": {\n      \"active\": \"<boolean>\",\n      \"snapshots\": \"<boolean>\",\n      \"sources\": \"<boolean>\"\n    },\n    \"sensitive_data_mask\": {\n      \"active\": \"<boolean>\",\n      \"custom_selectors\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"site_selectors\": {\n        \"key_0\": [\n          \"<string>\",\n          \"<string>\"\n        ]\n      },\n      \"custom_patterns\": [\n        {\n          \"regex\": \"<string>\",\n          \"mask\": \"<string>\"\n        },\n        {\n          \"regex\": \"<string>\",\n          \"mask\": \"<string>\"\n        }\n      ]\n    }\n  },\n  \"integrations\": [\n    {\n      \"id\": \"<uuid>\",\n      \"type\": \"<string>\",\n      \"configuration\": {\n        \"load_mode\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    },\n    {\n      \"id\": \"<uuid>\",\n      \"type\": \"<string>\",\n      \"configuration\": {\n        \"load_mode\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    }\n  ],\n  \"identities\": [\n    {\n      \"id\": \"<string>\"\n    },\n    {\n      \"id\": \"<string>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "5bbc777d-1e93-429a-af9d-68b229ba822d",
+              "name": "Async session creation accepted; poll the status endpoint to resolve.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "sessions",
+                    "async"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"session\": {\n    \"initial_url\": \"http://uVSXjSJrFEyanRMfMr.kcE6eb+FGwtrr+dz\",\n    \"tags\": [\n      \"production\",\n      \"scraping\",\n      \"customer-123\"\n    ],\n    \"recording\": {\n      \"active\": true\n    },\n    \"proxy\": {\n      \"active\": false,\n      \"type\": \"anchor_proxy\",\n      \"country_code\": \"us\",\n      \"region\": \"string\",\n      \"city\": \"string\"\n    },\n    \"timeout\": {\n      \"max_duration\": 9023,\n      \"idle_timeout\": 9117\n    },\n    \"live_view\": {\n      \"read_only\": false,\n      \"one_time_url\": false\n    }\n  },\n  \"browser\": {\n    \"profile\": {\n      \"name\": \"string\",\n      \"persist\": true\n    },\n    \"adblock\": {\n      \"active\": true\n    },\n    \"popup_blocker\": {\n      \"active\": false\n    },\n    \"captcha_solver\": {\n      \"active\": true\n    },\n    \"headless\": {\n      \"active\": true\n    },\n    \"viewport\": {\n      \"width\": 4255,\n      \"height\": 1657\n    },\n    \"fullscreen\": {\n      \"active\": true\n    },\n    \"pdf_viewer\": {\n      \"active\": true\n    },\n    \"p2p_download\": {\n      \"active\": false\n    },\n    \"extensions\": [\n      \"e289899f-c783-1969-81c7-b6d688ccc7c8\",\n      \"14b9c0ef-eb1c-6473-e452-076ae2c52f21\"\n    ],\n    \"disable_web_security\": {\n      \"active\": false\n    },\n    \"extra_stealth\": {\n      \"active\": true\n    },\n    \"force_popups_as_tabs\": {\n      \"active\": false\n    },\n    \"web_bot_auth\": {\n      \"active\": true\n    },\n    \"disable_dialogs\": {\n      \"active\": true\n    },\n    \"tracing\": {\n      \"active\": true,\n      \"snapshots\": false,\n      \"sources\": true\n    },\n    \"sensitive_data_mask\": {\n      \"active\": false,\n      \"custom_selectors\": [\n        \"string\",\n        \"string\"\n      ],\n      \"site_selectors\": {\n        \"key_0\": [\n          \"string\",\n          \"string\"\n        ]\n      },\n      \"custom_patterns\": [\n        {\n          \"regex\": \"string\",\n          \"mask\": \"string\"\n        },\n        {\n          \"regex\": \"string\",\n          \"mask\": \"string\"\n        }\n      ]\n    }\n  },\n  \"integrations\": [\n    {\n      \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n      \"type\": \"1PASSWORD\",\n      \"configuration\": {\n        \"load_mode\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    },\n    {\n      \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n      \"type\": \"1PASSWORD\",\n      \"configuration\": {\n        \"load_mode\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    }\n  ],\n  \"identities\": [\n    {}\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"request_id\": \"330218d1-72a5-e535-ea9a-9fd73623f337\",\n    \"status\": \"pending\",\n    \"session_id\": null\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "80c72055-40c7-4896-aa30-2d0cac7a24f6",
+              "name": "Invalid request parameters or configuration.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "sessions",
+                    "async"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"session\": {\n    \"initial_url\": \"http://uVSXjSJrFEyanRMfMr.kcE6eb+FGwtrr+dz\",\n    \"tags\": [\n      \"production\",\n      \"scraping\",\n      \"customer-123\"\n    ],\n    \"recording\": {\n      \"active\": true\n    },\n    \"proxy\": {\n      \"active\": false,\n      \"type\": \"anchor_proxy\",\n      \"country_code\": \"us\",\n      \"region\": \"string\",\n      \"city\": \"string\"\n    },\n    \"timeout\": {\n      \"max_duration\": 9023,\n      \"idle_timeout\": 9117\n    },\n    \"live_view\": {\n      \"read_only\": false,\n      \"one_time_url\": false\n    }\n  },\n  \"browser\": {\n    \"profile\": {\n      \"name\": \"string\",\n      \"persist\": true\n    },\n    \"adblock\": {\n      \"active\": true\n    },\n    \"popup_blocker\": {\n      \"active\": false\n    },\n    \"captcha_solver\": {\n      \"active\": true\n    },\n    \"headless\": {\n      \"active\": true\n    },\n    \"viewport\": {\n      \"width\": 4255,\n      \"height\": 1657\n    },\n    \"fullscreen\": {\n      \"active\": true\n    },\n    \"pdf_viewer\": {\n      \"active\": true\n    },\n    \"p2p_download\": {\n      \"active\": false\n    },\n    \"extensions\": [\n      \"e289899f-c783-1969-81c7-b6d688ccc7c8\",\n      \"14b9c0ef-eb1c-6473-e452-076ae2c52f21\"\n    ],\n    \"disable_web_security\": {\n      \"active\": false\n    },\n    \"extra_stealth\": {\n      \"active\": true\n    },\n    \"force_popups_as_tabs\": {\n      \"active\": false\n    },\n    \"web_bot_auth\": {\n      \"active\": true\n    },\n    \"disable_dialogs\": {\n      \"active\": true\n    },\n    \"tracing\": {\n      \"active\": true,\n      \"snapshots\": false,\n      \"sources\": true\n    },\n    \"sensitive_data_mask\": {\n      \"active\": false,\n      \"custom_selectors\": [\n        \"string\",\n        \"string\"\n      ],\n      \"site_selectors\": {\n        \"key_0\": [\n          \"string\",\n          \"string\"\n        ]\n      },\n      \"custom_patterns\": [\n        {\n          \"regex\": \"string\",\n          \"mask\": \"string\"\n        },\n        {\n          \"regex\": \"string\",\n          \"mask\": \"string\"\n        }\n      ]\n    }\n  },\n  \"integrations\": [\n    {\n      \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n      \"type\": \"1PASSWORD\",\n      \"configuration\": {\n        \"load_mode\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    },\n    {\n      \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n      \"type\": \"1PASSWORD\",\n      \"configuration\": {\n        \"load_mode\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    }\n  ],\n  \"identities\": [\n    {}\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": 4764,\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e501d0ec-d84b-4714-8aa8-d309aa166f50",
+              "name": "Payment Required - Insufficient credits.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "sessions",
+                    "async"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"session\": {\n    \"initial_url\": \"http://uVSXjSJrFEyanRMfMr.kcE6eb+FGwtrr+dz\",\n    \"tags\": [\n      \"production\",\n      \"scraping\",\n      \"customer-123\"\n    ],\n    \"recording\": {\n      \"active\": true\n    },\n    \"proxy\": {\n      \"active\": false,\n      \"type\": \"anchor_proxy\",\n      \"country_code\": \"us\",\n      \"region\": \"string\",\n      \"city\": \"string\"\n    },\n    \"timeout\": {\n      \"max_duration\": 9023,\n      \"idle_timeout\": 9117\n    },\n    \"live_view\": {\n      \"read_only\": false,\n      \"one_time_url\": false\n    }\n  },\n  \"browser\": {\n    \"profile\": {\n      \"name\": \"string\",\n      \"persist\": true\n    },\n    \"adblock\": {\n      \"active\": true\n    },\n    \"popup_blocker\": {\n      \"active\": false\n    },\n    \"captcha_solver\": {\n      \"active\": true\n    },\n    \"headless\": {\n      \"active\": true\n    },\n    \"viewport\": {\n      \"width\": 4255,\n      \"height\": 1657\n    },\n    \"fullscreen\": {\n      \"active\": true\n    },\n    \"pdf_viewer\": {\n      \"active\": true\n    },\n    \"p2p_download\": {\n      \"active\": false\n    },\n    \"extensions\": [\n      \"e289899f-c783-1969-81c7-b6d688ccc7c8\",\n      \"14b9c0ef-eb1c-6473-e452-076ae2c52f21\"\n    ],\n    \"disable_web_security\": {\n      \"active\": false\n    },\n    \"extra_stealth\": {\n      \"active\": true\n    },\n    \"force_popups_as_tabs\": {\n      \"active\": false\n    },\n    \"web_bot_auth\": {\n      \"active\": true\n    },\n    \"disable_dialogs\": {\n      \"active\": true\n    },\n    \"tracing\": {\n      \"active\": true,\n      \"snapshots\": false,\n      \"sources\": true\n    },\n    \"sensitive_data_mask\": {\n      \"active\": false,\n      \"custom_selectors\": [\n        \"string\",\n        \"string\"\n      ],\n      \"site_selectors\": {\n        \"key_0\": [\n          \"string\",\n          \"string\"\n        ]\n      },\n      \"custom_patterns\": [\n        {\n          \"regex\": \"string\",\n          \"mask\": \"string\"\n        },\n        {\n          \"regex\": \"string\",\n          \"mask\": \"string\"\n        }\n      ]\n    }\n  },\n  \"integrations\": [\n    {\n      \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n      \"type\": \"1PASSWORD\",\n      \"configuration\": {\n        \"load_mode\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    },\n    {\n      \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n      \"type\": \"1PASSWORD\",\n      \"configuration\": {\n        \"load_mode\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    }\n  ],\n  \"identities\": [\n    {}\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Payment Required",
+              "code": 402,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": 4764,\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ba349240-b994-43f1-b73f-98d487a66c29",
+              "name": "Project cost limit reached.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "sessions",
+                    "async"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"session\": {\n    \"initial_url\": \"http://uVSXjSJrFEyanRMfMr.kcE6eb+FGwtrr+dz\",\n    \"tags\": [\n      \"production\",\n      \"scraping\",\n      \"customer-123\"\n    ],\n    \"recording\": {\n      \"active\": true\n    },\n    \"proxy\": {\n      \"active\": false,\n      \"type\": \"anchor_proxy\",\n      \"country_code\": \"us\",\n      \"region\": \"string\",\n      \"city\": \"string\"\n    },\n    \"timeout\": {\n      \"max_duration\": 9023,\n      \"idle_timeout\": 9117\n    },\n    \"live_view\": {\n      \"read_only\": false,\n      \"one_time_url\": false\n    }\n  },\n  \"browser\": {\n    \"profile\": {\n      \"name\": \"string\",\n      \"persist\": true\n    },\n    \"adblock\": {\n      \"active\": true\n    },\n    \"popup_blocker\": {\n      \"active\": false\n    },\n    \"captcha_solver\": {\n      \"active\": true\n    },\n    \"headless\": {\n      \"active\": true\n    },\n    \"viewport\": {\n      \"width\": 4255,\n      \"height\": 1657\n    },\n    \"fullscreen\": {\n      \"active\": true\n    },\n    \"pdf_viewer\": {\n      \"active\": true\n    },\n    \"p2p_download\": {\n      \"active\": false\n    },\n    \"extensions\": [\n      \"e289899f-c783-1969-81c7-b6d688ccc7c8\",\n      \"14b9c0ef-eb1c-6473-e452-076ae2c52f21\"\n    ],\n    \"disable_web_security\": {\n      \"active\": false\n    },\n    \"extra_stealth\": {\n      \"active\": true\n    },\n    \"force_popups_as_tabs\": {\n      \"active\": false\n    },\n    \"web_bot_auth\": {\n      \"active\": true\n    },\n    \"disable_dialogs\": {\n      \"active\": true\n    },\n    \"tracing\": {\n      \"active\": true,\n      \"snapshots\": false,\n      \"sources\": true\n    },\n    \"sensitive_data_mask\": {\n      \"active\": false,\n      \"custom_selectors\": [\n        \"string\",\n        \"string\"\n      ],\n      \"site_selectors\": {\n        \"key_0\": [\n          \"string\",\n          \"string\"\n        ]\n      },\n      \"custom_patterns\": [\n        {\n          \"regex\": \"string\",\n          \"mask\": \"string\"\n        },\n        {\n          \"regex\": \"string\",\n          \"mask\": \"string\"\n        }\n      ]\n    }\n  },\n  \"integrations\": [\n    {\n      \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n      \"type\": \"1PASSWORD\",\n      \"configuration\": {\n        \"load_mode\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    },\n    {\n      \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n      \"type\": \"1PASSWORD\",\n      \"configuration\": {\n        \"load_mode\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    }\n  ],\n  \"identities\": [\n    {}\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": 4764,\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "af980c4a-20f1-4464-b330-a66dfc27240c",
+              "name": "API key would exceed batch browser limit.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "sessions",
+                    "async"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"session\": {\n    \"initial_url\": \"http://uVSXjSJrFEyanRMfMr.kcE6eb+FGwtrr+dz\",\n    \"tags\": [\n      \"production\",\n      \"scraping\",\n      \"customer-123\"\n    ],\n    \"recording\": {\n      \"active\": true\n    },\n    \"proxy\": {\n      \"active\": false,\n      \"type\": \"anchor_proxy\",\n      \"country_code\": \"us\",\n      \"region\": \"string\",\n      \"city\": \"string\"\n    },\n    \"timeout\": {\n      \"max_duration\": 9023,\n      \"idle_timeout\": 9117\n    },\n    \"live_view\": {\n      \"read_only\": false,\n      \"one_time_url\": false\n    }\n  },\n  \"browser\": {\n    \"profile\": {\n      \"name\": \"string\",\n      \"persist\": true\n    },\n    \"adblock\": {\n      \"active\": true\n    },\n    \"popup_blocker\": {\n      \"active\": false\n    },\n    \"captcha_solver\": {\n      \"active\": true\n    },\n    \"headless\": {\n      \"active\": true\n    },\n    \"viewport\": {\n      \"width\": 4255,\n      \"height\": 1657\n    },\n    \"fullscreen\": {\n      \"active\": true\n    },\n    \"pdf_viewer\": {\n      \"active\": true\n    },\n    \"p2p_download\": {\n      \"active\": false\n    },\n    \"extensions\": [\n      \"e289899f-c783-1969-81c7-b6d688ccc7c8\",\n      \"14b9c0ef-eb1c-6473-e452-076ae2c52f21\"\n    ],\n    \"disable_web_security\": {\n      \"active\": false\n    },\n    \"extra_stealth\": {\n      \"active\": true\n    },\n    \"force_popups_as_tabs\": {\n      \"active\": false\n    },\n    \"web_bot_auth\": {\n      \"active\": true\n    },\n    \"disable_dialogs\": {\n      \"active\": true\n    },\n    \"tracing\": {\n      \"active\": true,\n      \"snapshots\": false,\n      \"sources\": true\n    },\n    \"sensitive_data_mask\": {\n      \"active\": false,\n      \"custom_selectors\": [\n        \"string\",\n        \"string\"\n      ],\n      \"site_selectors\": {\n        \"key_0\": [\n          \"string\",\n          \"string\"\n        ]\n      },\n      \"custom_patterns\": [\n        {\n          \"regex\": \"string\",\n          \"mask\": \"string\"\n        },\n        {\n          \"regex\": \"string\",\n          \"mask\": \"string\"\n        }\n      ]\n    }\n  },\n  \"integrations\": [\n    {\n      \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n      \"type\": \"1PASSWORD\",\n      \"configuration\": {\n        \"load_mode\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    },\n    {\n      \"id\": \"550e8400-e29b-41d4-a716-446655440000\",\n      \"type\": \"1PASSWORD\",\n      \"configuration\": {\n        \"load_mode\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      }\n    }\n  ],\n  \"identities\": [\n    {}\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": 4764,\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a1dae460-b105-4e01-9c29-d8526049add3",
+          "name": "Async Session Status",
+          "request": {
+            "name": "Async Session Status",
+            "description": {
+              "content": "Polling endpoint paired with `POST /v1/sessions/async`. Returns the\ncurrent lifecycle `status` of the async request and, once the pod is\nup, the embedded `session` object containing `session_id`, `cdp_url`\nand `live_view_url`.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "sessions",
+                "async",
+                ":request_id",
+                "status"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "request_id",
+                  "description": "(Required) The `request_id` returned from `POST /v1/sessions/async`."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "anchor-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "b12864ea-c7f8-497f-9176-b3b07bd1847b",
+              "name": "Async session status retrieved successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "sessions",
+                    "async",
+                    ":request_id",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "request_id",
+                      "description": "(Required) The `request_id` returned from `POST /v1/sessions/async`."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"request_id\": \"657885a7-e19f-8f58-6f41-37d28b21c2b9\",\n    \"status\": \"processing\",\n    \"created_at\": \"1960-06-13T11:12:17.739Z\",\n    \"progress\": {\n      \"current_phase\": \"configuring\"\n    },\n    \"session\": {\n      \"item_index\": 6011,\n      \"session_id\": \"f43f34a7-5864-1aac-7a70-e48a89e25f0c\",\n      \"status\": \"processing\",\n      \"cdp_url\": \"string\",\n      \"live_view_url\": \"string\",\n      \"error\": \"string\",\n      \"retry_count\": 5275,\n      \"started_at\": \"2006-09-17T05:21:25.521Z\",\n      \"completed_at\": \"1996-05-24T09:59:42.454Z\",\n      \"metadata\": {\n        \"key_0\": \"string\"\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "41935860-bf00-47cd-b1d4-9678b44e14a3",
+              "name": "Invalid API Key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "sessions",
+                    "async",
+                    ":request_id",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "request_id",
+                      "description": "(Required) The `request_id` returned from `POST /v1/sessions/async`."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": 4764,\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5f52f800-9d6a-41b1-88e3-750ac382e676",
+              "name": "Async request not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "sessions",
+                    "async",
+                    ":request_id",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "request_id",
+                      "description": "(Required) The `request_id` returned from `POST /v1/sessions/async`."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": 4764,\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a2e39fd0-f588-4732-9e0c-f02992ac46aa",
+              "name": "Internal server error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "sessions",
+                    "async",
+                    ":request_id",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "request_id",
+                      "description": "(Required) The `request_id` returned from `POST /v1/sessions/async`."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": 4764,\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "45c54b00-7321-42ed-9a1f-4fad89228b61",
+          "name": "End All Sessions",
+          "request": {
+            "name": "End All Sessions",
+            "description": {
+              "content": "Terminates all active browser sessions associated with the provided API key.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "sessions",
+                "all"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "anchor-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "507a22b2-2c27-4e28-b67c-2498dff20519",
+              "name": "Successfully terminated all active browser sessions.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "sessions",
+                    "all"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"status\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "84df88ab-2420-4bd5-8642-aa91cbf7e9b5",
+          "name": "List All Sessions Status",
+          "request": {
+            "name": "List All Sessions Status",
+            "description": {
+              "content": "Retrieves status information for all browser sessions associated with the API key.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "sessions",
+                "all",
+                "status"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "tags",
+                  "value": "<string>",
+                  "description": "Comma-separated list of session tags to filter by. Sessions must contain all provided tags."
+                },
+                {
+                  "disabled": false,
+                  "key": "domains",
+                  "value": "<string>",
+                  "description": "Comma-separated list of domains to filter by. Sessions must contain all provided domains."
+                },
+                {
+                  "disabled": false,
+                  "key": "created_from",
+                  "value": "<dateTime>",
+                  "description": "Include sessions created at or after this timestamp (ISO 8601)."
+                },
+                {
+                  "disabled": false,
+                  "key": "created_to",
+                  "value": "<dateTime>",
+                  "description": "Include sessions created at or before this timestamp (ISO 8601)."
+                },
+                {
+                  "disabled": false,
+                  "key": "batch_id",
+                  "value": "<string>",
+                  "description": "Filter sessions by batch identifier."
+                },
+                {
+                  "disabled": false,
+                  "key": "task_initiated",
+                  "value": "<boolean>",
+                  "description": "Filter by whether the session was initiated by a task."
+                },
+                {
+                  "disabled": false,
+                  "key": "playground",
+                  "value": "<boolean>",
+                  "description": "Filter by whether the session is a playground session."
+                },
+                {
+                  "disabled": false,
+                  "key": "proxy",
+                  "value": "<boolean>",
+                  "description": "Filter by whether proxy was active for the session."
+                },
+                {
+                  "disabled": false,
+                  "key": "extra_stealth",
+                  "value": "<boolean>",
+                  "description": "Filter by whether extra stealth mode was active for the session."
+                },
+                {
+                  "disabled": false,
+                  "key": "profile_name",
+                  "value": "<string>",
+                  "description": "Filter sessions by browser profile name (case-insensitive partial match)."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "anchor-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "11e688ec-8f46-4dda-8d80-c3b2b8b45865",
+              "name": "Successfully retrieved status for all browser sessions",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "sessions",
+                    "all",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "tags",
+                      "value": "production,scraping"
+                    },
+                    {
+                      "key": "domains",
+                      "value": "example.com,anchorbrowser.io"
+                    },
+                    {
+                      "key": "created_from",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "created_to",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "batch_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "task_initiated",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "playground",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "proxy",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "extra_stealth",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "profile_name",
+                      "value": "Default profile"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"count\": 9362,\n    \"items\": [\n      {\n        \"session_id\": \"string\",\n        \"status\": \"string\",\n        \"created_at\": \"2017-04-17T06:04:30.511Z\",\n        \"tags\": [\n          \"string\",\n          \"string\"\n        ]\n      },\n      {\n        \"session_id\": \"string\",\n        \"status\": \"string\",\n        \"created_at\": \"1964-08-12T13:08:05.229Z\",\n        \"tags\": [\n          \"string\",\n          \"string\"\n        ]\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0a089530-7254-4226-95d5-f18aa2dff3e8",
+              "name": "Invalid API Key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "sessions",
+                    "all",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "tags",
+                      "value": "production,scraping"
+                    },
+                    {
+                      "key": "domains",
+                      "value": "example.com,anchorbrowser.io"
+                    },
+                    {
+                      "key": "created_from",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "created_to",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "batch_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "task_initiated",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "playground",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "proxy",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "extra_stealth",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "profile_name",
+                      "value": "Default profile"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": 4764,\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d7422a74-9336-4ed1-af9b-346460f3be15",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "sessions",
+                    "all",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "tags",
+                      "value": "production,scraping"
+                    },
+                    {
+                      "key": "domains",
+                      "value": "example.com,anchorbrowser.io"
+                    },
+                    {
+                      "key": "created_from",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "created_to",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "batch_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "task_initiated",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "playground",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "proxy",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "extra_stealth",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "profile_name",
+                      "value": "Default profile"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": 4764,\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9edd525a-1f36-4a72-af33-a3cad11fdc70",
+          "name": "Get Sessions History",
+          "request": {
+            "name": "Get Sessions History",
+            "description": {
+              "content": "Retrieves session usage analytics for the authenticated team.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "sessions",
+                "history"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "from_date",
+                  "value": "<dateTime>",
+                  "description": "Start date for filtering (ISO 8601 format)."
+                },
+                {
+                  "disabled": false,
+                  "key": "to_date",
+                  "value": "<dateTime>",
+                  "description": "End date for filtering (ISO 8601 format)."
+                },
+                {
+                  "disabled": false,
+                  "key": "granularity",
+                  "value": "day",
+                  "description": "Time granularity for aggregation."
+                },
+                {
+                  "disabled": false,
+                  "key": "metrics",
+                  "value": "<string>",
+                  "description": "Metrics to include in the response."
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number for pagination."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "100",
+                  "description": "Number of records per page."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "anchor-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "7782e744-1f6d-4677-81ed-316b8ea1daf0",
+              "name": "Session history analytics retrieved successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "sessions",
+                    "history"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "from_date",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "to_date",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "granularity",
+                      "value": "day"
+                    },
+                    {
+                      "key": "metrics",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"date\": \"string\",\n      \"session_count\": 2001.9600766345768,\n      \"proxy_bytes\": 1160.3133462699323,\n      \"ai_steps\": 6044.065735460761,\n      \"session_hours\": 6672.554960490828,\n      \"credits_used\": 5794.998957326845,\n      \"screenshots\": 8639.957524872036,\n      \"network_bytes_total\": 3703.2959612776326\n    },\n    {\n      \"date\": \"string\",\n      \"session_count\": 1057.6738367829396,\n      \"proxy_bytes\": 7379.05364446189,\n      \"ai_steps\": 5147.103796177982,\n      \"session_hours\": 7051.22089331974,\n      \"credits_used\": 399.54819665081743,\n      \"screenshots\": 3869.136653304438,\n      \"network_bytes_total\": 9790.968454769936\n    }\n  ],\n  \"summary\": {\n    \"total_sessions\": 6122.659068912058,\n    \"total_proxy_bytes\": 4296.014696999202,\n    \"total_ai_steps\": 9030.402113527609,\n    \"total_session_hours\": 9156.82231100411,\n    \"total_credits_used\": 6309.157265604215,\n    \"total_screenshots\": 5277.105740360664,\n    \"total_network_bytes_total\": 1035.643056192397\n  },\n  \"pagination\": {\n    \"current_page\": 1158,\n    \"total_pages\": 8851,\n    \"total_records\": 8782,\n    \"has_next\": true,\n    \"has_prev\": false\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "00528f3c-17a9-43e8-a63b-bb3c9ba1b6c5",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "sessions",
+                    "history"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "from_date",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "to_date",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "granularity",
+                      "value": "day"
+                    },
+                    {
+                      "key": "metrics",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": 4764,\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "267cb27c-4000-4eee-b02f-113d7d30d9a1",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "sessions",
+                    "history"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "from_date",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "to_date",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "granularity",
+                      "value": "day"
+                    },
+                    {
+                      "key": "metrics",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": 4764,\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6221a515-66d3-4716-b8ec-b0819c662c98",
+          "name": "Get Browser Session",
+          "request": {
+            "name": "Get Browser Session",
+            "description": {
+              "content": "Retrieves detailed information about a specific browser session.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "sessions",
+                ":session_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "session_id",
+                  "description": "(Required) The ID of the session to retrieve."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "anchor-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "7a0330fa-aa8d-4433-9637-b14a36c5eb6b",
+              "name": "Session retrieved successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "sessions",
+                    ":session_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "session_id",
+                      "description": "(Required) The ID of the session to retrieve."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"session_id\": \"string\",\n    \"team_id\": \"string\",\n    \"duration\": 370,\n    \"status\": \"string\",\n    \"credits_used\": 5591.891987541664,\n    \"configuration\": {},\n    \"playground\": true,\n    \"proxy_bytes\": 8079,\n    \"tokens\": {},\n    \"steps\": 1250,\n    \"tags\": {},\n    \"created_at\": \"2012-02-20T08:34:43.667Z\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e6ffb9d9-bb44-4cb8-a8a5-358bd2fac162",
+              "name": "Session not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "sessions",
+                    ":session_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "session_id",
+                      "description": "(Required) The ID of the session to retrieve."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": 4764,\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a72f7ed7-27d6-490c-90de-9f055a5b4cbd",
+              "name": "Failed to fetch session.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "sessions",
+                    ":session_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "session_id",
+                      "description": "(Required) The ID of the session to retrieve."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": 4764,\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "44a80981-fb8e-4fc4-b79e-02849af36d37",
+          "name": "End Browser Session",
+          "request": {
+            "name": "End Browser Session",
+            "description": {
+              "content": "Deletes the browser session associated with the provided browser session ID. Requires a valid API key for authentication.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "sessions",
+                ":session_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "session_id",
+                  "description": "(Required) The ID of the browser session to end."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "anchor-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "508f7b90-7786-4f30-b09e-97307f847fb2",
+              "name": "Browser session ended successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "sessions",
+                    ":session_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "session_id",
+                      "description": "(Required) The ID of the browser session to end."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"status\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8ba3af38-5935-45ae-966c-6efa8b64edab",
+              "name": "Invalid API Key or browser session ID",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "sessions",
+                    ":session_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "session_id",
+                      "description": "(Required) The ID of the browser session to end."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": 4764,\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4a7b89c2-a494-4823-aef8-50936e4ddbd9",
+              "name": "Internal Server Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "sessions",
+                    ":session_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "session_id",
+                      "description": "(Required) The ID of the browser session to end."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": 4764,\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a93f7502-ac71-4a9f-a2cf-6869cabff1b7",
+          "name": "Get Browser Session Pages",
+          "request": {
+            "name": "Get Browser Session Pages",
+            "description": {
+              "content": "Retrieves a list of pages associated with a specific browser session.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "sessions",
+                ":session_id",
+                "pages"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "session_id",
+                  "description": "(Required) The ID of the session to retrieve pages for."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "anchor-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "2346bc71-c6d9-4de3-bfcf-eb08e44cff96",
+              "name": "Session pages retrieved successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "sessions",
+                    ":session_id",
+                    "pages"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "session_id",
+                      "description": "(Required) The ID of the session to retrieve pages for."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"string\",\n    \"title\": \"string\",\n    \"url\": \"string\",\n    \"frontend_url\": \"string\"\n  },\n  {\n    \"id\": \"string\",\n    \"title\": \"string\",\n    \"url\": \"string\",\n    \"frontend_url\": \"string\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ee818442-72d2-4100-af70-92766f3a89ce",
+              "name": "Invalid API Key or unauthorized access.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "sessions",
+                    ":session_id",
+                    "pages"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "session_id",
+                      "description": "(Required) The ID of the session to retrieve pages for."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": 4764,\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3f07a523-fd4d-4696-865b-d4a307633e8d",
+              "name": "Session not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "sessions",
+                    ":session_id",
+                    "pages"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "session_id",
+                      "description": "(Required) The ID of the session to retrieve pages for."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": 4764,\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6032d73d-4d1d-4843-8585-e4f91f892706",
+              "name": "Internal server error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "sessions",
+                    ":session_id",
+                    "pages"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "session_id",
+                      "description": "(Required) The ID of the session to retrieve pages for."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": 4764,\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "73203c1f-88ce-4b4d-a795-79ecbafc9968",
+          "name": "Upload Files",
+          "request": {
+            "name": "Upload Files",
+            "description": {
+              "content": "Upload files directly to a browser session for use with web forms and file inputs.\n\nFiles are saved to the session's uploads directory and can be referenced in CDP commands.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "sessions",
+                ":sessionId",
+                "uploads"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "sessionId",
+                  "description": "(Required) The browser session ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "anchor-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "description": "(Required) File to upload to the browser session"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "ef38cfae-20d4-4c65-9eb9-4392c60727aa",
+              "name": "File uploaded successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "sessions",
+                    ":sessionId",
+                    "uploads"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "sessionId",
+                      "description": "(Required) The browser session ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) File to upload to the browser session",
+                        "type": "text/plain"
+                      },
+                      "key": "file",
+                      "value": "<binary>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"status\": \"string\",\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0e077dad-3267-41e5-9127-5678ae719374",
+              "name": "Invalid request (no file uploaded or file too large)",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "sessions",
+                    ":sessionId",
+                    "uploads"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "sessionId",
+                      "description": "(Required) The browser session ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) File to upload to the browser session",
+                        "type": "text/plain"
+                      },
+                      "key": "file",
+                      "value": "<binary>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": 4764,\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "38006869-df1f-4b77-b57f-bcbab63b9446",
+              "name": "Session not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "sessions",
+                    ":sessionId",
+                    "uploads"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "sessionId",
+                      "description": "(Required) The browser session ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) File to upload to the browser session",
+                        "type": "text/plain"
+                      },
+                      "key": "file",
+                      "value": "<binary>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"error\": {\n      \"code\": 7891,\n      \"message\": \"string\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c807be04-bb54-4993-aafb-6fe9012fbcfb",
+              "name": "Failed to upload file",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "sessions",
+                    ":sessionId",
+                    "uploads"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "sessionId",
+                      "description": "(Required) The browser session ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) File to upload to the browser session",
+                        "type": "text/plain"
+                      },
+                      "key": "file",
+                      "value": "<binary>",
+                      "type": "text"
+                    }
+                  ]
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"error\": {\n      \"code\": 7891,\n      \"message\": \"string\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "36dfad56-f0ff-4ff9-bfb0-8307d1059ae9",
+          "name": "List Session Downloads",
+          "request": {
+            "name": "List Session Downloads",
+            "description": {
+              "content": "Retrieves metadata of files downloaded during a browser session. Requires a valid API key for authentication.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "sessions",
+                ":session_id",
+                "downloads"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "session_id",
+                  "description": "(Required) The unique identifier of the browser session to retrieve downloads for."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "anchor-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "96c1408e-513b-48e7-8dab-01d913872601",
+              "name": "A list of download metadata associated with the browser session.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "sessions",
+                    ":session_id",
+                    "downloads"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "session_id",
+                      "description": "(Required) The unique identifier of the browser session to retrieve downloads for."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"count\": 5308,\n    \"items\": [\n      {\n        \"id\": \"string\",\n        \"file_link\": \"http://uBdTqsfSjqGk.rmtlzeBYGCZlIWuVxWg1HRyf5o5vwULRF348,zN.Phi1YWjat59LSJVMRJVZNEVK4di-L8gh-UwE4\",\n        \"original_download_url\": \"http://djQDDYcq.xnhtp9prYkzUqmwJLrQMXormmeF3Iauy.FCnEY\",\n        \"origin_url\": \"https://unKofadDI.bgwsxzD6-L4b1JzYyO5\",\n        \"suggested_file_name\": \"string\",\n        \"original_file_name\": \"string\",\n        \"duration\": 8494,\n        \"size\": 5803,\n        \"created_at\": \"1949-06-07T03:08:12.882Z\"\n      },\n      {\n        \"id\": \"string\",\n        \"file_link\": \"https://NzoDBSAxebUunyzpIVcQLTCFfZswLoUE.jbg,renVsEST3G9AV,GoJ5FJLfZA2CwnsVgUfjhiXKmWzCW14m0Ekye9XGnOSd7\",\n        \"original_download_url\": \"https://QIUSuTPwaPMX.aaofha4dRcwu6LYVyXmNvfiHVJ\",\n        \"origin_url\": \"https://YjvmgEZNr.wbrptuJBXRBLOtqRENMq0ARC89w8gT\",\n        \"suggested_file_name\": \"string\",\n        \"original_file_name\": \"string\",\n        \"duration\": 5716,\n        \"size\": 7546,\n        \"created_at\": \"1987-12-04T15:09:36.342Z\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2f4529d8-051e-47b4-9142-008d8e656f61",
+              "name": "Invalid or missing API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "sessions",
+                    ":session_id",
+                    "downloads"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "session_id",
+                      "description": "(Required) The unique identifier of the browser session to retrieve downloads for."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": 4764,\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7033e52b-40d0-4ccb-98ef-63b8f8151ba0",
+              "name": "The browser session or its downloads metadata could not be found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "sessions",
+                    ":session_id",
+                    "downloads"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "session_id",
+                      "description": "(Required) The unique identifier of the browser session to retrieve downloads for."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": 4764,\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "66aff3a6-7adf-460c-b034-ad47e9591296",
+              "name": "Too many requests, please try again later.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "sessions",
+                    ":session_id",
+                    "downloads"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "session_id",
+                      "description": "(Required) The unique identifier of the browser session to retrieve downloads for."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": 4764,\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.anchorbrowser.io",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "9ac4ff52-1d05-43e3-9297-34456f68a75e",
+    "name": "AnchorBrowser Agentic capabilities Browser Sessions API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "APIs to manage all browser-related actions and configuration.",
+      "type": "text/plain"
+    }
+  }
+}

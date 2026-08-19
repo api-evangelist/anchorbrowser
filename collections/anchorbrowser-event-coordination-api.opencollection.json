@@ -1,0 +1,76 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "AnchorBrowser Agentic capabilities Event Coordination API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Event Coordination",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Wait for Event",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.anchorbrowser.io/v1/events/:event_name/wait",
+            "params": [
+              {
+                "name": "event_name",
+                "value": "",
+                "type": "path",
+                "description": "The name of the event to wait for"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "anchor-api-key",
+              "value": "{{anchor-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Waits for a specific event to be signaled by another process, workflow, or session. \nThis endpoint blocks until the event is signaled or the timeout is reached.\nUseful for coordinating between multiple browser sessions or workflows.\n"
+        },
+        {
+          "info": {
+            "name": "Signal Event",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.anchorbrowser.io/v1/events/:event_name",
+            "params": [
+              {
+                "name": "event_name",
+                "value": "",
+                "type": "path",
+                "description": "The name of the event to signal"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "anchor-api-key",
+              "value": "{{anchor-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Signals an event with associated data, unblocking any clients waiting for this event.\nThis enables coordination between different browser sessions, workflows, or external processes.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,4332 @@
+{
+  "item": [
+    {
+      "id": "939f416e-c529-4741-b687-a207fdc6c893",
+      "name": "Tasks (Legacy)",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "a61188f3-cf11-496c-8b43-bedcfc53c995",
+          "name": "Create Task (Legacy)",
+          "request": {
+            "name": "Create Task (Legacy)",
+            "description": {
+              "content": "Creates a new task or updates an existing task with the same name. Tasks are reusable code snippets \nthat can be executed in browser sessions. Tasks support versioning with draft and published versions.\n\nIf you are using the new Task Builder, see the non-deprecated Tasks endpoints in this API reference.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "task"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "anchor-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"language\": \"<string>\",\n  \"code\": \"<string>\",\n  \"description\": \"<string>\",\n  \"browserConfiguration\": {\n    \"initial_url\": \"<uri>\",\n    \"tags\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"recording\": {\n      \"active\": \"<boolean>\"\n    },\n    \"proxy\": {\n      \"active\": \"<boolean>\",\n      \"type\": \"<string>\",\n      \"country_code\": \"us\",\n      \"region\": \"<string>\",\n      \"city\": \"<string>\"\n    },\n    \"timeout\": {\n      \"max_duration\": \"<integer>\",\n      \"idle_timeout\": \"<integer>\"\n    },\n    \"live_view\": {\n      \"read_only\": \"<boolean>\",\n      \"one_time_url\": \"<boolean>\"\n    }\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "218a01bd-e905-4dac-ba53-9c7f2609c762",
+              "name": "Task created or updated successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "task"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"web-scraper\",\n  \"language\": \"typescript\",\n  \"description\": \"A task to scrape product information from e-commerce sites\",\n  \"code\": \"Y29uc3QgYW5jaG9yID0gcmVxdWlyZSgnYW5jaG9yYnJvd3NlcicpOwoKYXN5bmMgZnVuY3Rpb24gcnVuKCkgewogIGNvbnN0IHNlc3Npb24gPSBhd2FpdCBhbmNob3IuY3JlYXRlU2Vzc2lvbigpOwogIGF3YWl0IHNlc3Npb24uZ29UbygnaHR0cHM6Ly9leGFtcGxlLmNvbScpOwogIGNvbnN0IHRpdGxlID0gYXdhaXQgc2Vzc2lvbi5nZXRUaXRsZSgpOwogIGNvbnNvbGUubG9nKHRpdGxlKTsKICBhd2FpdCBzZXNzaW9uLmNsb3NlKCk7Cn0KcnVuKCk7\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": \"b98da101-9b36-9718-6a2c-72670cad80f6\",\n    \"name\": \"frxNgafgR\",\n    \"teamId\": \"eff34d2d-d13a-1d2e-6a92-cf194654070b\",\n    \"latestVersion\": \"string\",\n    \"code\": \"string\",\n    \"language\": \"typescript\",\n    \"deleted\": false,\n    \"createdAt\": \"2012-04-01T12:49:50.365Z\",\n    \"updatedAt\": \"2006-06-10T18:56:30.488Z\",\n    \"description\": \"string\",\n    \"browserConfiguration\": {\n      \"initial_url\": \"http://tDEglwMxQwgKQwasLQe.lrboi5IYUU1cuA9KLLQjSKCJl.KVl9XQUjZf0TYiSAiLFVUK-jFl+sB6R\",\n      \"tags\": [\n        \"production\",\n        \"scraping\",\n        \"customer-123\"\n      ],\n      \"recording\": {\n        \"active\": true\n      },\n      \"proxy\": {\n        \"active\": false,\n        \"type\": \"anchor_proxy\",\n        \"country_code\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"region\": \"string\",\n        \"city\": \"string\"\n      },\n      \"timeout\": {\n        \"max_duration\": 3784,\n        \"idle_timeout\": 4385\n      },\n      \"live_view\": {\n        \"read_only\": false,\n        \"one_time_url\": true\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8d87f9e0-9cee-49e3-9ef4-6d9cb30a02f9",
+              "name": "Invalid request or validation failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "task"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"web-scraper\",\n  \"language\": \"typescript\",\n  \"description\": \"A task to scrape product information from e-commerce sites\",\n  \"code\": \"Y29uc3QgYW5jaG9yID0gcmVxdWlyZSgnYW5jaG9yYnJvd3NlcicpOwoKYXN5bmMgZnVuY3Rpb24gcnVuKCkgewogIGNvbnN0IHNlc3Npb24gPSBhd2FpdCBhbmNob3IuY3JlYXRlU2Vzc2lvbigpOwogIGF3YWl0IHNlc3Npb24uZ29UbygnaHR0cHM6Ly9leGFtcGxlLmNvbScpOwogIGNvbnN0IHRpdGxlID0gYXdhaXQgc2Vzc2lvbi5nZXRUaXRsZSgpOwogIGNvbnNvbGUubG9nKHRpdGxlKTsKICBhd2FpdCBzZXNzaW9uLmNsb3NlKCk7Cn0KcnVuKCk7\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": 8578,\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a08f7e99-6f82-4c5c-b717-45ca6183ff1f",
+              "name": "Task name already exists",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "task"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"web-scraper\",\n  \"language\": \"typescript\",\n  \"description\": \"A task to scrape product information from e-commerce sites\",\n  \"code\": \"Y29uc3QgYW5jaG9yID0gcmVxdWlyZSgnYW5jaG9yYnJvd3NlcicpOwoKYXN5bmMgZnVuY3Rpb24gcnVuKCkgewogIGNvbnN0IHNlc3Npb24gPSBhd2FpdCBhbmNob3IuY3JlYXRlU2Vzc2lvbigpOwogIGF3YWl0IHNlc3Npb24uZ29UbygnaHR0cHM6Ly9leGFtcGxlLmNvbScpOwogIGNvbnN0IHRpdGxlID0gYXdhaXQgc2Vzc2lvbi5nZXRUaXRsZSgpOwogIGNvbnNvbGUubG9nKHRpdGxlKTsKICBhd2FpdCBzZXNzaW9uLmNsb3NlKCk7Cn0KcnVuKCk7\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": 8578,\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9f2981ee-81a1-4f82-84bb-5379f9b7323d",
+              "name": "Failed to create task",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "task"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"web-scraper\",\n  \"language\": \"typescript\",\n  \"description\": \"A task to scrape product information from e-commerce sites\",\n  \"code\": \"Y29uc3QgYW5jaG9yID0gcmVxdWlyZSgnYW5jaG9yYnJvd3NlcicpOwoKYXN5bmMgZnVuY3Rpb24gcnVuKCkgewogIGNvbnN0IHNlc3Npb24gPSBhd2FpdCBhbmNob3IuY3JlYXRlU2Vzc2lvbigpOwogIGF3YWl0IHNlc3Npb24uZ29UbygnaHR0cHM6Ly9leGFtcGxlLmNvbScpOwogIGNvbnN0IHRpdGxlID0gYXdhaXQgc2Vzc2lvbi5nZXRUaXRsZSgpOwogIGNvbnNvbGUubG9nKHRpdGxlKTsKICBhd2FpdCBzZXNzaW9uLmNsb3NlKCk7Cn0KcnVuKCk7\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": 8578,\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3fa00ac5-c539-4f8f-a3a0-f37dcac53c50",
+          "name": "List Tasks (Legacy)",
+          "request": {
+            "name": "List Tasks (Legacy)",
+            "description": {
+              "content": "Retrieves a paginated list of all tasks for the authenticated team. Tasks are returned \nwith their latest version information and metadata.\n\nIf you are using the new Task Builder, see the non-deprecated Tasks endpoints in this API reference.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "task"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "10",
+                  "description": "Number of tasks per page"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "anchor-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "47e17fb9-2ad1-4b09-bfc5-f041c3feee55",
+              "name": "List of tasks retrieved successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "task"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"tasks\": [\n      {\n        \"id\": \"b885de03-6b59-32aa-d893-a30dc83d33ec\",\n        \"name\": \"bhXpFgVFdcC\",\n        \"teamId\": \"67a05669-c45f-c5b3-b43a-b8c04dcfa502\",\n        \"latestVersion\": \"string\",\n        \"code\": \"string\",\n        \"language\": \"typescript\",\n        \"deleted\": true,\n        \"createdAt\": \"2008-06-11T00:55:04.365Z\",\n        \"updatedAt\": \"2013-04-07T20:00:21.059Z\",\n        \"description\": \"string\",\n        \"browserConfiguration\": {\n          \"initial_url\": \"https://BJJTydmCnGyJaegvgNdEGtQnMvX.zuzTTX,IV-77okLohOcRW2+YwyG-DqS5ZT3eL3axGUZdBn\",\n          \"tags\": [\n            \"production\",\n            \"scraping\",\n            \"customer-123\"\n          ],\n          \"recording\": {\n            \"active\": true\n          },\n          \"proxy\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"timeout\": {\n            \"max_duration\": 737,\n            \"idle_timeout\": 8773\n          },\n          \"live_view\": {\n            \"read_only\": false,\n            \"one_time_url\": true\n          }\n        }\n      },\n      {\n        \"id\": \"bfa8e4ed-a841-ea46-b45a-2031063276cf\",\n        \"name\": \"-\",\n        \"teamId\": \"814fb751-4c54-4262-c03c-8d9ede2c0149\",\n        \"latestVersion\": \"string\",\n        \"code\": \"string\",\n        \"language\": \"typescript\",\n        \"deleted\": true,\n        \"createdAt\": \"1950-09-23T20:43:32.899Z\",\n        \"updatedAt\": \"1964-08-01T05:29:59.363Z\",\n        \"description\": \"string\",\n        \"browserConfiguration\": {\n          \"initial_url\": \"https://sZAhzXDabpgrqXgbWUCbsLPDmNl.kyogDwCtREnDDoFkWX5UIDA.aynNjIKozdPU4ra7IXteuCepixwn,i61VcA\",\n          \"tags\": [\n            \"production\",\n            \"scraping\",\n            \"customer-123\"\n          ],\n          \"recording\": {\n            \"active\": false\n          },\n          \"proxy\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"timeout\": {\n            \"max_duration\": 2636,\n            \"idle_timeout\": 7176\n          },\n          \"live_view\": {\n            \"read_only\": false,\n            \"one_time_url\": true\n          }\n        }\n      }\n    ],\n    \"total\": 9609,\n    \"page\": 898,\n    \"limit\": 55\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "33e824c6-3c94-4733-ab17-31f2f71d81e2",
+              "name": "Failed to list tasks",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "task"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": 8578,\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0e5d88de-a8e8-4101-b137-5f0bf6dcdca5",
+          "name": "Run Task (Legacy)",
+          "request": {
+            "name": "Run Task (Legacy)",
+            "description": {
+              "content": "Executes a task in a browser session. The task can be run with a specific version or the latest version.\nOptionally, you can provide an existing session ID or let the system create a new one.\n\nIf you are using the new Task Builder, see the non-deprecated Tasks endpoints in this API reference.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "task",
+                "run"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "anchor-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"taskId\": \"<uuid>\",\n  \"version\": \"<string>\",\n  \"sessionId\": \"<uuid>\",\n  \"async\": \"<boolean>\",\n  \"overrideBrowserConfiguration\": {\n    \"initial_url\": \"<uri>\",\n    \"tags\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"recording\": {\n      \"active\": \"<boolean>\"\n    },\n    \"proxy\": {\n      \"active\": \"<boolean>\",\n      \"type\": \"<string>\",\n      \"country_code\": \"us\",\n      \"region\": \"<string>\",\n      \"city\": \"<string>\"\n    },\n    \"timeout\": {\n      \"max_duration\": \"<integer>\",\n      \"idle_timeout\": \"<integer>\"\n    },\n    \"live_view\": {\n      \"read_only\": \"<boolean>\",\n      \"one_time_url\": \"<boolean>\"\n    }\n  },\n  \"inputs\": {\n    \"ANCHOR_X$\": \"string\"\n  },\n  \"cleanupSessions\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "611da53c-69f0-460c-8b12-6a8c0426b582",
+              "name": "Task executed successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "task",
+                    "run"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"taskId\": \"550e8400-e29b-41d4-a716-446655440000\",\n  \"version\": \"1\",\n  \"inputs\": {\n    \"ANCHOR_TARGET_URL\": \"https://example.com\",\n    \"ANCHOR_MAX_PAGES\": \"10\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"success\": false,\n    \"async\": true,\n    \"message\": \"string\",\n    \"taskId\": \"c2ea1571-2e86-6ac8-cae2-a3704678e483\",\n    \"executionTime\": 7125.164326371912,\n    \"output\": \"string\",\n    \"error\": \"string\",\n    \"executionResultId\": \"b14b849b-8532-ecdc-cf35-f15878df372e\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9d40bec4-3a51-4de5-93f0-05475cc8ca42",
+              "name": "Task or session not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "task",
+                    "run"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"taskId\": \"550e8400-e29b-41d4-a716-446655440000\",\n  \"version\": \"1\",\n  \"inputs\": {\n    \"ANCHOR_TARGET_URL\": \"https://example.com\",\n    \"ANCHOR_MAX_PAGES\": \"10\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": 8578,\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e0ba6795-16bd-4edf-8dbf-f8d5366701b0",
+              "name": "Task execution failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "task",
+                    "run"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"taskId\": \"550e8400-e29b-41d4-a716-446655440000\",\n  \"version\": \"1\",\n  \"inputs\": {\n    \"ANCHOR_TARGET_URL\": \"https://example.com\",\n    \"ANCHOR_MAX_PAGES\": \"10\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": 8578,\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "10931d44-485c-47f1-8721-eee9ef5c3f71",
+          "name": "Run Task by Name (Legacy)",
+          "request": {
+            "name": "Run Task by Name (Legacy)",
+            "description": {
+              "content": "Executes a task by its name, always using the latest version. This is a convenience endpoint\nfor running tasks without needing to know the task ID.\n\nIf you are using the new Task Builder, see the non-deprecated Tasks endpoints in this API reference.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "task",
+                "run",
+                ":taskName"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "taskName",
+                  "description": "(Required) The name of the task to run"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "anchor-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sessionId\": \"<uuid>\",\n  \"async\": \"<boolean>\",\n  \"overrideBrowserConfiguration\": {\n    \"initial_url\": \"<uri>\",\n    \"tags\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"recording\": {\n      \"active\": \"<boolean>\"\n    },\n    \"proxy\": {\n      \"active\": \"<boolean>\",\n      \"type\": \"<string>\",\n      \"country_code\": \"us\",\n      \"region\": \"<string>\",\n      \"city\": \"<string>\"\n    },\n    \"timeout\": {\n      \"max_duration\": \"<integer>\",\n      \"idle_timeout\": \"<integer>\"\n    },\n    \"live_view\": {\n      \"read_only\": \"<boolean>\",\n      \"one_time_url\": \"<boolean>\"\n    }\n  },\n  \"inputs\": {\n    \"ANCHOR_|v=\": \"string\",\n    \"key_0\": \"<string>\"\n  },\n  \"cleanupSessions\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "4ed62429-d175-4659-9899-711f652a5d46",
+              "name": "Task executed successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "task",
+                    "run",
+                    ":taskName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "taskName",
+                      "description": "(Required) The name of the task to run"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sessionId\": \"<uuid>\",\n  \"async\": \"<boolean>\",\n  \"overrideBrowserConfiguration\": {\n    \"initial_url\": \"http://jlqOcETDKteXgmCMXSOuIMrxNDJ.nvoTqLQNH-ZJLCTNXVS5fNBICs-Z5mmiBMvjAO0xViFN+dd,zeVh0B1J4Ir0AA.DMogDq8kKvzL\",\n    \"tags\": [\n      \"production\",\n      \"scraping\",\n      \"customer-123\"\n    ],\n    \"recording\": {\n      \"active\": false\n    },\n    \"proxy\": {\n      \"active\": false,\n      \"type\": \"anchor_proxy\",\n      \"country_code\": \"us\",\n      \"region\": \"string\",\n      \"city\": \"string\"\n    },\n    \"timeout\": {\n      \"max_duration\": 8101,\n      \"idle_timeout\": 3100\n    },\n    \"live_view\": {\n      \"read_only\": true,\n      \"one_time_url\": true\n    }\n  },\n  \"inputs\": {\n    \"ANCHOR_Hr)(xXI!\": \"string\",\n    \"key_0\": \"<string>\"\n  },\n  \"cleanupSessions\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"success\": false,\n    \"async\": true,\n    \"message\": \"string\",\n    \"taskId\": \"c2ea1571-2e86-6ac8-cae2-a3704678e483\",\n    \"executionTime\": 7125.164326371912,\n    \"output\": \"string\",\n    \"error\": \"string\",\n    \"executionResultId\": \"b14b849b-8532-ecdc-cf35-f15878df372e\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1ca62aa5-e7ed-4611-883f-0b2d8e338159",
+              "name": "Task not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "task",
+                    "run",
+                    ":taskName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "taskName",
+                      "description": "(Required) The name of the task to run"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sessionId\": \"<uuid>\",\n  \"async\": \"<boolean>\",\n  \"overrideBrowserConfiguration\": {\n    \"initial_url\": \"http://jlqOcETDKteXgmCMXSOuIMrxNDJ.nvoTqLQNH-ZJLCTNXVS5fNBICs-Z5mmiBMvjAO0xViFN+dd,zeVh0B1J4Ir0AA.DMogDq8kKvzL\",\n    \"tags\": [\n      \"production\",\n      \"scraping\",\n      \"customer-123\"\n    ],\n    \"recording\": {\n      \"active\": false\n    },\n    \"proxy\": {\n      \"active\": false,\n      \"type\": \"anchor_proxy\",\n      \"country_code\": \"us\",\n      \"region\": \"string\",\n      \"city\": \"string\"\n    },\n    \"timeout\": {\n      \"max_duration\": 8101,\n      \"idle_timeout\": 3100\n    },\n    \"live_view\": {\n      \"read_only\": true,\n      \"one_time_url\": true\n    }\n  },\n  \"inputs\": {\n    \"ANCHOR_Hr)(xXI!\": \"string\",\n    \"key_0\": \"<string>\"\n  },\n  \"cleanupSessions\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": 8578,\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "63b651db-464e-45bb-854e-fe56204de02c",
+              "name": "Task execution failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "task",
+                    "run",
+                    ":taskName"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "taskName",
+                      "description": "(Required) The name of the task to run"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sessionId\": \"<uuid>\",\n  \"async\": \"<boolean>\",\n  \"overrideBrowserConfiguration\": {\n    \"initial_url\": \"http://jlqOcETDKteXgmCMXSOuIMrxNDJ.nvoTqLQNH-ZJLCTNXVS5fNBICs-Z5mmiBMvjAO0xViFN+dd,zeVh0B1J4Ir0AA.DMogDq8kKvzL\",\n    \"tags\": [\n      \"production\",\n      \"scraping\",\n      \"customer-123\"\n    ],\n    \"recording\": {\n      \"active\": false\n    },\n    \"proxy\": {\n      \"active\": false,\n      \"type\": \"anchor_proxy\",\n      \"country_code\": \"us\",\n      \"region\": \"string\",\n      \"city\": \"string\"\n    },\n    \"timeout\": {\n      \"max_duration\": 8101,\n      \"idle_timeout\": 3100\n    },\n    \"live_view\": {\n      \"read_only\": true,\n      \"one_time_url\": true\n    }\n  },\n  \"inputs\": {\n    \"ANCHOR_Hr)(xXI!\": \"string\",\n    \"key_0\": \"<string>\"\n  },\n  \"cleanupSessions\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": 8578,\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "bb53480d-6afe-4a14-969f-1b671831a1d6",
+          "name": "Get Task Metadata (Legacy)",
+          "request": {
+            "name": "Get Task Metadata (Legacy)",
+            "description": {
+              "content": "Retrieves task metadata without the code content. Useful for getting task information\nwithout downloading the full task code.\n\nIf you are using the new Task Builder, see the non-deprecated Tasks endpoints in this API reference.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "task",
+                ":taskId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "taskId",
+                  "description": "(Required) The ID of the task to retrieve"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "anchor-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "7876e412-e865-49c0-a9df-f2ef39c5fdf7",
+              "name": "Task metadata retrieved successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "task",
+                    ":taskId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "taskId",
+                      "description": "(Required) The ID of the task to retrieve"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": \"5317304f-215f-5bc4-bafa-527bb228825b\",\n    \"name\": \"bdS1E-X\",\n    \"teamId\": \"4c56640c-4bf8-cd3a-3af7-ae9f114b7b96\",\n    \"latest\": \"string\",\n    \"deleted\": true,\n    \"createdAt\": \"1995-06-27T09:31:04.503Z\",\n    \"updatedAt\": \"1948-05-25T11:31:44.909Z\",\n    \"description\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c353ba7c-60a2-4eb6-9b86-a551506ba6f5",
+              "name": "Task not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "task",
+                    ":taskId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "taskId",
+                      "description": "(Required) The ID of the task to retrieve"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": 8578,\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e03a40a5-f14d-408f-bb99-9f6c38f618f9",
+              "name": "Failed to retrieve task",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "task",
+                    ":taskId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "taskId",
+                      "description": "(Required) The ID of the task to retrieve"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": 8578,\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "75fd07db-7a5e-4924-b548-9e2303677b67",
+          "name": "Update Task Metadata (Legacy)",
+          "request": {
+            "name": "Update Task Metadata (Legacy)",
+            "description": {
+              "content": "Updates task metadata (name and description). This does not affect the task code or versions.\n\nIf you are using the new Task Builder, see the non-deprecated Tasks endpoints in this API reference.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "task",
+                ":taskId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "taskId",
+                  "description": "(Required) The ID of the task to update"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "anchor-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "b66c8c19-08ed-4508-8c7e-35b49d329493",
+              "name": "Task metadata updated successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "task",
+                    ":taskId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "taskId",
+                      "description": "(Required) The ID of the task to update"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": \"5317304f-215f-5bc4-bafa-527bb228825b\",\n    \"name\": \"bdS1E-X\",\n    \"teamId\": \"4c56640c-4bf8-cd3a-3af7-ae9f114b7b96\",\n    \"latest\": \"string\",\n    \"deleted\": true,\n    \"createdAt\": \"1995-06-27T09:31:04.503Z\",\n    \"updatedAt\": \"1948-05-25T11:31:44.909Z\",\n    \"description\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "152a5248-28a7-4a70-af93-4fa55ee7ffc0",
+              "name": "Task not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "task",
+                    ":taskId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "taskId",
+                      "description": "(Required) The ID of the task to update"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": 8578,\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c606cc82-34c7-48dd-9d2a-35917c5cc290",
+              "name": "Task name already exists",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "task",
+                    ":taskId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "taskId",
+                      "description": "(Required) The ID of the task to update"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": 8578,\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a9d291da-0164-46eb-aa10-ac63c518340e",
+              "name": "Failed to update task",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "task",
+                    ":taskId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "taskId",
+                      "description": "(Required) The ID of the task to update"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": 8578,\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a30ed6f7-6a13-4cd5-bbb7-a8ade6732747",
+          "name": "Delete Task (Legacy)",
+          "request": {
+            "name": "Delete Task (Legacy)",
+            "description": {
+              "content": "Soft deletes a task and all its versions. The task will no longer be accessible\nbut the data is preserved for potential recovery.\n\nIf you are using the new Task Builder, see the non-deprecated Tasks endpoints in this API reference.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "task",
+                ":taskId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "taskId",
+                  "description": "(Required) The ID of the task to delete"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "anchor-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "b937588b-a0be-4b62-a60b-c3d1b2fe940c",
+              "name": "Task deleted successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "task",
+                    ":taskId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "taskId",
+                      "description": "(Required) The ID of the task to delete"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"success\": false,\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6abe13e4-9063-423a-8209-3145dcf3f555",
+              "name": "Task not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "task",
+                    ":taskId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "taskId",
+                      "description": "(Required) The ID of the task to delete"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": 8578,\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0d730392-ffe6-485f-9634-dbb7a3520d15",
+              "name": "Failed to delete task",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "task",
+                    ":taskId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "taskId",
+                      "description": "(Required) The ID of the task to delete"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": 8578,\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "58901c6e-681e-41b4-8d6f-8b1706c06e98",
+          "name": "List Task Versions (Legacy)",
+          "request": {
+            "name": "List Task Versions (Legacy)",
+            "description": {
+              "content": "Retrieves all versions of a specific task, including draft and published versions.\n\nIf you are using the new Task Builder, see the non-deprecated Tasks endpoints in this API reference.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "task",
+                ":taskId",
+                "versions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "taskId",
+                  "description": "(Required) The ID of the task"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "anchor-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "9d7b17e0-f6b7-4aac-b129-3400780aeda7",
+              "name": "Task versions retrieved successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "task",
+                    ":taskId",
+                    "versions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "taskId",
+                      "description": "(Required) The ID of the task"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"taskId\": \"2a7e19d3-047d-da28-e015-d0a6e0893076\",\n    \"versions\": [\n      {\n        \"version\": \"string\",\n        \"createdAt\": \"2011-06-14T21:22:27.424Z\",\n        \"updatedAt\": \"1962-08-25T00:31:30.934Z\",\n        \"description\": \"string\"\n      },\n      {\n        \"version\": \"string\",\n        \"createdAt\": \"2011-04-10T18:20:29.117Z\",\n        \"updatedAt\": \"1995-04-10T21:15:45.768Z\",\n        \"description\": \"string\"\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "05fe13c7-fbad-49c5-ac07-768f3368384c",
+              "name": "Task not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "task",
+                    ":taskId",
+                    "versions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "taskId",
+                      "description": "(Required) The ID of the task"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": 8578,\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "95467d87-8420-49fd-8044-a024756b6d95",
+              "name": "Failed to retrieve task versions",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "task",
+                    ":taskId",
+                    "versions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "taskId",
+                      "description": "(Required) The ID of the task"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": 8578,\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "35e86e31-e883-4bfd-855d-9ad7c90b0196",
+          "name": "Get Latest Task Version (Legacy)",
+          "request": {
+            "name": "Get Latest Task Version (Legacy)",
+            "description": {
+              "content": "Retrieves the latest version of a task, including the full code content.\n\nIf you are using the new Task Builder, see the non-deprecated Tasks endpoints in this API reference.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "task",
+                ":taskId",
+                "latest"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "taskId",
+                  "description": "(Required) The ID of the task"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "anchor-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "99c1bcc6-d662-4544-b893-b504d7a8a995",
+              "name": "Latest task version retrieved successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "task",
+                    ":taskId",
+                    "latest"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "taskId",
+                      "description": "(Required) The ID of the task"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": \"40d9f552-cdf8-daca-e845-405c04431f75\",\n    \"taskId\": \"39ca1d36-90d8-419b-8f71-766a2caba99b\",\n    \"version\": \"string\",\n    \"code\": \"string\",\n    \"deleted\": true,\n    \"createdAt\": \"1971-07-29T08:13:39.908Z\",\n    \"updatedAt\": \"1958-10-11T21:46:06.493Z\",\n    \"language\": \"typescript\",\n    \"description\": \"string\",\n    \"browserConfiguration\": {\n      \"initial_url\": \"https://ANcp.sjfE69sXJbSIsngDbEkKC8,NIcCt4RxHBGz2eNW\",\n      \"tags\": [\n        \"production\",\n        \"scraping\",\n        \"customer-123\"\n      ],\n      \"recording\": {\n        \"active\": false\n      },\n      \"proxy\": {\n        \"active\": true,\n        \"type\": \"anchor_proxy\",\n        \"country_code\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"region\": \"string\",\n        \"city\": \"string\"\n      },\n      \"timeout\": {\n        \"max_duration\": 9579,\n        \"idle_timeout\": 2602\n      },\n      \"live_view\": {\n        \"read_only\": false,\n        \"one_time_url\": false\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "24e38bd2-77ca-4ebd-b3b8-064daf8a4297",
+              "name": "Task or version not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "task",
+                    ":taskId",
+                    "latest"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "taskId",
+                      "description": "(Required) The ID of the task"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": 8578,\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "02d237dd-5788-4a4e-a53c-e7d3393e851c",
+              "name": "Failed to retrieve task version",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "task",
+                    ":taskId",
+                    "latest"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "taskId",
+                      "description": "(Required) The ID of the task"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": 8578,\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "867ed391-22c1-48f4-8542-20813b2edabe",
+          "name": "Get Task Draft (Legacy)",
+          "request": {
+            "name": "Get Task Draft (Legacy)",
+            "description": {
+              "content": "Retrieves the draft version of a task, including the full code content.\n\nIf you are using the new Task Builder, see the non-deprecated Tasks endpoints in this API reference.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "task",
+                ":taskId",
+                "draft"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "taskId",
+                  "description": "(Required) The ID of the task"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "anchor-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "20b54e3a-0b1b-4800-a08d-1222ac9b4c66",
+              "name": "Task draft retrieved successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "task",
+                    ":taskId",
+                    "draft"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "taskId",
+                      "description": "(Required) The ID of the task"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": \"40d9f552-cdf8-daca-e845-405c04431f75\",\n    \"taskId\": \"39ca1d36-90d8-419b-8f71-766a2caba99b\",\n    \"version\": \"string\",\n    \"code\": \"string\",\n    \"deleted\": true,\n    \"createdAt\": \"1971-07-29T08:13:39.908Z\",\n    \"updatedAt\": \"1958-10-11T21:46:06.493Z\",\n    \"language\": \"typescript\",\n    \"description\": \"string\",\n    \"browserConfiguration\": {\n      \"initial_url\": \"https://ANcp.sjfE69sXJbSIsngDbEkKC8,NIcCt4RxHBGz2eNW\",\n      \"tags\": [\n        \"production\",\n        \"scraping\",\n        \"customer-123\"\n      ],\n      \"recording\": {\n        \"active\": false\n      },\n      \"proxy\": {\n        \"active\": true,\n        \"type\": \"anchor_proxy\",\n        \"country_code\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"region\": \"string\",\n        \"city\": \"string\"\n      },\n      \"timeout\": {\n        \"max_duration\": 9579,\n        \"idle_timeout\": 2602\n      },\n      \"live_view\": {\n        \"read_only\": false,\n        \"one_time_url\": false\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4d7e6e3d-a561-4e97-b387-a986f523b435",
+              "name": "Task or draft not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "task",
+                    ":taskId",
+                    "draft"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "taskId",
+                      "description": "(Required) The ID of the task"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": 8578,\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fc9fe1dd-0f49-473c-aac6-75cc888bd536",
+              "name": "Failed to retrieve task draft",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "task",
+                    ":taskId",
+                    "draft"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "taskId",
+                      "description": "(Required) The ID of the task"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": 8578,\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3bcf6620-ab68-4938-bb08-d2305e87ef1d",
+          "name": "Create or Update Task Draft (Legacy)",
+          "request": {
+            "name": "Create or Update Task Draft (Legacy)",
+            "description": {
+              "content": "Creates or updates the draft version of a task. Draft versions are used for development\nand testing before publishing.\n\nIf you are using the new Task Builder, see the non-deprecated Tasks endpoints in this API reference.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "task",
+                ":taskId",
+                "draft"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "taskId",
+                  "description": "(Required) The ID of the task"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "anchor-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"<string>\",\n  \"language\": \"<string>\",\n  \"description\": \"<string>\",\n  \"browserConfiguration\": {\n    \"initial_url\": \"<uri>\",\n    \"tags\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"recording\": {\n      \"active\": \"<boolean>\"\n    },\n    \"proxy\": {\n      \"active\": \"<boolean>\",\n      \"type\": \"<string>\",\n      \"country_code\": \"us\",\n      \"region\": \"<string>\",\n      \"city\": \"<string>\"\n    },\n    \"timeout\": {\n      \"max_duration\": \"<integer>\",\n      \"idle_timeout\": \"<integer>\"\n    },\n    \"live_view\": {\n      \"read_only\": \"<boolean>\",\n      \"one_time_url\": \"<boolean>\"\n    }\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "ec01be08-73f5-43e4-90a2-b281eb34513c",
+              "name": "Task draft created or updated successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "task",
+                    ":taskId",
+                    "draft"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "taskId",
+                      "description": "(Required) The ID of the task"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"code\": \"<string>\",\n  \"language\": \"<string>\",\n  \"description\": \"<string>\",\n  \"browserConfiguration\": {\n    \"initial_url\": \"https://pwFHojhXAaFuQbtLcuvWNOhzFtORaPezn.tcgpp9VRmUyANh\",\n    \"tags\": [\n      \"production\",\n      \"scraping\",\n      \"customer-123\"\n    ],\n    \"recording\": {\n      \"active\": false\n    },\n    \"proxy\": {\n      \"active\": true,\n      \"type\": \"anchor_proxy\",\n      \"country_code\": \"us\",\n      \"region\": \"string\",\n      \"city\": \"string\"\n    },\n    \"timeout\": {\n      \"max_duration\": 5433,\n      \"idle_timeout\": 7296\n    },\n    \"live_view\": {\n      \"read_only\": false,\n      \"one_time_url\": true\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": \"40d9f552-cdf8-daca-e845-405c04431f75\",\n    \"taskId\": \"39ca1d36-90d8-419b-8f71-766a2caba99b\",\n    \"version\": \"string\",\n    \"code\": \"string\",\n    \"deleted\": true,\n    \"createdAt\": \"1971-07-29T08:13:39.908Z\",\n    \"updatedAt\": \"1958-10-11T21:46:06.493Z\",\n    \"language\": \"typescript\",\n    \"description\": \"string\",\n    \"browserConfiguration\": {\n      \"initial_url\": \"https://ANcp.sjfE69sXJbSIsngDbEkKC8,NIcCt4RxHBGz2eNW\",\n      \"tags\": [\n        \"production\",\n        \"scraping\",\n        \"customer-123\"\n      ],\n      \"recording\": {\n        \"active\": false\n      },\n      \"proxy\": {\n        \"active\": true,\n        \"type\": \"anchor_proxy\",\n        \"country_code\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"region\": \"string\",\n        \"city\": \"string\"\n      },\n      \"timeout\": {\n        \"max_duration\": 9579,\n        \"idle_timeout\": 2602\n      },\n      \"live_view\": {\n        \"read_only\": false,\n        \"one_time_url\": false\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5ae48a7f-bc3d-4050-b9ee-0af3964da09f",
+              "name": "Task not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "task",
+                    ":taskId",
+                    "draft"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "taskId",
+                      "description": "(Required) The ID of the task"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"code\": \"<string>\",\n  \"language\": \"<string>\",\n  \"description\": \"<string>\",\n  \"browserConfiguration\": {\n    \"initial_url\": \"https://pwFHojhXAaFuQbtLcuvWNOhzFtORaPezn.tcgpp9VRmUyANh\",\n    \"tags\": [\n      \"production\",\n      \"scraping\",\n      \"customer-123\"\n    ],\n    \"recording\": {\n      \"active\": false\n    },\n    \"proxy\": {\n      \"active\": true,\n      \"type\": \"anchor_proxy\",\n      \"country_code\": \"us\",\n      \"region\": \"string\",\n      \"city\": \"string\"\n    },\n    \"timeout\": {\n      \"max_duration\": 5433,\n      \"idle_timeout\": 7296\n    },\n    \"live_view\": {\n      \"read_only\": false,\n      \"one_time_url\": true\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": 8578,\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "245fe74f-6aa6-4f6b-88d0-685804cb563d",
+              "name": "Failed to create or update task draft",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "task",
+                    ":taskId",
+                    "draft"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "taskId",
+                      "description": "(Required) The ID of the task"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"code\": \"<string>\",\n  \"language\": \"<string>\",\n  \"description\": \"<string>\",\n  \"browserConfiguration\": {\n    \"initial_url\": \"https://pwFHojhXAaFuQbtLcuvWNOhzFtORaPezn.tcgpp9VRmUyANh\",\n    \"tags\": [\n      \"production\",\n      \"scraping\",\n      \"customer-123\"\n    ],\n    \"recording\": {\n      \"active\": false\n    },\n    \"proxy\": {\n      \"active\": true,\n      \"type\": \"anchor_proxy\",\n      \"country_code\": \"us\",\n      \"region\": \"string\",\n      \"city\": \"string\"\n    },\n    \"timeout\": {\n      \"max_duration\": 5433,\n      \"idle_timeout\": 7296\n    },\n    \"live_view\": {\n      \"read_only\": false,\n      \"one_time_url\": true\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": 8578,\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1cc27922-a910-4391-8093-2b56072dee8d",
+          "name": "Deploy Task (Legacy)",
+          "request": {
+            "name": "Deploy Task (Legacy)",
+            "description": {
+              "content": "Deploys a task by creating a new version with auto-incremented version number.\nThis is the recommended way to publish task changes.\n\nIf you are using the new Task Builder, see the non-deprecated Tasks endpoints in this API reference.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "task",
+                ":taskId",
+                "deploy"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "taskId",
+                  "description": "(Required) The ID of the task"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "anchor-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"<string>\",\n  \"language\": \"<string>\",\n  \"description\": \"<string>\",\n  \"browserConfiguration\": {\n    \"initial_url\": \"<uri>\",\n    \"tags\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"recording\": {\n      \"active\": \"<boolean>\"\n    },\n    \"proxy\": {\n      \"active\": \"<boolean>\",\n      \"type\": \"<string>\",\n      \"country_code\": \"us\",\n      \"region\": \"<string>\",\n      \"city\": \"<string>\"\n    },\n    \"timeout\": {\n      \"max_duration\": \"<integer>\",\n      \"idle_timeout\": \"<integer>\"\n    },\n    \"live_view\": {\n      \"read_only\": \"<boolean>\",\n      \"one_time_url\": \"<boolean>\"\n    }\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "8a1ff377-5aee-4d46-878c-b66cddffa3a0",
+              "name": "Task deployed successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "task",
+                    ":taskId",
+                    "deploy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "taskId",
+                      "description": "(Required) The ID of the task"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"code\": \"<string>\",\n  \"language\": \"<string>\",\n  \"description\": \"<string>\",\n  \"browserConfiguration\": {\n    \"initial_url\": \"http://HsvR.tgNruWmt88U6ksN.UkWmnIcZpjVcMh9uX7KshdpT064X6u\",\n    \"tags\": [\n      \"production\",\n      \"scraping\",\n      \"customer-123\"\n    ],\n    \"recording\": {\n      \"active\": true\n    },\n    \"proxy\": {\n      \"active\": false,\n      \"type\": \"anchor_proxy\",\n      \"country_code\": \"us\",\n      \"region\": \"string\",\n      \"city\": \"string\"\n    },\n    \"timeout\": {\n      \"max_duration\": 8893,\n      \"idle_timeout\": 5107\n    },\n    \"live_view\": {\n      \"read_only\": false,\n      \"one_time_url\": true\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": \"40d9f552-cdf8-daca-e845-405c04431f75\",\n    \"taskId\": \"39ca1d36-90d8-419b-8f71-766a2caba99b\",\n    \"version\": \"string\",\n    \"code\": \"string\",\n    \"deleted\": true,\n    \"createdAt\": \"1971-07-29T08:13:39.908Z\",\n    \"updatedAt\": \"1958-10-11T21:46:06.493Z\",\n    \"language\": \"typescript\",\n    \"description\": \"string\",\n    \"browserConfiguration\": {\n      \"initial_url\": \"https://ANcp.sjfE69sXJbSIsngDbEkKC8,NIcCt4RxHBGz2eNW\",\n      \"tags\": [\n        \"production\",\n        \"scraping\",\n        \"customer-123\"\n      ],\n      \"recording\": {\n        \"active\": false\n      },\n      \"proxy\": {\n        \"active\": true,\n        \"type\": \"anchor_proxy\",\n        \"country_code\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"region\": \"string\",\n        \"city\": \"string\"\n      },\n      \"timeout\": {\n        \"max_duration\": 9579,\n        \"idle_timeout\": 2602\n      },\n      \"live_view\": {\n        \"read_only\": false,\n        \"one_time_url\": false\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4474b2b9-c83b-4f72-bb5f-6f6560c3e1f1",
+              "name": "Task not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "task",
+                    ":taskId",
+                    "deploy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "taskId",
+                      "description": "(Required) The ID of the task"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"code\": \"<string>\",\n  \"language\": \"<string>\",\n  \"description\": \"<string>\",\n  \"browserConfiguration\": {\n    \"initial_url\": \"http://HsvR.tgNruWmt88U6ksN.UkWmnIcZpjVcMh9uX7KshdpT064X6u\",\n    \"tags\": [\n      \"production\",\n      \"scraping\",\n      \"customer-123\"\n    ],\n    \"recording\": {\n      \"active\": true\n    },\n    \"proxy\": {\n      \"active\": false,\n      \"type\": \"anchor_proxy\",\n      \"country_code\": \"us\",\n      \"region\": \"string\",\n      \"city\": \"string\"\n    },\n    \"timeout\": {\n      \"max_duration\": 8893,\n      \"idle_timeout\": 5107\n    },\n    \"live_view\": {\n      \"read_only\": false,\n      \"one_time_url\": true\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": 8578,\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "261c1299-6c70-438e-b403-44c0a6ac0e5f",
+              "name": "Failed to deploy task",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "task",
+                    ":taskId",
+                    "deploy"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "taskId",
+                      "description": "(Required) The ID of the task"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"code\": \"<string>\",\n  \"language\": \"<string>\",\n  \"description\": \"<string>\",\n  \"browserConfiguration\": {\n    \"initial_url\": \"http://HsvR.tgNruWmt88U6ksN.UkWmnIcZpjVcMh9uX7KshdpT064X6u\",\n    \"tags\": [\n      \"production\",\n      \"scraping\",\n      \"customer-123\"\n    ],\n    \"recording\": {\n      \"active\": true\n    },\n    \"proxy\": {\n      \"active\": false,\n      \"type\": \"anchor_proxy\",\n      \"country_code\": \"us\",\n      \"region\": \"string\",\n      \"city\": \"string\"\n    },\n    \"timeout\": {\n      \"max_duration\": 8893,\n      \"idle_timeout\": 5107\n    },\n    \"live_view\": {\n      \"read_only\": false,\n      \"one_time_url\": true\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": 8578,\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "60c6ddb5-c320-4658-9377-f694949a73a3",
+          "name": "List Task Executions (Legacy)",
+          "request": {
+            "name": "List Task Executions (Legacy)",
+            "description": {
+              "content": "Retrieves execution history for a task, including success/failure status,\nexecution times, and outputs. Results can be filtered by version and status.\n\nIf you are using the new Task Builder, see the Tasks V2 endpoints in this API reference.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "task",
+                ":taskId",
+                "executions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "10",
+                  "description": "Number of results per page"
+                },
+                {
+                  "disabled": false,
+                  "key": "status",
+                  "value": "<string>",
+                  "description": "Filter by execution status"
+                },
+                {
+                  "disabled": false,
+                  "key": "version",
+                  "value": "<string>",
+                  "description": "Filter by task version"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "taskId",
+                  "description": "(Required) The ID of the task"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "anchor-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "32fb8b47-e16b-455b-8148-01f691f38621",
+              "name": "Task executions retrieved successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "task",
+                    ":taskId",
+                    "executions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "status",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "version",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "taskId",
+                      "description": "(Required) The ID of the task"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"results\": [\n      {\n        \"id\": \"b4ee962e-669b-587d-4ba0-da0c98c8a4d6\",\n        \"taskVersionId\": \"7d7464d3-670e-25b0-501b-59c65f573427\",\n        \"version\": \"string\",\n        \"status\": \"running\",\n        \"startTime\": \"2024-02-27T00:47:50.568Z\",\n        \"output\": \"string\",\n        \"errorMessage\": \"string\",\n        \"executionTime\": 4087.5155814635687\n      },\n      {\n        \"id\": \"f33b2e9d-7b5a-17e5-3988-fe93c6679a25\",\n        \"taskVersionId\": \"4b15a5cb-2bb9-1efc-d6b9-015b78e04f9d\",\n        \"version\": \"string\",\n        \"status\": \"failure\",\n        \"startTime\": \"1990-12-04T01:10:51.502Z\",\n        \"output\": \"string\",\n        \"errorMessage\": \"string\",\n        \"executionTime\": 3205.2654262414817\n      }\n    ],\n    \"pagination\": {\n      \"page\": 7012,\n      \"limit\": 5919,\n      \"total\": 6011,\n      \"totalPages\": 308\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d030d5c3-0f4d-4715-9fc6-e850165dd2fa",
+              "name": "Task not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "task",
+                    ":taskId",
+                    "executions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "status",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "version",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "taskId",
+                      "description": "(Required) The ID of the task"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": 8578,\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8ee4a462-3558-43e0-b3b9-066220b8b2ae",
+              "name": "Failed to retrieve task executions",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "task",
+                    ":taskId",
+                    "executions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "status",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "version",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "taskId",
+                      "description": "(Required) The ID of the task"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": 8578,\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b45d604d-de21-4bf2-a16c-983110890016",
+          "name": "Get Task Execution Result (Legacy)",
+          "request": {
+            "name": "Get Task Execution Result (Legacy)",
+            "description": {
+              "content": "Retrieves a single execution result by its ID. This endpoint is useful for polling\nexecution status in async mode or retrieving detailed execution information.\n\nIf you are using the new Task Builder, see the Tasks V2 endpoints in this API reference.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "task",
+                ":taskId",
+                "executions",
+                ":executionId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "taskId",
+                  "description": "(Required) The ID of the task"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "executionId",
+                  "description": "(Required) The ID of the execution result"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "anchor-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "b86da54e-6a38-49d8-92f0-6e1d4ea9c5bb",
+              "name": "Execution result retrieved successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "task",
+                    ":taskId",
+                    "executions",
+                    ":executionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "taskId",
+                      "description": "(Required) The ID of the task"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "executionId",
+                      "description": "(Required) The ID of the execution result"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": \"77757914-d0ca-ba41-7f04-561f78596ec3\",\n    \"taskVersionId\": \"9212e9fb-8eaf-b6d0-aa7a-525c2f153d3a\",\n    \"version\": \"string\",\n    \"status\": \"failure\",\n    \"startTime\": \"1969-11-24T18:41:44.910Z\",\n    \"output\": \"string\",\n    \"errorMessage\": \"string\",\n    \"executionTime\": 9372.939819850488\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b6bd6a84-d693-4400-8b97-6d4343febf2d",
+              "name": "Task or execution result not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "task",
+                    ":taskId",
+                    "executions",
+                    ":executionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "taskId",
+                      "description": "(Required) The ID of the task"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "executionId",
+                      "description": "(Required) The ID of the execution result"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": 8578,\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dc8ce550-e1be-418a-aaa1-d5f22190e68e",
+              "name": "Failed to retrieve execution result",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "task",
+                    ":taskId",
+                    "executions",
+                    ":executionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "taskId",
+                      "description": "(Required) The ID of the task"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "executionId",
+                      "description": "(Required) The ID of the execution result"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": 8578,\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b47241cf-4068-45e1-b6dc-0be8d3c0c375",
+          "name": "Get Task Version (Legacy)",
+          "request": {
+            "name": "Get Task Version (Legacy)",
+            "description": {
+              "content": "Retrieves a specific version of a task, including the full code content.\n\nIf you are using the new Task Builder, see the Tasks V2 endpoints in this API reference.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "task",
+                ":taskId",
+                ":taskVersion"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "taskId",
+                  "description": "(Required) The ID of the task"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "taskVersion",
+                  "description": "(Required) The version to retrieve (draft, latest, or version number)"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "anchor-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "1e96e099-eb21-40dc-aaa2-b36e3ef5e9f4",
+              "name": "Task version retrieved successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "task",
+                    ":taskId",
+                    ":taskVersion"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "taskId",
+                      "description": "(Required) The ID of the task"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "taskVersion",
+                      "description": "(Required) The version to retrieve (draft, latest, or version number)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": \"40d9f552-cdf8-daca-e845-405c04431f75\",\n    \"taskId\": \"39ca1d36-90d8-419b-8f71-766a2caba99b\",\n    \"version\": \"string\",\n    \"code\": \"string\",\n    \"deleted\": true,\n    \"createdAt\": \"1971-07-29T08:13:39.908Z\",\n    \"updatedAt\": \"1958-10-11T21:46:06.493Z\",\n    \"language\": \"typescript\",\n    \"description\": \"string\",\n    \"browserConfiguration\": {\n      \"initial_url\": \"https://ANcp.sjfE69sXJbSIsngDbEkKC8,NIcCt4RxHBGz2eNW\",\n      \"tags\": [\n        \"production\",\n        \"scraping\",\n        \"customer-123\"\n      ],\n      \"recording\": {\n        \"active\": false\n      },\n      \"proxy\": {\n        \"active\": true,\n        \"type\": \"anchor_proxy\",\n        \"country_code\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"region\": \"string\",\n        \"city\": \"string\"\n      },\n      \"timeout\": {\n        \"max_duration\": 9579,\n        \"idle_timeout\": 2602\n      },\n      \"live_view\": {\n        \"read_only\": false,\n        \"one_time_url\": false\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "14256f54-6b06-42ab-8bd4-f02453151aab",
+              "name": "Task or version not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "task",
+                    ":taskId",
+                    ":taskVersion"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "taskId",
+                      "description": "(Required) The ID of the task"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "taskVersion",
+                      "description": "(Required) The version to retrieve (draft, latest, or version number)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": 8578,\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3d49cc97-ce4b-4f5d-95b5-b57226be293f",
+              "name": "Failed to retrieve task version",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "task",
+                    ":taskId",
+                    ":taskVersion"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "taskId",
+                      "description": "(Required) The ID of the task"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "taskVersion",
+                      "description": "(Required) The version to retrieve (draft, latest, or version number)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": 8578,\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a136b7cd-6e55-4f7d-9179-f573af6cb3d3",
+          "name": "Publish Task Version (Legacy)",
+          "request": {
+            "name": "Publish Task Version (Legacy)",
+            "description": {
+              "content": "Publishes a specific version of a task. This creates a new version if it doesn't exist,\nor updates an existing version's metadata.\n\nIf you are using the new Task Builder, see the non-deprecated Tasks endpoints in this API reference.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "task",
+                ":taskId",
+                ":taskVersion"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "taskId",
+                  "description": "(Required) The ID of the task"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "taskVersion",
+                  "description": "(Required) The version to publish (cannot be draft)"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "anchor-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"<string>\",\n  \"language\": \"<string>\",\n  \"description\": \"<string>\",\n  \"browserConfiguration\": {\n    \"initial_url\": \"<uri>\",\n    \"tags\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"recording\": {\n      \"active\": \"<boolean>\"\n    },\n    \"proxy\": {\n      \"active\": \"<boolean>\",\n      \"type\": \"<string>\",\n      \"country_code\": \"us\",\n      \"region\": \"<string>\",\n      \"city\": \"<string>\"\n    },\n    \"timeout\": {\n      \"max_duration\": \"<integer>\",\n      \"idle_timeout\": \"<integer>\"\n    },\n    \"live_view\": {\n      \"read_only\": \"<boolean>\",\n      \"one_time_url\": \"<boolean>\"\n    }\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "b5ba3ed1-cc3d-44b7-9b3f-09fddf898190",
+              "name": "Task version published successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "task",
+                    ":taskId",
+                    ":taskVersion"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "taskId",
+                      "description": "(Required) The ID of the task"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "taskVersion",
+                      "description": "(Required) The version to publish (cannot be draft)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"code\": \"<string>\",\n  \"language\": \"<string>\",\n  \"description\": \"<string>\",\n  \"browserConfiguration\": {\n    \"initial_url\": \"http://HsvR.tgNruWmt88U6ksN.UkWmnIcZpjVcMh9uX7KshdpT064X6u\",\n    \"tags\": [\n      \"production\",\n      \"scraping\",\n      \"customer-123\"\n    ],\n    \"recording\": {\n      \"active\": true\n    },\n    \"proxy\": {\n      \"active\": false,\n      \"type\": \"anchor_proxy\",\n      \"country_code\": \"us\",\n      \"region\": \"string\",\n      \"city\": \"string\"\n    },\n    \"timeout\": {\n      \"max_duration\": 8893,\n      \"idle_timeout\": 5107\n    },\n    \"live_view\": {\n      \"read_only\": false,\n      \"one_time_url\": true\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": \"40d9f552-cdf8-daca-e845-405c04431f75\",\n    \"taskId\": \"39ca1d36-90d8-419b-8f71-766a2caba99b\",\n    \"version\": \"string\",\n    \"code\": \"string\",\n    \"deleted\": true,\n    \"createdAt\": \"1971-07-29T08:13:39.908Z\",\n    \"updatedAt\": \"1958-10-11T21:46:06.493Z\",\n    \"language\": \"typescript\",\n    \"description\": \"string\",\n    \"browserConfiguration\": {\n      \"initial_url\": \"https://ANcp.sjfE69sXJbSIsngDbEkKC8,NIcCt4RxHBGz2eNW\",\n      \"tags\": [\n        \"production\",\n        \"scraping\",\n        \"customer-123\"\n      ],\n      \"recording\": {\n        \"active\": false\n      },\n      \"proxy\": {\n        \"active\": true,\n        \"type\": \"anchor_proxy\",\n        \"country_code\": {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        \"region\": \"string\",\n        \"city\": \"string\"\n      },\n      \"timeout\": {\n        \"max_duration\": 9579,\n        \"idle_timeout\": 2602\n      },\n      \"live_view\": {\n        \"read_only\": false,\n        \"one_time_url\": false\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "80d8e72c-8bf0-4505-b04a-7f7c27cc5e99",
+              "name": "Cannot publish to draft version",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "task",
+                    ":taskId",
+                    ":taskVersion"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "taskId",
+                      "description": "(Required) The ID of the task"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "taskVersion",
+                      "description": "(Required) The version to publish (cannot be draft)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"code\": \"<string>\",\n  \"language\": \"<string>\",\n  \"description\": \"<string>\",\n  \"browserConfiguration\": {\n    \"initial_url\": \"http://HsvR.tgNruWmt88U6ksN.UkWmnIcZpjVcMh9uX7KshdpT064X6u\",\n    \"tags\": [\n      \"production\",\n      \"scraping\",\n      \"customer-123\"\n    ],\n    \"recording\": {\n      \"active\": true\n    },\n    \"proxy\": {\n      \"active\": false,\n      \"type\": \"anchor_proxy\",\n      \"country_code\": \"us\",\n      \"region\": \"string\",\n      \"city\": \"string\"\n    },\n    \"timeout\": {\n      \"max_duration\": 8893,\n      \"idle_timeout\": 5107\n    },\n    \"live_view\": {\n      \"read_only\": false,\n      \"one_time_url\": true\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": 8578,\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "202eda8e-dac0-48c4-b9ec-ef51d12a5408",
+              "name": "Task not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "task",
+                    ":taskId",
+                    ":taskVersion"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "taskId",
+                      "description": "(Required) The ID of the task"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "taskVersion",
+                      "description": "(Required) The version to publish (cannot be draft)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"code\": \"<string>\",\n  \"language\": \"<string>\",\n  \"description\": \"<string>\",\n  \"browserConfiguration\": {\n    \"initial_url\": \"http://HsvR.tgNruWmt88U6ksN.UkWmnIcZpjVcMh9uX7KshdpT064X6u\",\n    \"tags\": [\n      \"production\",\n      \"scraping\",\n      \"customer-123\"\n    ],\n    \"recording\": {\n      \"active\": true\n    },\n    \"proxy\": {\n      \"active\": false,\n      \"type\": \"anchor_proxy\",\n      \"country_code\": \"us\",\n      \"region\": \"string\",\n      \"city\": \"string\"\n    },\n    \"timeout\": {\n      \"max_duration\": 8893,\n      \"idle_timeout\": 5107\n    },\n    \"live_view\": {\n      \"read_only\": false,\n      \"one_time_url\": true\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": 8578,\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5980869e-6cea-4c5d-8968-08f9ac7b3559",
+              "name": "Failed to publish task version",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "task",
+                    ":taskId",
+                    ":taskVersion"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "taskId",
+                      "description": "(Required) The ID of the task"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "taskVersion",
+                      "description": "(Required) The version to publish (cannot be draft)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"code\": \"<string>\",\n  \"language\": \"<string>\",\n  \"description\": \"<string>\",\n  \"browserConfiguration\": {\n    \"initial_url\": \"http://HsvR.tgNruWmt88U6ksN.UkWmnIcZpjVcMh9uX7KshdpT064X6u\",\n    \"tags\": [\n      \"production\",\n      \"scraping\",\n      \"customer-123\"\n    ],\n    \"recording\": {\n      \"active\": true\n    },\n    \"proxy\": {\n      \"active\": false,\n      \"type\": \"anchor_proxy\",\n      \"country_code\": \"us\",\n      \"region\": \"string\",\n      \"city\": \"string\"\n    },\n    \"timeout\": {\n      \"max_duration\": 8893,\n      \"idle_timeout\": 5107\n    },\n    \"live_view\": {\n      \"read_only\": false,\n      \"one_time_url\": true\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": 8578,\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "cefde239-b803-4914-9977-5f927ad52db2",
+          "name": "Delete Task Version (Legacy)",
+          "request": {
+            "name": "Delete Task Version (Legacy)",
+            "description": {
+              "content": "Soft deletes a specific version of a task. The version will no longer be accessible\nbut the data is preserved for potential recovery.\n\nIf you are using the new Task Builder, see the Tasks V2 endpoints in this API reference.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "task",
+                ":taskId",
+                ":taskVersion"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "taskId",
+                  "description": "(Required) The ID of the task"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "taskVersion",
+                  "description": "(Required) The version to delete"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "anchor-api-key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "01e762f8-1abb-4bce-8b75-171d9c79b204",
+              "name": "Task version deleted successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "task",
+                    ":taskId",
+                    ":taskVersion"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "taskId",
+                      "description": "(Required) The ID of the task"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "taskVersion",
+                      "description": "(Required) The version to delete"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"success\": false,\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3b23c24f-8744-4e7c-8c26-178c39251fb5",
+              "name": "Task or version not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "task",
+                    ":taskId",
+                    ":taskVersion"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "taskId",
+                      "description": "(Required) The ID of the task"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "taskVersion",
+                      "description": "(Required) The version to delete"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": 8578,\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "beab289c-345f-4e2a-9f1c-118220042fdf",
+              "name": "Failed to delete task version",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "task",
+                    ":taskId",
+                    ":taskVersion"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "taskId",
+                      "description": "(Required) The ID of the task"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "taskVersion",
+                      "description": "(Required) The version to delete"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "anchor-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": 8578,\n    \"message\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.anchorbrowser.io",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "11910493-dbf6-4438-9ccd-c128514c2f64",
+    "name": "AnchorBrowser Agentic capabilities Tasks (Legacy) API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "APIs to manage all browser-related actions and configuration.",
+      "type": "text/plain"
+    }
+  }
+}

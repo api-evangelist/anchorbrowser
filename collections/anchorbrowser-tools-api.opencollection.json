@@ -1,0 +1,126 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "AnchorBrowser Agentic capabilities Tools API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Tools",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Webpage Content",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.anchorbrowser.io/v1/tools/fetch-webpage",
+            "params": [
+              {
+                "name": "sessionId",
+                "value": "",
+                "type": "query",
+                "description": "An optional browser session identifier to reference an existing running browser session. If provided, the tool will execute within that browser session."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "anchor-api-key",
+              "value": "{{anchor-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve the rendered content of a webpage in Markdown or HTML format. Text content is also extracted from PDFs."
+        },
+        {
+          "info": {
+            "name": "Web Unlocker",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.anchorbrowser.io/v1/tools/fetch/webpage",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "anchor-api-key",
+              "value": "{{anchor-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Fetch fully-rendered page content from any URL — including bot-protected sites — without managing a browser session.\nRequests are routed through stealth browsers with residential proxies, captcha solving, and fingerprint randomization.\nNo session is required. See the [Web Unlocker guide](/advanced/web-unlocker) for more details.\n"
+        },
+        {
+          "info": {
+            "name": "Screenshot Webpage",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.anchorbrowser.io/v1/tools/screenshot",
+            "params": [
+              {
+                "name": "sessionId",
+                "value": "",
+                "type": "query",
+                "description": "An optional browser session identifier to reference an existing running browser sessions. When passed, the tool will be executed on the provided browser session."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "anchor-api-key",
+              "value": "{{anchor-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "This endpoint captures a screenshot of the specified webpage using Chromium. Users can customize the viewport dimensions and capture options."
+        },
+        {
+          "info": {
+            "name": "Get Page PDF",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.anchorbrowser.io/v1/tools/page-pdf",
+            "params": [
+              {
+                "name": "sessionId",
+                "value": "",
+                "type": "query",
+                "description": "Optional browser session ID. If omitted, `url` in the request body is required."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "anchor-api-key",
+              "value": "{{anchor-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Generates a PDF of the current page for a browser session and returns it as a binary PDF file."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,106 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "AnchorBrowser Agentic capabilities Profiles API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Profiles",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Profiles",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.anchorbrowser.io/v1/profiles",
+            "auth": {
+              "type": "apikey",
+              "key": "anchor-api-key",
+              "value": "{{anchor-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Fetches all stored profiles."
+        },
+        {
+          "info": {
+            "name": "Create Profile",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.anchorbrowser.io/v1/profiles",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "anchor-api-key",
+              "value": "{{anchor-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Creates a new profile from a browser session. A Profile stores cookies, local storage, and cache."
+        },
+        {
+          "info": {
+            "name": "Get Profile",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.anchorbrowser.io/v1/profiles/:name",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "The name of the profile to retrieve."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "anchor-api-key",
+              "value": "{{anchor-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieves details of a specific profile by its name."
+        },
+        {
+          "info": {
+            "name": "Delete Profile",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.anchorbrowser.io/v1/profiles/:name",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "path",
+                "description": "The name of the profile to delete."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "anchor-api-key",
+              "value": "{{anchor-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Deletes an existing profile by its name."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

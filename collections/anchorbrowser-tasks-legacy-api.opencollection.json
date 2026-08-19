@@ -1,0 +1,509 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "AnchorBrowser Agentic capabilities Tasks (Legacy) API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Tasks (Legacy)",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Tasks (Legacy)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.anchorbrowser.io/v1/task",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of tasks per page"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "anchor-api-key",
+              "value": "{{anchor-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieves a paginated list of all tasks for the authenticated team. Tasks are returned \nwith their latest version information and metadata.\n\nIf you are using the new Task Builder, see the non-deprecated Tasks endpoints in this API reference.\n"
+        },
+        {
+          "info": {
+            "name": "Create Task (Legacy)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.anchorbrowser.io/v1/task",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "anchor-api-key",
+              "value": "{{anchor-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Creates a new task or updates an existing task with the same name. Tasks are reusable code snippets \nthat can be executed in browser sessions. Tasks support versioning with draft and published versions.\n\nIf you are using the new Task Builder, see the non-deprecated Tasks endpoints in this API reference.\n"
+        },
+        {
+          "info": {
+            "name": "Run Task (Legacy)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.anchorbrowser.io/v1/task/run",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "anchor-api-key",
+              "value": "{{anchor-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Executes a task in a browser session. The task can be run with a specific version or the latest version.\nOptionally, you can provide an existing session ID or let the system create a new one.\n\nIf you are using the new Task Builder, see the non-deprecated Tasks endpoints in this API reference.\n"
+        },
+        {
+          "info": {
+            "name": "Run Task by Name (Legacy)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.anchorbrowser.io/v1/task/run/:taskName",
+            "params": [
+              {
+                "name": "taskName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the task to run"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "anchor-api-key",
+              "value": "{{anchor-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Executes a task by its name, always using the latest version. This is a convenience endpoint\nfor running tasks without needing to know the task ID.\n\nIf you are using the new Task Builder, see the non-deprecated Tasks endpoints in this API reference.\n"
+        },
+        {
+          "info": {
+            "name": "Get Task Metadata (Legacy)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.anchorbrowser.io/v1/task/:taskId",
+            "params": [
+              {
+                "name": "taskId",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the task to retrieve"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "anchor-api-key",
+              "value": "{{anchor-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieves task metadata without the code content. Useful for getting task information\nwithout downloading the full task code.\n\nIf you are using the new Task Builder, see the non-deprecated Tasks endpoints in this API reference.\n"
+        },
+        {
+          "info": {
+            "name": "Update Task Metadata (Legacy)",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.anchorbrowser.io/v1/task/:taskId",
+            "params": [
+              {
+                "name": "taskId",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the task to update"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "anchor-api-key",
+              "value": "{{anchor-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Updates task metadata (name and description). This does not affect the task code or versions.\n\nIf you are using the new Task Builder, see the non-deprecated Tasks endpoints in this API reference.\n"
+        },
+        {
+          "info": {
+            "name": "Delete Task (Legacy)",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.anchorbrowser.io/v1/task/:taskId",
+            "params": [
+              {
+                "name": "taskId",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the task to delete"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "anchor-api-key",
+              "value": "{{anchor-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Soft deletes a task and all its versions. The task will no longer be accessible\nbut the data is preserved for potential recovery.\n\nIf you are using the new Task Builder, see the non-deprecated Tasks endpoints in this API reference.\n"
+        },
+        {
+          "info": {
+            "name": "List Task Versions (Legacy)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.anchorbrowser.io/v1/task/:taskId/versions",
+            "params": [
+              {
+                "name": "taskId",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the task"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "anchor-api-key",
+              "value": "{{anchor-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieves all versions of a specific task, including draft and published versions.\n\nIf you are using the new Task Builder, see the non-deprecated Tasks endpoints in this API reference.\n"
+        },
+        {
+          "info": {
+            "name": "Get Latest Task Version (Legacy)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.anchorbrowser.io/v1/task/:taskId/latest",
+            "params": [
+              {
+                "name": "taskId",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the task"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "anchor-api-key",
+              "value": "{{anchor-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieves the latest version of a task, including the full code content.\n\nIf you are using the new Task Builder, see the non-deprecated Tasks endpoints in this API reference.\n"
+        },
+        {
+          "info": {
+            "name": "Get Task Draft (Legacy)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.anchorbrowser.io/v1/task/:taskId/draft",
+            "params": [
+              {
+                "name": "taskId",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the task"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "anchor-api-key",
+              "value": "{{anchor-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieves the draft version of a task, including the full code content.\n\nIf you are using the new Task Builder, see the non-deprecated Tasks endpoints in this API reference.\n"
+        },
+        {
+          "info": {
+            "name": "Create or Update Task Draft (Legacy)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.anchorbrowser.io/v1/task/:taskId/draft",
+            "params": [
+              {
+                "name": "taskId",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the task"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "anchor-api-key",
+              "value": "{{anchor-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Creates or updates the draft version of a task. Draft versions are used for development\nand testing before publishing.\n\nIf you are using the new Task Builder, see the non-deprecated Tasks endpoints in this API reference.\n"
+        },
+        {
+          "info": {
+            "name": "Deploy Task (Legacy)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.anchorbrowser.io/v1/task/:taskId/deploy",
+            "params": [
+              {
+                "name": "taskId",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the task"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "anchor-api-key",
+              "value": "{{anchor-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Deploys a task by creating a new version with auto-incremented version number.\nThis is the recommended way to publish task changes.\n\nIf you are using the new Task Builder, see the non-deprecated Tasks endpoints in this API reference.\n"
+        },
+        {
+          "info": {
+            "name": "List Task Executions (Legacy)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.anchorbrowser.io/v1/task/:taskId/executions",
+            "params": [
+              {
+                "name": "taskId",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the task"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter by execution status"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "query",
+                "description": "Filter by task version"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "anchor-api-key",
+              "value": "{{anchor-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieves execution history for a task, including success/failure status,\nexecution times, and outputs. Results can be filtered by version and status.\n\nIf you are using the new Task Builder, see the Tasks V2 endpoints in this API reference.\n"
+        },
+        {
+          "info": {
+            "name": "Get Task Execution Result (Legacy)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.anchorbrowser.io/v1/task/:taskId/executions/:executionId",
+            "params": [
+              {
+                "name": "taskId",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the task"
+              },
+              {
+                "name": "executionId",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the execution result"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "anchor-api-key",
+              "value": "{{anchor-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieves a single execution result by its ID. This endpoint is useful for polling\nexecution status in async mode or retrieving detailed execution information.\n\nIf you are using the new Task Builder, see the Tasks V2 endpoints in this API reference.\n"
+        },
+        {
+          "info": {
+            "name": "Get Task Version (Legacy)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.anchorbrowser.io/v1/task/:taskId/:taskVersion",
+            "params": [
+              {
+                "name": "taskId",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the task"
+              },
+              {
+                "name": "taskVersion",
+                "value": "",
+                "type": "path",
+                "description": "The version to retrieve (draft, latest, or version number)"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "anchor-api-key",
+              "value": "{{anchor-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieves a specific version of a task, including the full code content.\n\nIf you are using the new Task Builder, see the Tasks V2 endpoints in this API reference.\n"
+        },
+        {
+          "info": {
+            "name": "Publish Task Version (Legacy)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.anchorbrowser.io/v1/task/:taskId/:taskVersion",
+            "params": [
+              {
+                "name": "taskId",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the task"
+              },
+              {
+                "name": "taskVersion",
+                "value": "",
+                "type": "path",
+                "description": "The version to publish (cannot be draft)"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "anchor-api-key",
+              "value": "{{anchor-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Publishes a specific version of a task. This creates a new version if it doesn't exist,\nor updates an existing version's metadata.\n\nIf you are using the new Task Builder, see the non-deprecated Tasks endpoints in this API reference.\n"
+        },
+        {
+          "info": {
+            "name": "Delete Task Version (Legacy)",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.anchorbrowser.io/v1/task/:taskId/:taskVersion",
+            "params": [
+              {
+                "name": "taskId",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the task"
+              },
+              {
+                "name": "taskVersion",
+                "value": "",
+                "type": "path",
+                "description": "The version to delete"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "anchor-api-key",
+              "value": "{{anchor-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Soft deletes a specific version of a task. The version will no longer be accessible\nbut the data is preserved for potential recovery.\n\nIf you are using the new Task Builder, see the Tasks V2 endpoints in this API reference.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

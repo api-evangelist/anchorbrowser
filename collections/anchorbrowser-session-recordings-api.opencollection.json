@@ -1,0 +1,149 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "AnchorBrowser Agentic capabilities Session Recordings API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Session Recordings",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Pause Session Recording",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.anchorbrowser.io/v1/sessions/:session_id/recordings/pause",
+            "params": [
+              {
+                "name": "session_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the browser session for which to pause recording."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "anchor-api-key",
+              "value": "{{anchor-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Pauses the video recording for the specified browser session."
+        },
+        {
+          "info": {
+            "name": "Resume Session Recording",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.anchorbrowser.io/v1/sessions/:session_id/recordings/resume",
+            "params": [
+              {
+                "name": "session_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the browser session for which to resume recording."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "anchor-api-key",
+              "value": "{{anchor-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Resumes the video recording for the specified browser session."
+        },
+        {
+          "info": {
+            "name": "List Session Recordings",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.anchorbrowser.io/v1/sessions/:session_id/recordings",
+            "params": [
+              {
+                "name": "session_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the browser session to retrieve recordings for."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "anchor-api-key",
+              "value": "{{anchor-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieves the URLs of the browser session's video recordings. Requires a valid API key for authentication."
+        },
+        {
+          "info": {
+            "name": "Get Session Recording",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.anchorbrowser.io/v1/sessions/:session_id/recordings/primary/fetch",
+            "params": [
+              {
+                "name": "session_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the browser session to download the recording for."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "anchor-api-key",
+              "value": "{{anchor-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Downloads the primary recording file for the specified browser session. Returns the recording as an MP4 file."
+        },
+        {
+          "info": {
+            "name": "Delete Session Recording",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.anchorbrowser.io/v1/sessions/:session_id/recordings/:recording_id",
+            "params": [
+              {
+                "name": "session_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the browser session the recording belongs to."
+              },
+              {
+                "name": "recording_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the recording to delete. Use \"primary\" to delete the primary recording."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "anchor-api-key",
+              "value": "{{anchor-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Deletes a specific recording from a browser session. Use \"primary\" as the recording_id to delete the primary recording."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

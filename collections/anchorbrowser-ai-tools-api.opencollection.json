@@ -1,0 +1,72 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "AnchorBrowser Agentic capabilities AI Tools API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "AI Tools",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Perform Web Task",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.anchorbrowser.io/v1/tools/perform-web-task",
+            "params": [
+              {
+                "name": "sessionId",
+                "value": "",
+                "type": "query",
+                "description": "An optional browser session identifier to reference an existing running browser sessions. When passed, the tool will be executed on the provided browser session."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "anchor-api-key",
+              "value": "{{anchor-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Start from a URL and perform the given task."
+        },
+        {
+          "info": {
+            "name": "Get Perform Web Task Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.anchorbrowser.io/v1/tools/perform-web-task/:workflowId/status",
+            "params": [
+              {
+                "name": "workflowId",
+                "value": "",
+                "type": "path",
+                "description": "The workflow ID returned when starting an asynchronous perform-web-task execution."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "anchor-api-key",
+              "value": "{{anchor-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Get the status of an asynchronous perform-web-task execution by workflow ID."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

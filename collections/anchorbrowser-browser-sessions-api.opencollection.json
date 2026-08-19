@@ -1,0 +1,486 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "AnchorBrowser Agentic capabilities Browser Sessions API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Browser Sessions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Sessions History Page",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.anchorbrowser.io/v1/sessions",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number to fetch."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of sessions per page. Supported values are 10, 20, and 50."
+              },
+              {
+                "name": "sort_by",
+                "value": "",
+                "type": "query",
+                "description": "Sort field. Common values are `created_at`, `session_id`, `used_credits`,\n`created_at`, and `api_key_name`.\n"
+              },
+              {
+                "name": "sort_order",
+                "value": "",
+                "type": "query",
+                "description": "Sort direction."
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated tag search terms (partial, case-insensitive)."
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Exact session status filter."
+              },
+              {
+                "name": "tags",
+                "value": "production,scraping",
+                "type": "query",
+                "description": "Comma-separated tag list. Session must include all provided tags."
+              },
+              {
+                "name": "domains",
+                "value": "example.com,anchorbrowser.io",
+                "type": "query",
+                "description": "Comma-separated domain list. Session must include all provided domains."
+              },
+              {
+                "name": "created_from",
+                "value": "",
+                "type": "query",
+                "description": "Include sessions created at or after this timestamp (ISO 8601)."
+              },
+              {
+                "name": "created_to",
+                "value": "",
+                "type": "query",
+                "description": "Include sessions created at or before this timestamp (ISO 8601)."
+              },
+              {
+                "name": "batch_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter by batch identifier."
+              },
+              {
+                "name": "task_initiated",
+                "value": "",
+                "type": "query",
+                "description": "Filter by whether the session was task-initiated."
+              },
+              {
+                "name": "playground",
+                "value": "",
+                "type": "query",
+                "description": "Filter by whether the session is a playground session."
+              },
+              {
+                "name": "proxy",
+                "value": "",
+                "type": "query",
+                "description": "Filter by whether proxy was active for the session."
+              },
+              {
+                "name": "extra_stealth",
+                "value": "",
+                "type": "query",
+                "description": "Filter by whether extra stealth mode was active."
+              },
+              {
+                "name": "profile_name",
+                "value": "Default profile",
+                "type": "query",
+                "description": "Case-insensitive partial match on browser profile name."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "anchor-api-key",
+              "value": "{{anchor-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieves a paginated list of sessions for the authenticated team with support for\nsorting and advanced filtering. This endpoint mirrors the backend session history-page\nfiltering behavior.\n"
+        },
+        {
+          "info": {
+            "name": "Start Browser Session",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.anchorbrowser.io/v1/sessions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "anchor-api-key",
+              "value": "{{anchor-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Allocates a new browser session for the user, with optional configurations for ad-blocking, captcha solving, proxy usage, and idle timeout."
+        },
+        {
+          "info": {
+            "name": "Start Browser Session (async)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.anchorbrowser.io/v1/sessions/async",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "anchor-api-key",
+              "value": "{{anchor-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Non-blocking variant of `POST /v1/sessions`. Returns a `request_id`\nimmediately and provisions the underlying browser pod in the\nbackground. Poll `GET /v1/sessions/async/{request_id}/status` until\n`status` becomes `ready` to obtain the resolved `session_id`,\n`cdp_url` and `live_view_url`.\n"
+        },
+        {
+          "info": {
+            "name": "Async Session Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.anchorbrowser.io/v1/sessions/async/:request_id/status",
+            "params": [
+              {
+                "name": "request_id",
+                "value": "",
+                "type": "path",
+                "description": "The `request_id` returned from `POST /v1/sessions/async`."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "anchor-api-key",
+              "value": "{{anchor-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Polling endpoint paired with `POST /v1/sessions/async`. Returns the\ncurrent lifecycle `status` of the async request and, once the pod is\nup, the embedded `session` object containing `session_id`, `cdp_url`\nand `live_view_url`.\n"
+        },
+        {
+          "info": {
+            "name": "End All Sessions",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.anchorbrowser.io/v1/sessions/all",
+            "auth": {
+              "type": "apikey",
+              "key": "anchor-api-key",
+              "value": "{{anchor-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Terminates all active browser sessions associated with the provided API key."
+        },
+        {
+          "info": {
+            "name": "List All Sessions Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.anchorbrowser.io/v1/sessions/all/status",
+            "params": [
+              {
+                "name": "tags",
+                "value": "production,scraping",
+                "type": "query",
+                "description": "Comma-separated list of session tags to filter by. Sessions must contain all provided tags."
+              },
+              {
+                "name": "domains",
+                "value": "example.com,anchorbrowser.io",
+                "type": "query",
+                "description": "Comma-separated list of domains to filter by. Sessions must contain all provided domains."
+              },
+              {
+                "name": "created_from",
+                "value": "",
+                "type": "query",
+                "description": "Include sessions created at or after this timestamp (ISO 8601)."
+              },
+              {
+                "name": "created_to",
+                "value": "",
+                "type": "query",
+                "description": "Include sessions created at or before this timestamp (ISO 8601)."
+              },
+              {
+                "name": "batch_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter sessions by batch identifier."
+              },
+              {
+                "name": "task_initiated",
+                "value": "",
+                "type": "query",
+                "description": "Filter by whether the session was initiated by a task."
+              },
+              {
+                "name": "playground",
+                "value": "",
+                "type": "query",
+                "description": "Filter by whether the session is a playground session."
+              },
+              {
+                "name": "proxy",
+                "value": "",
+                "type": "query",
+                "description": "Filter by whether proxy was active for the session."
+              },
+              {
+                "name": "extra_stealth",
+                "value": "",
+                "type": "query",
+                "description": "Filter by whether extra stealth mode was active for the session."
+              },
+              {
+                "name": "profile_name",
+                "value": "Default profile",
+                "type": "query",
+                "description": "Filter sessions by browser profile name (case-insensitive partial match)."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "anchor-api-key",
+              "value": "{{anchor-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieves status information for all browser sessions associated with the API key."
+        },
+        {
+          "info": {
+            "name": "Get Sessions History",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.anchorbrowser.io/v1/sessions/history",
+            "params": [
+              {
+                "name": "from_date",
+                "value": "",
+                "type": "query",
+                "description": "Start date for filtering (ISO 8601 format)."
+              },
+              {
+                "name": "to_date",
+                "value": "",
+                "type": "query",
+                "description": "End date for filtering (ISO 8601 format)."
+              },
+              {
+                "name": "granularity",
+                "value": "",
+                "type": "query",
+                "description": "Time granularity for aggregation."
+              },
+              {
+                "name": "metrics",
+                "value": "",
+                "type": "query",
+                "description": "Metrics to include in the response."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number for pagination."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of records per page."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "anchor-api-key",
+              "value": "{{anchor-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieves session usage analytics for the authenticated team."
+        },
+        {
+          "info": {
+            "name": "Get Browser Session",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.anchorbrowser.io/v1/sessions/:session_id",
+            "params": [
+              {
+                "name": "session_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the session to retrieve."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "anchor-api-key",
+              "value": "{{anchor-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieves detailed information about a specific browser session."
+        },
+        {
+          "info": {
+            "name": "End Browser Session",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.anchorbrowser.io/v1/sessions/:session_id",
+            "params": [
+              {
+                "name": "session_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the browser session to end."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "anchor-api-key",
+              "value": "{{anchor-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Deletes the browser session associated with the provided browser session ID. Requires a valid API key for authentication."
+        },
+        {
+          "info": {
+            "name": "Get Browser Session Pages",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.anchorbrowser.io/v1/sessions/:session_id/pages",
+            "params": [
+              {
+                "name": "session_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the session to retrieve pages for."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "anchor-api-key",
+              "value": "{{anchor-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieves a list of pages associated with a specific browser session."
+        },
+        {
+          "info": {
+            "name": "Upload Files",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.anchorbrowser.io/v1/sessions/:sessionId/uploads",
+            "params": [
+              {
+                "name": "sessionId",
+                "value": "",
+                "type": "path",
+                "description": "The browser session ID"
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "file",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "anchor-api-key",
+              "value": "{{anchor-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Upload files directly to a browser session for use with web forms and file inputs.\n\nFiles are saved to the session's uploads directory and can be referenced in CDP commands.\n"
+        },
+        {
+          "info": {
+            "name": "List Session Downloads",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.anchorbrowser.io/v1/sessions/:session_id/downloads",
+            "params": [
+              {
+                "name": "session_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the browser session to retrieve downloads for."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "anchor-api-key",
+              "value": "{{anchor-api-key}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieves metadata of files downloaded during a browser session. Requires a valid API key for authentication."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
