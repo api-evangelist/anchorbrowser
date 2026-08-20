@@ -113,6 +113,8 @@ apis:
   description: The Applications API from Anchor Browser — 6 operation(s) for applications.
   humanURL: https://docs.anchorbrowser.io
   tags:
+  - Application
+  tags_raw:
   - Applications
   properties:
   - type: OpenAPI
@@ -185,6 +187,8 @@ apis:
   description: The Integrations API from Anchor Browser — 2 operation(s) for integrations.
   humanURL: https://docs.anchorbrowser.io
   tags:
+  - Integration
+  tags_raw:
   - Integrations
   properties:
   - type: OpenAPI
@@ -221,6 +225,8 @@ apis:
   description: The Tasks API from Anchor Browser — 2 operation(s) for tasks.
   humanURL: https://docs.anchorbrowser.io
   tags:
+  - Task
+  tags_raw:
   - Tasks
   properties:
   - type: OpenAPI
