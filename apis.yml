@@ -7,6 +7,20 @@ description: Anchor Browser is an AI-native cloud browser infrastructure platfor
   for Playwright, Puppeteer, MCP, LangChain, and CrewAI. The platform is positioned as the sandbox runtime for agentic browser
   automation.
 type: Index
+deliveryModel:
+  model: open-core
+  license: MIT
+  open_source: true
+  commercial: true
+  callable_host: true
+  label: Open core · an OSS project plus a commercial hosted product
+  confidence: high
+  source:
+  - license
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: free
   onboarding: self-serve
