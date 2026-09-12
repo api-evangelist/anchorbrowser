@@ -265,6 +265,8 @@ apis:
   - type: OpenAPI
     url: openapi/anchorbrowser-tools-api-openapi.yml
 common:
+- type: Website
+  url: https://www.anchorbrowser.io/
 - type: IssueTracker
   url: https://github.com/anchorbrowser/langchain-anchorbrowser/issues
 - type: License
