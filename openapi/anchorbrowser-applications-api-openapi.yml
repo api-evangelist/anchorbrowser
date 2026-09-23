@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: AnchorBrowser Agentic capabilities Applications API
+  title: AnchorBrowser Applications API
   version: 1.0.0
   description: APIs to manage all browser-related actions and configuration.
 servers:
@@ -12,9 +12,7 @@ paths:
   /v1/applications:
     post:
       summary: Create Application
-      description: 'Creates a new application for identity management.
-
-        '
+      description: Creates a new application for identity management.
       security:
       - api_key_header: []
       tags:
@@ -51,11 +49,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: postV1Applications
+      x-operation-id-source: derived
     get:
       summary: List Applications
-      description: 'Retrieves all applications for the authenticated team.
-
-        '
+      description: Retrieves all applications for the authenticated team.
       security:
       - api_key_header: []
       tags:
@@ -80,12 +78,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: getV1Applications
+      x-operation-id-source: derived
   /v1/applications/{applicationId}:
     get:
       summary: Get Application
-      description: 'Retrieves details of a specific application by its ID.
-
-        '
+      description: Retrieves details of a specific application by its ID.
       security:
       - api_key_header: []
       tags:
@@ -117,11 +115,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: getV1ApplicationsByApplicationId
+      x-operation-id-source: derived
     delete:
       summary: Delete Application
-      description: 'Deletes an existing application.
-
-        '
+      description: Deletes an existing application.
       security:
       - api_key_header: []
       tags:
@@ -153,12 +151,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: deleteV1ApplicationsByApplicationId
+      x-operation-id-source: derived
   /v1/applications/{applicationId}/identities:
     get:
       summary: List Application Identities
-      description: 'Retrieves all identities associated with a specific application.
-
-        '
+      description: Retrieves all identities associated with a specific application.
       security:
       - api_key_header: []
       tags:
@@ -202,12 +200,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: getV1ApplicationsByApplicationIdIdentities
+      x-operation-id-source: derived
   /v1/applications/{applicationId}/auth-flows:
     get:
       summary: List Application Authentication Flows
-      description: 'Retrieves all authentication flows for a specific application.
-
-        '
+      description: Retrieves all authentication flows for a specific application.
       security:
       - api_key_header: []
       tags:
@@ -233,11 +231,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: getV1ApplicationsByApplicationIdAuthFlows
+      x-operation-id-source: derived
     post:
       summary: Create Authentication Flow
-      description: 'Creates a new authentication flow for an application.
-
-        '
+      description: Creates a new authentication flow for an application.
       security:
       - api_key_header: []
       tags:
@@ -285,12 +283,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: postV1ApplicationsByApplicationIdAuthFlows
+      x-operation-id-source: derived
   /v1/applications/{applicationId}/auth-flows/{authFlowId}:
     patch:
       summary: Update Authentication Flow
-      description: 'Updates an existing authentication flow.
-
-        '
+      description: Updates an existing authentication flow.
       security:
       - api_key_header: []
       tags:
@@ -337,11 +335,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: patchV1ApplicationsByApplicationIdAuthFlowsByAuthFlowId
+      x-operation-id-source: derived
     delete:
       summary: Delete Authentication Flow
-      description: 'Deletes an existing authentication flow.
-
-        '
+      description: Deletes an existing authentication flow.
       security:
       - api_key_header: []
       tags:
@@ -374,6 +372,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: deleteV1ApplicationsByApplicationIdAuthFlowsByAuthFlowId
+      x-operation-id-source: derived
   /v1/applications/{applicationId}/tokens:
     post:
       summary: Create Identity Token
@@ -382,9 +382,7 @@ paths:
         an authentication flow for linking user identities to the application.
 
 
-        The callback URL must use HTTPS and is where the user will be redirected after authentication.
-
-        '
+        The callback URL must use HTTPS and is where the user will be redirected after authentication.'
       security:
       - api_key_header: []
       tags:
@@ -433,6 +431,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: postV1ApplicationsByApplicationIdTokens
+      x-operation-id-source: derived
 components:
   schemas:
     ListApplicationAuthFlowsResponse:
@@ -442,24 +442,103 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/AuthFlowItem'
-    CustomFieldDefinition:
+    ApplicationItem:
       type: object
-      required:
-      - name
       properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the application
         name:
           type: string
-          description: Name of the custom field
-    CreateIdentityTokenRequest:
-      type: object
-      required:
-      - callbackUrl
-      properties:
-        callbackUrl:
+          description: Name of the application
+        url:
           type: string
-          format: uri
-          description: The HTTPS URL where the user will be redirected after authentication. Must use HTTPS protocol.
-          example: https://example.com/callback
+          nullable: true
+          description: URL of the application
+        description:
+          type: string
+          nullable: true
+          description: Description of the application
+        identity_count:
+          type: integer
+          description: Number of identities associated with this application
+        auth_methods:
+          type: array
+          items:
+            type: string
+          description: Authentication methods available for this application
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp when the application was created
+        updated_at:
+          type: string
+          format: date-time
+          description: Timestamp when the application was last updated
+    IdentityTokenResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            token:
+              type: string
+              description: The generated identity token for authentication
+            expires_at:
+              type: string
+              format: date-time
+              description: The timestamp when the token expires
+            token_hash:
+              type: string
+              description: A hash of the token for verification purposes
+    UpdateAuthFlowResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the authentication flow
+        name:
+          type: string
+          description: Name of the authentication flow
+        description:
+          type: string
+          nullable: true
+          description: Description of the authentication flow
+        is_recommended:
+          type: boolean
+          description: Whether this is the recommended authentication flow
+        methods:
+          type: array
+          items:
+            type: string
+          description: Authentication methods in this flow
+        custom_fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomFieldDefinition'
+          description: Custom fields for this authentication flow
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp when the authentication flow was created
+        updated_at:
+          type: string
+          format: date-time
+          description: Timestamp when the authentication flow was last updated
+    DeleteApplicationResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Whether the deletion was successful
+    DeleteAuthFlowResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Whether the deletion was successful
     CreateApplicationResponse:
       type: object
       properties:
@@ -482,22 +561,40 @@ components:
           type: string
           format: date-time
           description: Timestamp when the application was created
-    IdentityTokenResponse:
+    GetApplicationResponse:
       type: object
       properties:
-        data:
-          type: object
-          properties:
-            token:
-              type: string
-              description: The generated identity token for authentication
-            expires_at:
-              type: string
-              format: date-time
-              description: The timestamp when the token expires
-            token_hash:
-              type: string
-              description: A hash of the token for verification purposes
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the application
+        name:
+          type: string
+          description: Name of the application
+        url:
+          type: string
+          nullable: true
+          description: URL of the application
+        description:
+          type: string
+          nullable: true
+          description: Description of the application
+        identity_count:
+          type: integer
+          description: Number of identities associated with this application
+        auth_methods:
+          type: array
+          items:
+            type: string
+          description: Authentication methods available for this application
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp when the application was created
+        updated_at:
+          type: string
+          format: date-time
+          description: Timestamp when the application was last updated
     UpdateAuthFlowRequest:
       type: object
       properties:
@@ -541,82 +638,16 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ApplicationItem'
-    CreateAuthFlowResponse:
+    CreateIdentityTokenRequest:
       type: object
+      required:
+      - callbackUrl
       properties:
-        id:
+        callbackUrl:
           type: string
-          format: uuid
-          description: Unique identifier for the authentication flow
-        name:
-          type: string
-          description: Name of the authentication flow
-        description:
-          type: string
-          nullable: true
-          description: Description of the authentication flow
-        is_recommended:
-          type: boolean
-          description: Whether this is the recommended authentication flow
-        methods:
-          type: array
-          items:
-            type: string
-          description: Authentication methods in this flow
-        custom_fields:
-          type: array
-          items:
-            $ref: '#/components/schemas/CustomFieldDefinition'
-          description: Custom fields for this authentication flow
-        created_at:
-          type: string
-          format: date-time
-          description: Timestamp when the authentication flow was created
-        updated_at:
-          type: string
-          format: date-time
-          description: Timestamp when the authentication flow was last updated
-    AuthFlowItem:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Unique identifier for the authentication flow
-        name:
-          type: string
-          description: Name of the authentication flow
-        description:
-          type: string
-          nullable: true
-          description: Description of the authentication flow
-        is_recommended:
-          type: boolean
-          description: Whether this is the recommended authentication flow
-        methods:
-          type: array
-          items:
-            type: string
-          description: Authentication methods in this flow
-        custom_fields:
-          type: array
-          items:
-            $ref: '#/components/schemas/CustomFieldDefinition'
-          description: Custom fields for this authentication flow
-        created_at:
-          type: string
-          format: date-time
-          description: Timestamp when the authentication flow was created
-        updated_at:
-          type: string
-          format: date-time
-          description: Timestamp when the authentication flow was last updated
-    DeleteAuthFlowResponse:
-      type: object
-      properties:
-        success:
-          type: boolean
-          description: Whether the deletion was successful
+          format: uri
+          description: The HTTPS URL where the user will be redirected after authentication. Must use HTTPS protocol.
+          example: https://example.com/callback
     CreateAuthFlowRequest:
       type: object
       required:
@@ -647,48 +678,6 @@ components:
           items:
             $ref: '#/components/schemas/CustomFieldDefinition'
           description: Custom fields for this authentication flow
-    ListApplicationIdentitiesResponse:
-      type: object
-      properties:
-        identities:
-          type: array
-          items:
-            $ref: '#/components/schemas/ApplicationIdentityItem'
-    UpdateAuthFlowResponse:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Unique identifier for the authentication flow
-        name:
-          type: string
-          description: Name of the authentication flow
-        description:
-          type: string
-          nullable: true
-          description: Description of the authentication flow
-        is_recommended:
-          type: boolean
-          description: Whether this is the recommended authentication flow
-        methods:
-          type: array
-          items:
-            type: string
-          description: Authentication methods in this flow
-        custom_fields:
-          type: array
-          items:
-            $ref: '#/components/schemas/CustomFieldDefinition'
-          description: Custom fields for this authentication flow
-        created_at:
-          type: string
-          format: date-time
-          description: Timestamp when the authentication flow was created
-        updated_at:
-          type: string
-          format: date-time
-          description: Timestamp when the authentication flow was last updated
     CreateApplicationRequest:
       type: object
       required:
@@ -733,80 +722,91 @@ components:
           type: string
           format: date-time
           description: Timestamp when the identity was last updated
-    DeleteApplicationResponse:
+    AuthFlowItem:
       type: object
       properties:
-        success:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the authentication flow
+        name:
+          type: string
+          description: Name of the authentication flow
+        description:
+          type: string
+          nullable: true
+          description: Description of the authentication flow
+        is_recommended:
           type: boolean
-          description: Whether the deletion was successful
-    ApplicationItem:
+          description: Whether this is the recommended authentication flow
+        methods:
+          type: array
+          items:
+            type: string
+          description: Authentication methods in this flow
+        custom_fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomFieldDefinition'
+          description: Custom fields for this authentication flow
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp when the authentication flow was created
+        updated_at:
+          type: string
+          format: date-time
+          description: Timestamp when the authentication flow was last updated
+    CustomFieldDefinition:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          description: Name of the custom field
+    CreateAuthFlowResponse:
       type: object
       properties:
         id:
           type: string
           format: uuid
-          description: Unique identifier for the application
+          description: Unique identifier for the authentication flow
         name:
           type: string
-          description: Name of the application
-        url:
-          type: string
-          nullable: true
-          description: URL of the application
+          description: Name of the authentication flow
         description:
           type: string
           nullable: true
-          description: Description of the application
-        identity_count:
-          type: integer
-          description: Number of identities associated with this application
-        auth_methods:
+          description: Description of the authentication flow
+        is_recommended:
+          type: boolean
+          description: Whether this is the recommended authentication flow
+        methods:
           type: array
           items:
             type: string
-          description: Authentication methods available for this application
+          description: Authentication methods in this flow
+        custom_fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomFieldDefinition'
+          description: Custom fields for this authentication flow
         created_at:
           type: string
           format: date-time
-          description: Timestamp when the application was created
+          description: Timestamp when the authentication flow was created
         updated_at:
           type: string
           format: date-time
-          description: Timestamp when the application was last updated
-    GetApplicationResponse:
+          description: Timestamp when the authentication flow was last updated
+    ListApplicationIdentitiesResponse:
       type: object
       properties:
-        id:
-          type: string
-          format: uuid
-          description: Unique identifier for the application
-        name:
-          type: string
-          description: Name of the application
-        url:
-          type: string
-          nullable: true
-          description: URL of the application
-        description:
-          type: string
-          nullable: true
-          description: Description of the application
-        identity_count:
-          type: integer
-          description: Number of identities associated with this application
-        auth_methods:
+        identities:
           type: array
           items:
-            type: string
-          description: Authentication methods available for this application
-        created_at:
-          type: string
-          format: date-time
-          description: Timestamp when the application was created
-        updated_at:
-          type: string
-          format: date-time
-          description: Timestamp when the application was last updated
+            $ref: '#/components/schemas/ApplicationIdentityItem'
   securitySchemes:
     api_key_header:
       type: apiKey

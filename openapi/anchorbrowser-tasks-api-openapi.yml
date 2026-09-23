@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: AnchorBrowser Agentic capabilities Tasks API
+  title: AnchorBrowser Tasks API
   version: 1.0.0
   description: APIs to manage all browser-related actions and configuration.
 servers:
@@ -12,9 +12,7 @@ paths:
   /v2/tasks/{taskId}/run:
     post:
       summary: Run a Task
-      description: 'Triggers execution of a task by ID using the non-deprecated Tasks endpoints.
-
-        '
+      description: Triggers execution of a task by ID using the non-deprecated Tasks endpoints.
       security:
       - api_key_header: []
       tags:
@@ -58,12 +56,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: postV2TasksByTaskIdRun
+      x-operation-id-source: derived
   /v2/tasks/runs/{runId}/status:
     get:
       summary: Get Task Run Status
-      description: 'Retrieves the current status and result of a task run in the non-deprecated Tasks endpoints.
-
-        '
+      description: Retrieves the current status and result of a task run in the non-deprecated Tasks endpoints.
       security:
       - api_key_header: []
       tags:
@@ -94,6 +92,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: getV2TasksRunsByRunIdStatus
+      x-operation-id-source: derived
 components:
   schemas:
     TaskRunStatusV2Response:

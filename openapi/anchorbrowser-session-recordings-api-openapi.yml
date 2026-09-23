@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: AnchorBrowser Agentic capabilities Session Recordings API
+  title: AnchorBrowser Session Recordings API
   version: 1.0.0
   description: APIs to manage all browser-related actions and configuration.
 servers:
@@ -61,6 +61,8 @@ paths:
                 properties:
                   error:
                     $ref: '#/components/schemas/ErrorResponse'
+      operationId: postV1SessionsBySessionIdRecordingsPause
+      x-operation-id-source: derived
   /v1/sessions/{session_id}/recordings/resume:
     post:
       summary: Resume Session Recording
@@ -113,6 +115,8 @@ paths:
                 properties:
                   error:
                     $ref: '#/components/schemas/ErrorResponse'
+      operationId: postV1SessionsBySessionIdRecordingsResume
+      x-operation-id-source: derived
   /v1/sessions/{session_id}/recordings:
     get:
       summary: List Session Recordings
@@ -153,6 +157,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: getV1SessionsBySessionIdRecordings
+      x-operation-id-source: derived
   /v1/sessions/{session_id}/recordings/primary/fetch:
     get:
       summary: Get Session Recording
@@ -194,6 +200,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: getV1SessionsBySessionIdRecordingsPrimaryFetch
+      x-operation-id-source: derived
   /v1/sessions/{session_id}/recordings/{recording_id}:
     delete:
       summary: Delete Session Recording
@@ -240,6 +248,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: deleteV1SessionsBySessionIdRecordingsByRecordingId
+      x-operation-id-source: derived
 components:
   schemas:
     SuccessResponse:
@@ -249,29 +259,6 @@ components:
           type: object
           properties:
             status:
-              type: string
-    RecordingListResponse:
-      type: object
-      properties:
-        data:
-          type: object
-          properties:
-            count:
-              type: integer
-              description: Total number of video recordings
-            items:
-              type: array
-              items:
-                $ref: '#/components/schemas/RecordingItem'
-    ErrorResponse:
-      type: object
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: integer
-            message:
               type: string
     RecordingItem:
       type: object
@@ -298,6 +285,29 @@ components:
           type: string
           format: date-time
           description: Timestamp when the recording was created
+    RecordingListResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            count:
+              type: integer
+              description: Total number of video recordings
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/RecordingItem'
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: integer
+            message:
+              type: string
   securitySchemes:
     api_key_header:
       type: apiKey

@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: AnchorBrowser Agentic capabilities Extensions API
+  title: AnchorBrowser Extensions API
   version: 1.0.0
   description: APIs to manage all browser-related actions and configuration.
 servers:
@@ -56,6 +56,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: postV1Extensions
+      x-operation-id-source: derived
     get:
       summary: List Extensions
       description: Get all extensions for the authenticated user
@@ -76,6 +78,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: getV1Extensions
+      x-operation-id-source: derived
   /v1/extensions/{id}:
     get:
       summary: Get Extension Details
@@ -111,6 +115,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: getV1ExtensionsById
+      x-operation-id-source: derived
     delete:
       summary: Delete Extension
       description: Delete an extension and remove it from storage
@@ -148,18 +154,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: deleteV1ExtensionsById
+      x-operation-id-source: derived
 components:
   schemas:
-    ErrorResponse:
-      type: object
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: integer
-            message:
-              type: string
     ExtensionManifest:
       type: object
       properties:
@@ -176,13 +174,22 @@ components:
           items:
             type: string
       additionalProperties: true
-    SuccessResponse:
+    ExtensionListResponse:
       type: object
       properties:
         data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExtensionResponseSchema'
+    ErrorResponse:
+      type: object
+      properties:
+        error:
           type: object
           properties:
-            status:
+            code:
+              type: integer
+            message:
               type: string
     ExtensionResponseSchema:
       type: object
@@ -204,13 +211,14 @@ components:
           type: string
           format: date-time
           description: Timestamp when the extension was last updated
-    ExtensionListResponse:
+    SuccessResponse:
       type: object
       properties:
         data:
-          type: array
-          items:
-            $ref: '#/components/schemas/ExtensionResponseSchema'
+          type: object
+          properties:
+            status:
+              type: string
   securitySchemes:
     api_key_header:
       type: apiKey

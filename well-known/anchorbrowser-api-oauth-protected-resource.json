@@ -1,0 +1,1 @@
+{"resource":"https://api.anchorbrowser.io","authorization_servers":["https://signin.anchorbrowser.io"],"bearer_methods_supported":["header"],"resource_documentation":"https://api.anchorbrowser.io/docs","scopes_supported":["openid","profile","email","mcp:tools","mcp:admin"],"token_endpoint":"https://signin.anchorbrowser.io/oauth2/token"}

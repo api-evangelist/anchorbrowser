@@ -1,4 +1,4 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
   title: AnchorBrowser Agentic capabilities API
   version: 1.0.0
@@ -12,7 +12,13 @@ paths:
   /v1/sessions/{sessionId}/agent/files:
     post:
       summary: Upload Agent Resources
-      description: "Upload files as agent resources to a browser session using multipart/form-data. \nIf you upload a ZIP file, it will be automatically extracted and the files will be made available as agent resources.\nIf you upload a single file, it will be saved directly as an agent resource.\nResources are then accessible to AI agents for task completion and automation.\n"
+      description: 'Upload files as agent resources to a browser session using multipart/form-data.
+
+        If you upload a ZIP file, it will be automatically extracted and the files will be made available as agent resources.
+
+        If you upload a single file, it will be saved directly as an agent resource.
+
+        Resources are then accessible to AI agents for task completion and automation.'
       security:
       - api_key_header: []
       tags:
@@ -85,13 +91,13 @@ paths:
                 properties:
                   error:
                     $ref: '#/components/schemas/ErrorResponse'
+      operationId: postV1SessionsBySessionIdAgentFiles
+      x-operation-id-source: derived
     get:
       summary: List Agent Resources
       description: 'List all resources that have been uploaded to the browser session for agent use.
 
-        Returns resource metadata including name, size, type, and last modified timestamp.
-
-        '
+        Returns resource metadata including name, size, type, and last modified timestamp.'
       security:
       - api_key_header: []
       tags:
@@ -160,6 +166,8 @@ paths:
                 properties:
                   error:
                     $ref: '#/components/schemas/ErrorResponse'
+      operationId: getV1SessionsBySessionIdAgentFiles
+      x-operation-id-source: derived
   /v1/sessions/{session_id}/agent/pause:
     post:
       summary: Pause Agent
@@ -201,6 +209,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: postV1SessionsBySessionIdAgentPause
+      x-operation-id-source: derived
   /v1/sessions/{session_id}/agent/resume:
     post:
       summary: Resume Agent
@@ -242,6 +252,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: postV1SessionsBySessionIdAgentResume
+      x-operation-id-source: derived
 components:
   schemas:
     SuccessResponse:

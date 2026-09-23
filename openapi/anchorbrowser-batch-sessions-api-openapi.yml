@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: AnchorBrowser Agentic capabilities Batch Sessions API
+  title: AnchorBrowser Batch Sessions API
   version: 1.0.0
   description: APIs to manage all browser-related actions and configuration.
 servers:
@@ -14,9 +14,7 @@ paths:
       summary: List Batch Sessions
       description: 'Lists all batch session requests for the authenticated team, with optional filtering
 
-        by status and pagination support.
-
-        '
+        by status and pagination support.'
       security:
       - api_key_header: []
       tags:
@@ -87,6 +85,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: getV1BatchSessions
+      x-operation-id-source: derived
     post:
       summary: Create Batch Sessions
       description: 'Creates multiple browser sessions in a single batch operation. This endpoint allows you to
@@ -94,9 +94,7 @@ paths:
         create up to 5,000 browser sessions simultaneously with the same configuration.
 
 
-        The batch will be processed asynchronously, and you can monitor progress using the batch status endpoint.
-
-        '
+        The batch will be processed asynchronously, and you can monitor progress using the batch status endpoint.'
       security:
       - api_key_header: []
       tags:
@@ -195,14 +193,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: postV1BatchSessions
+      x-operation-id-source: derived
   /v1/batch-sessions/{batch_id}:
     get:
       summary: Get Batch Session Status
       description: 'Retrieves detailed status information for a specific batch, including progress,
 
-        individual session details, and any errors that occurred.
-
-        '
+        individual session details, and any errors that occurred.'
       security:
       - api_key_header: []
       tags:
@@ -243,13 +241,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: getV1BatchSessionsByBatchId
+      x-operation-id-source: derived
     patch:
       summary: Update Batch Session
       description: 'Updates a batch session. Supports cancelling a running or pending batch,
 
-        which terminates all running sessions in the batch.
-
-        '
+        which terminates all running sessions in the batch.'
       security:
       - api_key_header: []
       tags:
@@ -307,13 +305,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: patchV1BatchSessionsByBatchId
+      x-operation-id-source: derived
     delete:
       summary: Delete Batch Sessions
       description: 'Deletes all sessions in a batch. Running sessions will be terminated
 
-        and all session data will be removed.
-
-        '
+        and all session data will be removed.'
       security:
       - api_key_header: []
       tags:
@@ -354,14 +352,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: deleteV1BatchSessionsByBatchId
+      x-operation-id-source: derived
   /v1/batch-sessions/{batch_id}/retry:
     post:
       summary: Retry Failed Batch Sessions
       description: 'Retries failed sessions in a batch by creating new browser pods for each
 
-        failed session. The batch status will be set back to ''processing''.
-
-        '
+        failed session. The batch status will be set back to ''processing''.'
       security:
       - api_key_header: []
       tags:
@@ -425,130 +423,107 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: postV1BatchSessionsByBatchIdRetry
+      x-operation-id-source: derived
 components:
   schemas:
-    OnePasswordSpecificSecretsConfig:
+    BatchSessionUpdateRequestSchema:
       type: object
       required:
-      - load_mode
-      - secrets
+      - status
       properties:
-        load_mode:
+        status:
           type: string
           enum:
-          - specific
-          description: Load specific secrets from 1Password
-        secrets:
-          type: array
-          items:
-            type: string
-          minItems: 1
-          description: Array of secret references to load
-          example:
-          - op://vault/item/field
-    ProxyConfig:
-      description: 'Proxy Documentation available at [Proxy Documentation](/advanced/proxy)
-
-        '
-      type: object
-      oneOf:
-      - $ref: '#/components/schemas/AnchorProxy'
-      - $ref: '#/components/schemas/CustomProxy'
-    SessionCreateRequestSchema:
+          - cancelled
+          description: Target status for the batch
+    BatchSessionResponseSchema:
       type: object
       properties:
-        session:
-          $ref: '#/components/schemas/SessionConfig'
-        browser:
-          $ref: '#/components/schemas/BrowserConfig'
-        integrations:
-          type: array
-          description: Array of integrations to load in the browser session. Integrations must be previously created using the Integrations API.
-          items:
-            $ref: '#/components/schemas/Integration'
-          example:
-          - id: 550e8400-e29b-41d4-a716-446655440000
-            type: 1PASSWORD
-            configuration:
-              load_mode: all
-        identities:
-          description: 'Activates an authenticated session.
-
-            '
-          type: array
-          items:
-            type: object
-            description: Previously configured identity to be used for the authenticated session.
-            properties:
-              id:
-                type: string
-                description: The identity ID to use for the browser session.
-          example:
-          - id: 123e4567-e89b-12d3-a456-426614174000
-    AnchorProxy:
-      title: Anchor Proxy
+        batch_id:
+          type: string
+          format: uuid
+          description: Unique identifier for the batch
+        status:
+          type: string
+          enum:
+          - pending
+          - processing
+          - completed
+          - failed
+          - cancelled
+          description: Current status of the batch
+        total_requests:
+          type: integer
+          description: Total number of sessions requested in the batch
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp when the batch was created
+    BatchSessionUpdateResponseSchema:
       type: object
       properties:
-        active:
+        batch_id:
+          type: string
+          format: uuid
+          description: Unique identifier for the batch
+        status:
+          type: string
+          enum:
+          - cancelled
+          description: New status of the batch
+        cancelled_sessions:
+          type: integer
+          description: Number of running sessions that were terminated
+        message:
+          type: string
+          description: Summary message
+    BatchSessionListItemSchema:
+      type: object
+      properties:
+        batch_id:
+          type: string
+          format: uuid
+          description: Unique identifier for the batch
+        status:
+          type: string
+          enum:
+          - pending
+          - processing
+          - completed
+          - failed
+          - cancelled
+          description: Current status of the batch
+        total_requests:
+          type: integer
+          description: Total number of sessions requested
+        completed_requests:
+          type: integer
+          description: Number of sessions successfully completed
+        failed_requests:
+          type: integer
+          description: Number of sessions that failed
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp when the batch was created
+        actual_completion_time:
+          type: string
+          format: date-time
+          description: Timestamp when the batch completed (if completed)
+    BatchSessionRetryRequestSchema:
+      type: object
+      properties:
+        retry_failed_only:
           type: boolean
-        type:
-          type: string
-          enum:
-          - anchor_proxy
-          description: Create a session with a proxy to access websites as if you're browsing from a computer in that country.
-          title: anchor_proxy
-        country_code:
-          $ref: '#/components/schemas/AnchorProxyCountryCode'
-          description: 'Supported country codes ISO 2 lowercase
-
-            '
-        region:
-          type: string
-          description: 'Region code for more specific geographic targeting.
-
-            The city parameter can only be used when region is also provided.
-
-            '
-        city:
-          type: string
-          description: 'City name for precise geographic targeting. Supported for anchor_proxy only.
-
-            Can only be used when region is also provided.
-
-            '
-      required:
-      - active
-    Integration:
-      oneOf:
-      - $ref: '#/components/schemas/OnePasswordIntegration'
-      discriminator:
-        propertyName: type
-    BatchSessionListResponseSchema:
-      type: object
-      properties:
-        batches:
-          type: array
-          items:
-            $ref: '#/components/schemas/BatchSessionListItemSchema'
-          description: Array of batch session summaries
-        pagination:
-          type: object
-          properties:
-            current_page:
-              type: integer
-              description: Current page number
-            total_pages:
-              type: integer
-              description: Total number of pages
-            total_records:
-              type: integer
-              description: Total number of batch records
-            has_next:
-              type: boolean
-              description: Whether there is a next page
-            has_prev:
-              type: boolean
-              description: Whether there is a previous page
+          default: true
+          description: Whether to only retry failed sessions
+        max_retries:
+          type: integer
+          minimum: 1
+          maximum: 3
+          default: 1
+          description: Maximum number of attempts per failed session. Each session is retried up to this many times, stopping on first success.
     BatchSessionItemSchema:
       type: object
       properties:
@@ -592,20 +567,93 @@ components:
           type: object
           additionalProperties: true
           description: Session-specific metadata
-    ErrorResponse:
+    BatchSessionStatusResponseSchema:
       type: object
       properties:
+        batch_id:
+          type: string
+          format: uuid
+          description: Unique identifier for the batch
+        status:
+          type: string
+          enum:
+          - pending
+          - processing
+          - completed
+          - failed
+          - cancelled
+          description: Current status of the batch
+        total_requests:
+          type: integer
+          description: Total number of sessions requested
+        completed_requests:
+          type: integer
+          description: Number of sessions successfully created
+        failed_requests:
+          type: integer
+          description: Number of sessions that failed to create
+        processing_requests:
+          type: integer
+          description: Number of sessions currently being processed
+        pending_requests:
+          type: integer
+          description: Number of sessions waiting to be processed
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp when the batch was created
+        actual_completion_time:
+          type: string
+          format: date-time
+          description: Timestamp when the batch completed (if completed)
         error:
+          type: string
+          description: Error message if batch failed
+        sessions:
+          type: array
+          items:
+            $ref: '#/components/schemas/BatchSessionItemSchema'
+          description: Array of individual session details
+        progress:
           type: object
           properties:
-            code:
-              type: integer
-            message:
+            percentage:
+              type: number
+              minimum: 0
+              maximum: 100
+              description: Completion percentage (0-100)
+            current_phase:
               type: string
-    OnePasswordConfig:
+              enum:
+              - queued
+              - provisioning
+              - configuring
+              - ready
+              description: Current processing phase
+    Integration:
       oneOf:
-      - $ref: '#/components/schemas/OnePasswordAllSecretsConfig'
-      - $ref: '#/components/schemas/OnePasswordSpecificSecretsConfig'
+      - $ref: '#/components/schemas/OnePasswordIntegration'
+      discriminator:
+        propertyName: type
+    OnePasswordSpecificSecretsConfig:
+      type: object
+      required:
+      - load_mode
+      - secrets
+      properties:
+        load_mode:
+          type: string
+          enum:
+          - specific
+          description: Load specific secrets from 1Password
+        secrets:
+          type: array
+          items:
+            type: string
+          minItems: 1
+          description: Array of secret references to load
+          example:
+          - op://vault/item/field
     AnchorProxyCountryCode:
       type: string
       title: anchor_proxy
@@ -756,16 +804,76 @@ components:
       - ve
       - ye
       default: us
-    OnePasswordAllSecretsConfig:
+    ProxyConfig:
+      description: 'Proxy Documentation available at [Proxy Documentation](/advanced/proxy)
+
+        '
       type: object
-      required:
-      - load_mode
+      oneOf:
+      - $ref: '#/components/schemas/AnchorProxy'
+      - $ref: '#/components/schemas/CustomProxy'
+    ErrorResponse:
+      type: object
       properties:
-        load_mode:
+        error:
+          type: object
+          properties:
+            code:
+              type: integer
+            message:
+              type: string
+    AnchorProxy:
+      title: Anchor Proxy
+      type: object
+      properties:
+        active:
+          type: boolean
+        type:
           type: string
           enum:
-          - all
-          description: Load all secrets from 1Password
+          - anchor_proxy
+          description: Create a session with a proxy to access websites as if you're browsing from a computer in that country.
+          title: anchor_proxy
+        country_code:
+          $ref: '#/components/schemas/AnchorProxyCountryCode'
+          description: 'Supported country codes ISO 2 lowercase
+
+            '
+        region:
+          type: string
+          description: 'Region code for more specific geographic targeting.
+
+            The city parameter can only be used when region is also provided.
+
+            '
+        city:
+          type: string
+          description: 'City name for precise geographic targeting. Supported for anchor_proxy only.
+
+            Can only be used when region is also provided.
+
+            '
+      required:
+      - active
+    OnePasswordIntegration:
+      type: object
+      required:
+      - id
+      - type
+      - configuration
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique integration ID
+          example: 550e8400-e29b-41d4-a716-446655440000
+        type:
+          type: string
+          enum:
+          - 1PASSWORD
+          description: Integration type
+        configuration:
+          $ref: '#/components/schemas/OnePasswordConfig'
     SessionConfig:
       type: object
       description: Session-related configurations.
@@ -812,136 +920,37 @@ components:
             one_time_url:
               type: boolean
               description: Generate a single-use live view URL. After the first viewer connects, the link becomes invalid. Requires a headful browser. Defaults to `false`.
-    BatchSessionUpdateResponseSchema:
+    SessionCreateRequestSchema:
       type: object
       properties:
-        batch_id:
-          type: string
-          format: uuid
-          description: Unique identifier for the batch
-        status:
-          type: string
-          enum:
-          - cancelled
-          description: New status of the batch
-        cancelled_sessions:
-          type: integer
-          description: Number of running sessions that were terminated
-        message:
-          type: string
-          description: Summary message
-    BatchSessionRetryResponseSchema:
-      type: object
-      properties:
-        batch_id:
-          type: string
-          format: uuid
-          description: Unique identifier for the batch
-        status:
-          type: string
-          enum:
-          - pending
-          - processing
-          - completed
-          - failed
-          - cancelled
-          description: Current status of the batch after retry
-        retried_sessions:
-          type: integer
-          description: Number of sessions that were retried
-        message:
-          type: string
-          description: Summary message
-    BatchSessionListItemSchema:
-      type: object
-      properties:
-        batch_id:
-          type: string
-          format: uuid
-          description: Unique identifier for the batch
-        status:
-          type: string
-          enum:
-          - pending
-          - processing
-          - completed
-          - failed
-          - cancelled
-          description: Current status of the batch
-        total_requests:
-          type: integer
-          description: Total number of sessions requested
-        completed_requests:
-          type: integer
-          description: Number of sessions successfully completed
-        failed_requests:
-          type: integer
-          description: Number of sessions that failed
-        created_at:
-          type: string
-          format: date-time
-          description: Timestamp when the batch was created
-        actual_completion_time:
-          type: string
-          format: date-time
-          description: Timestamp when the batch completed (if completed)
-    BatchSessionRetryRequestSchema:
-      type: object
-      properties:
-        retry_failed_only:
-          type: boolean
-          default: true
-          description: Whether to only retry failed sessions
-        max_retries:
-          type: integer
-          minimum: 1
-          maximum: 3
-          default: 1
-          description: Maximum number of attempts per failed session. Each session is retried up to this many times, stopping on first success.
-    OnePasswordIntegration:
-      type: object
-      required:
-      - id
-      - type
-      - configuration
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Unique integration ID
-          example: 550e8400-e29b-41d4-a716-446655440000
-        type:
-          type: string
-          enum:
-          - 1PASSWORD
-          description: Integration type
-        configuration:
-          $ref: '#/components/schemas/OnePasswordConfig'
-    CustomProxy:
-      title: Custom Proxy
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-          - custom
-        server:
-          type: string
-          description: Proxy address in **PROTOCOL://HOST:PORT** format (e.g., https://proxy.example.com:443). See [proxy page](/advanced/proxy#custom-proxy).
-        username:
-          type: string
-          description: Proxy username
-        password:
-          type: string
-          description: Proxy password
-        active:
-          type: boolean
-      required:
-      - type
-      - server
-      - username
-      - password
-      - active
+        session:
+          $ref: '#/components/schemas/SessionConfig'
+        browser:
+          $ref: '#/components/schemas/BrowserConfig'
+        integrations:
+          type: array
+          description: Array of integrations to load in the browser session. Integrations must be previously created using the Integrations API.
+          items:
+            $ref: '#/components/schemas/Integration'
+          example:
+          - id: 550e8400-e29b-41d4-a716-446655440000
+            type: 1PASSWORD
+            configuration:
+              load_mode: all
+        identities:
+          description: 'Activates an authenticated session.
+
+            '
+          type: array
+          items:
+            type: object
+            description: Previously configured identity to be used for the authenticated session.
+            properties:
+              id:
+                type: string
+                description: The identity ID to use for the browser session.
+          example:
+          - id: 123e4567-e89b-12d3-a456-426614174000
     BrowserConfig:
       type: object
       description: Browser-specific configurations.
@@ -1100,39 +1109,45 @@ components:
                     type: string
                     description: Replacement string for matched text. Defaults to `****`.
               description: Custom regex patterns to detect and mask additional sensitive data types.
-    BatchSessionResponseSchema:
-      type: object
-      properties:
-        batch_id:
-          type: string
-          format: uuid
-          description: Unique identifier for the batch
-        status:
-          type: string
-          enum:
-          - pending
-          - processing
-          - completed
-          - failed
-          - cancelled
-          description: Current status of the batch
-        total_requests:
-          type: integer
-          description: Total number of sessions requested in the batch
-        created_at:
-          type: string
-          format: date-time
-          description: Timestamp when the batch was created
-    BatchSessionUpdateRequestSchema:
+    OnePasswordAllSecretsConfig:
       type: object
       required:
-      - status
+      - load_mode
       properties:
-        status:
+        load_mode:
           type: string
           enum:
-          - cancelled
-          description: Target status for the batch
+          - all
+          description: Load all secrets from 1Password
+    CustomProxy:
+      title: Custom Proxy
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - custom
+        server:
+          type: string
+          description: Proxy address in **PROTOCOL://HOST:PORT** format (e.g., https://proxy.example.com:443). See [proxy page](/advanced/proxy#custom-proxy).
+        username:
+          type: string
+          description: Proxy username
+        password:
+          type: string
+          description: Proxy password
+        active:
+          type: boolean
+      required:
+      - type
+      - server
+      - username
+      - password
+      - active
+    OnePasswordConfig:
+      oneOf:
+      - $ref: '#/components/schemas/OnePasswordAllSecretsConfig'
+      - $ref: '#/components/schemas/OnePasswordSpecificSecretsConfig'
     BatchSessionDeleteResponseSchema:
       type: object
       properties:
@@ -1161,7 +1176,7 @@ components:
         message:
           type: string
           description: Summary message of the deletion operation
-    BatchSessionStatusResponseSchema:
+    BatchSessionRetryResponseSchema:
       type: object
       properties:
         batch_id:
@@ -1176,54 +1191,39 @@ components:
           - completed
           - failed
           - cancelled
-          description: Current status of the batch
-        total_requests:
+          description: Current status of the batch after retry
+        retried_sessions:
           type: integer
-          description: Total number of sessions requested
-        completed_requests:
-          type: integer
-          description: Number of sessions successfully created
-        failed_requests:
-          type: integer
-          description: Number of sessions that failed to create
-        processing_requests:
-          type: integer
-          description: Number of sessions currently being processed
-        pending_requests:
-          type: integer
-          description: Number of sessions waiting to be processed
-        created_at:
+          description: Number of sessions that were retried
+        message:
           type: string
-          format: date-time
-          description: Timestamp when the batch was created
-        actual_completion_time:
-          type: string
-          format: date-time
-          description: Timestamp when the batch completed (if completed)
-        error:
-          type: string
-          description: Error message if batch failed
-        sessions:
+          description: Summary message
+    BatchSessionListResponseSchema:
+      type: object
+      properties:
+        batches:
           type: array
           items:
-            $ref: '#/components/schemas/BatchSessionItemSchema'
-          description: Array of individual session details
-        progress:
+            $ref: '#/components/schemas/BatchSessionListItemSchema'
+          description: Array of batch session summaries
+        pagination:
           type: object
           properties:
-            percentage:
-              type: number
-              minimum: 0
-              maximum: 100
-              description: Completion percentage (0-100)
-            current_phase:
-              type: string
-              enum:
-              - queued
-              - provisioning
-              - configuring
-              - ready
-              description: Current processing phase
+            current_page:
+              type: integer
+              description: Current page number
+            total_pages:
+              type: integer
+              description: Total number of pages
+            total_records:
+              type: integer
+              description: Total number of batch records
+            has_next:
+              type: boolean
+              description: Whether there is a next page
+            has_prev:
+              type: boolean
+              description: Whether there is a previous page
     BatchSessionRequestSchema:
       type: object
       required:

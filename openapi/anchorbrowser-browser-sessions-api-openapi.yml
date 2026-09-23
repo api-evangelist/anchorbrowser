@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: AnchorBrowser Agentic capabilities Browser Sessions API
+  title: AnchorBrowser Browser Sessions API
   version: 1.0.0
   description: APIs to manage all browser-related actions and configuration.
 servers:
@@ -16,9 +16,7 @@ paths:
 
         sorting and advanced filtering. This endpoint mirrors the backend session history-page
 
-        filtering behavior.
-
-        '
+        filtering behavior.'
       security:
       - api_key_header: []
       tags:
@@ -191,6 +189,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: getV1Sessions
+      x-operation-id-source: derived
     post:
       summary: Start Browser Session
       description: Allocates a new browser session for the user, with optional configurations for ad-blocking, captcha solving, proxy usage, and idle timeout.
@@ -260,6 +260,8 @@ paths:
                     error:
                       code: 429
                       message: Session creation rate limit exceeded.
+      operationId: postV1Sessions
+      x-operation-id-source: derived
   /v1/sessions/async:
     post:
       summary: Start Browser Session (async)
@@ -271,9 +273,7 @@ paths:
 
         `status` becomes `ready` to obtain the resolved `session_id`,
 
-        `cdp_url` and `live_view_url`.
-
-        '
+        `cdp_url` and `live_view_url`.'
       security:
       - api_key_header: []
       tags:
@@ -315,6 +315,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: postV1SessionsAsync
+      x-operation-id-source: derived
   /v1/sessions/async/{request_id}/status:
     get:
       summary: Async Session Status
@@ -324,9 +326,7 @@ paths:
 
         up, the embedded `session` object containing `session_id`, `cdp_url`
 
-        and `live_view_url`.
-
-        '
+        and `live_view_url`.'
       security:
       - api_key_header: []
       tags:
@@ -364,6 +364,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: getV1SessionsAsyncByRequestIdStatus
+      x-operation-id-source: derived
   /v1/sessions/all:
     delete:
       summary: End All Sessions
@@ -379,6 +381,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuccessResponse'
+      operationId: deleteV1SessionsAll
+      x-operation-id-source: derived
   /v1/sessions/all/status:
     get:
       summary: List All Sessions Status
@@ -472,6 +476,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: getV1SessionsAllStatus
+      x-operation-id-source: derived
   /v1/sessions/history:
     get:
       summary: Get Sessions History
@@ -563,6 +569,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: getV1SessionsHistory
+      x-operation-id-source: derived
   /v1/sessions/{session_id}:
     get:
       summary: Get Browser Session
@@ -639,6 +647,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: getV1SessionsBySessionId
+      x-operation-id-source: derived
     delete:
       summary: End Browser Session
       description: Deletes the browser session associated with the provided browser session ID. Requires a valid API key for authentication.
@@ -672,6 +682,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: deleteV1SessionsBySessionId
+      x-operation-id-source: derived
   /v1/sessions/{session_id}/pages:
     get:
       summary: Get Browser Session Pages
@@ -732,15 +744,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: getV1SessionsBySessionIdPages
+      x-operation-id-source: derived
   /v1/sessions/{sessionId}/uploads:
     post:
       summary: Upload Files
       description: 'Upload files directly to a browser session for use with web forms and file inputs.
 
 
-        Files are saved to the session''s uploads directory and can be referenced in CDP commands.
-
-        '
+        Files are saved to the session''s uploads directory and can be referenced in CDP commands.'
       security:
       - api_key_header: []
       tags:
@@ -813,6 +825,8 @@ paths:
                 properties:
                   error:
                     $ref: '#/components/schemas/ErrorResponse'
+      operationId: postV1SessionsBySessionIdUploads
+      x-operation-id-source: derived
   /v1/sessions/{session_id}/downloads:
     get:
       summary: List Session Downloads
@@ -853,174 +867,34 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: getV1SessionsBySessionIdDownloads
+      x-operation-id-source: derived
 components:
   schemas:
-    SessionHistoryResponse:
+    SessionHistorySummary:
       type: object
       properties:
-        data:
-          type: array
-          description: Historical data points.
-          items:
-            $ref: '#/components/schemas/SessionHistoryDataPoint'
-        summary:
-          $ref: '#/components/schemas/SessionHistorySummary'
-        pagination:
-          $ref: '#/components/schemas/SessionHistoryPagination'
-    SuccessResponse:
-      type: object
-      properties:
-        data:
-          type: object
-          properties:
-            status:
-              type: string
-    SessionListResponse:
-      type: object
-      properties:
-        data:
-          type: object
-          properties:
-            count:
-              type: integer
-              description: Total number of browser sessions
-            items:
-              type: array
-              items:
-                $ref: '#/components/schemas/SessionStatus'
-    OnePasswordSpecificSecretsConfig:
-      type: object
-      required:
-      - load_mode
-      - secrets
-      properties:
-        load_mode:
-          type: string
-          enum:
-          - specific
-          description: Load specific secrets from 1Password
-        secrets:
-          type: array
-          items:
-            type: string
-          minItems: 1
-          description: Array of secret references to load
-          example:
-          - op://vault/item/field
-    ProxyConfig:
-      description: 'Proxy Documentation available at [Proxy Documentation](/advanced/proxy)
-
-        '
-      type: object
-      oneOf:
-      - $ref: '#/components/schemas/AnchorProxy'
-      - $ref: '#/components/schemas/CustomProxy'
-    SessionCreateResponseSchema:
-      type: object
-      properties:
-        data:
-          type: object
-          properties:
-            id:
-              type: string
-              description: Unique identifier for the browser session
-            cdp_url:
-              type: string
-              description: The CDP websocket connection string
-            live_view_url:
-              type: string
-              description: The browser session live view url
-    SessionCreateRequestSchema:
-      type: object
-      properties:
-        session:
-          $ref: '#/components/schemas/SessionConfig'
-        browser:
-          $ref: '#/components/schemas/BrowserConfig'
-        integrations:
-          type: array
-          description: Array of integrations to load in the browser session. Integrations must be previously created using the Integrations API.
-          items:
-            $ref: '#/components/schemas/Integration'
-          example:
-          - id: 550e8400-e29b-41d4-a716-446655440000
-            type: 1PASSWORD
-            configuration:
-              load_mode: all
-        identities:
-          description: 'Activates an authenticated session.
-
-            '
-          type: array
-          items:
-            type: object
-            description: Previously configured identity to be used for the authenticated session.
-            properties:
-              id:
-                type: string
-                description: The identity ID to use for the browser session.
-          example:
-          - id: 123e4567-e89b-12d3-a456-426614174000
-    SessionStatus:
-      type: object
-      properties:
-        session_id:
-          type: string
-          description: Unique identifier for the browser session
-        status:
-          type: string
-          description: Current status of the browser session
-        tags:
-          type: array
-          items:
-            type: string
-          description: Custom labels assigned to this browser session
-        created_at:
-          type: string
-          format: date-time
-          description: Timestamp when the browser session was created
-      required:
-      - session_id
-      - status
-      - created_at
-    AnchorProxy:
-      title: Anchor Proxy
-      type: object
-      properties:
-        active:
-          type: boolean
-        type:
-          type: string
-          enum:
-          - anchor_proxy
-          description: Create a session with a proxy to access websites as if you're browsing from a computer in that country.
-          title: anchor_proxy
-        country_code:
-          $ref: '#/components/schemas/AnchorProxyCountryCode'
-          description: 'Supported country codes ISO 2 lowercase
-
-            '
-        region:
-          type: string
-          description: 'Region code for more specific geographic targeting.
-
-            The city parameter can only be used when region is also provided.
-
-            '
-        city:
-          type: string
-          description: 'City name for precise geographic targeting. Supported for anchor_proxy only.
-
-            Can only be used when region is also provided.
-
-            '
-      required:
-      - active
-    Integration:
-      oneOf:
-      - $ref: '#/components/schemas/OnePasswordIntegration'
-      discriminator:
-        propertyName: type
+        total_sessions:
+          type: number
+          description: Total number of sessions in the time range.
+        total_proxy_bytes:
+          type: number
+          description: Total proxy bytes used in the time range.
+        total_ai_steps:
+          type: number
+          description: Total AI steps taken in the time range.
+        total_session_hours:
+          type: number
+          description: Total session hours in the time range.
+        total_credits_used:
+          type: number
+          description: Total credits used in the time range.
+        total_screenshots:
+          type: number
+          description: Total screenshots taken in the time range.
+        total_network_bytes_total:
+          type: number
+          description: Total network bytes sent and received in the time range.
     AsyncSessionStatusResponseSchema:
       type: object
       description: 'Polling response for `GET /v1/sessions/async/{request_id}/status`.
@@ -1079,6 +953,49 @@ components:
                   - configuring
                   - ready
                   description: The session's current pod-provisioning phase.
+    AsyncSessionCreateResponseSchema:
+      type: object
+      properties:
+        data:
+          type: object
+          required:
+          - request_id
+          - status
+          - session_id
+          properties:
+            request_id:
+              type: string
+              format: uuid
+              description: 'Identifier of the async request. Use it to poll
+
+                `GET /v1/sessions/async/{request_id}/status` for the resolved
+
+                `session_id`, `cdp_url` and `live_view_url` once the pod
+
+                comes up.
+
+                '
+            status:
+              type: string
+              enum:
+              - pending
+              description: Always `pending` immediately after creation.
+            session_id:
+              type: 'null'
+              description: Always `null` immediately after creation; resolved via the polling endpoint.
+    DownloadListResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            count:
+              type: integer
+              description: Total number of downloads
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/DownloadItem'
     BatchSessionItemSchema:
       type: object
       properties:
@@ -1122,20 +1039,65 @@ components:
           type: object
           additionalProperties: true
           description: Session-specific metadata
-    ErrorResponse:
+    SessionHistoryPagination:
       type: object
       properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: integer
-            message:
-              type: string
-    OnePasswordConfig:
-      oneOf:
-      - $ref: '#/components/schemas/OnePasswordAllSecretsConfig'
-      - $ref: '#/components/schemas/OnePasswordSpecificSecretsConfig'
+        current_page:
+          type: integer
+        total_pages:
+          type: integer
+        total_records:
+          type: integer
+        has_next:
+          type: boolean
+        has_prev:
+          type: boolean
+    OnePasswordSpecificSecretsConfig:
+      type: object
+      required:
+      - load_mode
+      - secrets
+      properties:
+        load_mode:
+          type: string
+          enum:
+          - specific
+          description: Load specific secrets from 1Password
+        secrets:
+          type: array
+          items:
+            type: string
+          minItems: 1
+          description: Array of secret references to load
+          example:
+          - op://vault/item/field
+    SessionHistoryDataPoint:
+      type: object
+      properties:
+        date:
+          type: string
+          description: Date/time period for this data point.
+        session_count:
+          type: number
+          description: Number of sessions created in this period.
+        proxy_bytes:
+          type: number
+          description: Total proxy bytes used in this period.
+        ai_steps:
+          type: number
+          description: Total AI steps taken in this period.
+        session_hours:
+          type: number
+          description: Total session hours in this period (duration/3600).
+        credits_used:
+          type: number
+          description: Total credits used in this period.
+        screenshots:
+          type: number
+          description: Total screenshots taken in this period.
+        network_bytes_total:
+          type: number
+          description: Total network bytes sent and received in this period.
     AnchorProxyCountryCode:
       type: string
       title: anchor_proxy
@@ -1286,6 +1248,132 @@ components:
       - ve
       - ye
       default: us
+    SessionStatus:
+      type: object
+      properties:
+        session_id:
+          type: string
+          description: Unique identifier for the browser session
+        status:
+          type: string
+          description: Current status of the browser session
+        tags:
+          type: array
+          items:
+            type: string
+          description: Custom labels assigned to this browser session
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp when the browser session was created
+      required:
+      - session_id
+      - status
+      - created_at
+    ProxyConfig:
+      description: 'Proxy Documentation available at [Proxy Documentation](/advanced/proxy)
+
+        '
+      type: object
+      oneOf:
+      - $ref: '#/components/schemas/AnchorProxy'
+      - $ref: '#/components/schemas/CustomProxy'
+    DownloadItem:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique ID of the download record.
+        file_link:
+          type: string
+          format: uri
+          description: The URL to download the file from anchorbrowser servers. Requires api key authentication.
+        original_download_url:
+          type: string
+          format: uri
+          description: The URL used to download the file.
+        origin_url:
+          type: string
+          format: uri
+          description: The original URL where the file was found.
+        suggested_file_name:
+          type: string
+          description: The suggested file name for saving the file.
+        original_file_name:
+          type: string
+          description: The original file name before any modification.
+        duration:
+          type: integer
+          description: The time it took to process or download the file, in milliseconds.
+        size:
+          type: integer
+          description: The size of the file in bytes.
+        created_at:
+          type: string
+          format: date-time
+          description: The timestamp when the file record was created.
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: integer
+            message:
+              type: string
+    AnchorProxy:
+      title: Anchor Proxy
+      type: object
+      properties:
+        active:
+          type: boolean
+        type:
+          type: string
+          enum:
+          - anchor_proxy
+          description: Create a session with a proxy to access websites as if you're browsing from a computer in that country.
+          title: anchor_proxy
+        country_code:
+          $ref: '#/components/schemas/AnchorProxyCountryCode'
+          description: 'Supported country codes ISO 2 lowercase
+
+            '
+        region:
+          type: string
+          description: 'Region code for more specific geographic targeting.
+
+            The city parameter can only be used when region is also provided.
+
+            '
+        city:
+          type: string
+          description: 'City name for precise geographic targeting. Supported for anchor_proxy only.
+
+            Can only be used when region is also provided.
+
+            '
+      required:
+      - active
+    OnePasswordIntegration:
+      type: object
+      required:
+      - id
+      - type
+      - configuration
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique integration ID
+          example: 550e8400-e29b-41d4-a716-446655440000
+        type:
+          type: string
+          enum:
+          - 1PASSWORD
+          description: Integration type
+        configuration:
+          $ref: '#/components/schemas/OnePasswordConfig'
     SessionConfig:
       type: object
       description: Session-related configurations.
@@ -1332,151 +1420,37 @@ components:
             one_time_url:
               type: boolean
               description: Generate a single-use live view URL. After the first viewer connects, the link becomes invalid. Requires a headful browser. Defaults to `false`.
-    OnePasswordAllSecretsConfig:
-      type: object
-      required:
-      - load_mode
-      properties:
-        load_mode:
-          type: string
-          enum:
-          - all
-          description: Load all secrets from 1Password
-    DownloadItem:
+    SessionCreateRequestSchema:
       type: object
       properties:
-        id:
-          type: string
-          description: The unique ID of the download record.
-        file_link:
-          type: string
-          format: uri
-          description: The URL to download the file from anchorbrowser servers. Requires api key authentication.
-        original_download_url:
-          type: string
-          format: uri
-          description: The URL used to download the file.
-        origin_url:
-          type: string
-          format: uri
-          description: The original URL where the file was found.
-        suggested_file_name:
-          type: string
-          description: The suggested file name for saving the file.
-        original_file_name:
-          type: string
-          description: The original file name before any modification.
-        duration:
-          type: integer
-          description: The time it took to process or download the file, in milliseconds.
-        size:
-          type: integer
-          description: The size of the file in bytes.
-        created_at:
-          type: string
-          format: date-time
-          description: The timestamp when the file record was created.
-    AsyncSessionCreateResponseSchema:
-      type: object
-      properties:
-        data:
-          type: object
-          required:
-          - request_id
-          - status
-          - session_id
-          properties:
-            request_id:
-              type: string
-              format: uuid
-              description: 'Identifier of the async request. Use it to poll
+        session:
+          $ref: '#/components/schemas/SessionConfig'
+        browser:
+          $ref: '#/components/schemas/BrowserConfig'
+        integrations:
+          type: array
+          description: Array of integrations to load in the browser session. Integrations must be previously created using the Integrations API.
+          items:
+            $ref: '#/components/schemas/Integration'
+          example:
+          - id: 550e8400-e29b-41d4-a716-446655440000
+            type: 1PASSWORD
+            configuration:
+              load_mode: all
+        identities:
+          description: 'Activates an authenticated session.
 
-                `GET /v1/sessions/async/{request_id}/status` for the resolved
-
-                `session_id`, `cdp_url` and `live_view_url` once the pod
-
-                comes up.
-
-                '
-            status:
-              type: string
-              enum:
-              - pending
-              description: Always `pending` immediately after creation.
-            session_id:
-              type: 'null'
-              description: Always `null` immediately after creation; resolved via the polling endpoint.
-    SessionHistoryDataPoint:
-      type: object
-      properties:
-        date:
-          type: string
-          description: Date/time period for this data point.
-        session_count:
-          type: number
-          description: Number of sessions created in this period.
-        proxy_bytes:
-          type: number
-          description: Total proxy bytes used in this period.
-        ai_steps:
-          type: number
-          description: Total AI steps taken in this period.
-        session_hours:
-          type: number
-          description: Total session hours in this period (duration/3600).
-        credits_used:
-          type: number
-          description: Total credits used in this period.
-        screenshots:
-          type: number
-          description: Total screenshots taken in this period.
-        network_bytes_total:
-          type: number
-          description: Total network bytes sent and received in this period.
-    OnePasswordIntegration:
-      type: object
-      required:
-      - id
-      - type
-      - configuration
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Unique integration ID
-          example: 550e8400-e29b-41d4-a716-446655440000
-        type:
-          type: string
-          enum:
-          - 1PASSWORD
-          description: Integration type
-        configuration:
-          $ref: '#/components/schemas/OnePasswordConfig'
-    CustomProxy:
-      title: Custom Proxy
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-          - custom
-        server:
-          type: string
-          description: Proxy address in **PROTOCOL://HOST:PORT** format (e.g., https://proxy.example.com:443). See [proxy page](/advanced/proxy#custom-proxy).
-        username:
-          type: string
-          description: Proxy username
-        password:
-          type: string
-          description: Proxy password
-        active:
-          type: boolean
-      required:
-      - type
-      - server
-      - username
-      - password
-      - active
+            '
+          type: array
+          items:
+            type: object
+            description: Previously configured identity to be used for the authenticated session.
+            properties:
+              id:
+                type: string
+                description: The identity ID to use for the browser session.
+          example:
+          - id: 123e4567-e89b-12d3-a456-426614174000
     BrowserConfig:
       type: object
       description: Browser-specific configurations.
@@ -1635,20 +1609,7 @@ components:
                     type: string
                     description: Replacement string for matched text. Defaults to `****`.
               description: Custom regex patterns to detect and mask additional sensitive data types.
-    SessionHistoryPagination:
-      type: object
-      properties:
-        current_page:
-          type: integer
-        total_pages:
-          type: integer
-        total_records:
-          type: integer
-        has_next:
-          type: boolean
-        has_prev:
-          type: boolean
-    DownloadListResponse:
+    SessionListResponse:
       type: object
       properties:
         data:
@@ -1656,61 +1617,11 @@ components:
           properties:
             count:
               type: integer
-              description: Total number of downloads
+              description: Total number of browser sessions
             items:
               type: array
               items:
-                $ref: '#/components/schemas/DownloadItem'
-    SessionHistoryPageResponse:
-      type: object
-      description: Paginated session history listing response.
-      properties:
-        data:
-          type: object
-          properties:
-            sessions:
-              type: array
-              description: Session records in the current page.
-              items:
-                $ref: '#/components/schemas/SessionHistoryPageItem'
-            total:
-              type: number
-              description: Total number of matching sessions.
-            page:
-              type: number
-              description: Current page number.
-            total_pages:
-              type: number
-              description: Total number of pages.
-          required:
-          - sessions
-          - total
-          - page
-          - total_pages
-    SessionHistorySummary:
-      type: object
-      properties:
-        total_sessions:
-          type: number
-          description: Total number of sessions in the time range.
-        total_proxy_bytes:
-          type: number
-          description: Total proxy bytes used in the time range.
-        total_ai_steps:
-          type: number
-          description: Total AI steps taken in the time range.
-        total_session_hours:
-          type: number
-          description: Total session hours in the time range.
-        total_credits_used:
-          type: number
-          description: Total credits used in the time range.
-        total_screenshots:
-          type: number
-          description: Total screenshots taken in the time range.
-        total_network_bytes_total:
-          type: number
-          description: Total network bytes sent and received in the time range.
+                $ref: '#/components/schemas/SessionStatus'
     SessionHistoryPageItem:
       type: object
       description: A single session record in paginated history listing.
@@ -1797,6 +1708,111 @@ components:
       - task_executions_count
       - api_key_name
       - browser_ip
+    OnePasswordAllSecretsConfig:
+      type: object
+      required:
+      - load_mode
+      properties:
+        load_mode:
+          type: string
+          enum:
+          - all
+          description: Load all secrets from 1Password
+    SessionHistoryResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          description: Historical data points.
+          items:
+            $ref: '#/components/schemas/SessionHistoryDataPoint'
+        summary:
+          $ref: '#/components/schemas/SessionHistorySummary'
+        pagination:
+          $ref: '#/components/schemas/SessionHistoryPagination'
+    SessionCreateResponseSchema:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            id:
+              type: string
+              description: Unique identifier for the browser session
+            cdp_url:
+              type: string
+              description: The CDP websocket connection string
+            live_view_url:
+              type: string
+              description: The browser session live view url
+    CustomProxy:
+      title: Custom Proxy
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - custom
+        server:
+          type: string
+          description: Proxy address in **PROTOCOL://HOST:PORT** format (e.g., https://proxy.example.com:443). See [proxy page](/advanced/proxy#custom-proxy).
+        username:
+          type: string
+          description: Proxy username
+        password:
+          type: string
+          description: Proxy password
+        active:
+          type: boolean
+      required:
+      - type
+      - server
+      - username
+      - password
+      - active
+    OnePasswordConfig:
+      oneOf:
+      - $ref: '#/components/schemas/OnePasswordAllSecretsConfig'
+      - $ref: '#/components/schemas/OnePasswordSpecificSecretsConfig'
+    SessionHistoryPageResponse:
+      type: object
+      description: Paginated session history listing response.
+      properties:
+        data:
+          type: object
+          properties:
+            sessions:
+              type: array
+              description: Session records in the current page.
+              items:
+                $ref: '#/components/schemas/SessionHistoryPageItem'
+            total:
+              type: number
+              description: Total number of matching sessions.
+            page:
+              type: number
+              description: Current page number.
+            total_pages:
+              type: number
+              description: Total number of pages.
+          required:
+          - sessions
+          - total
+          - page
+          - total_pages
+    SuccessResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            status:
+              type: string
+    Integration:
+      oneOf:
+      - $ref: '#/components/schemas/OnePasswordIntegration'
+      discriminator:
+        propertyName: type
   securitySchemes:
     api_key_header:
       type: apiKey
