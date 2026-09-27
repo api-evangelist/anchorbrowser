@@ -131,23 +131,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    CertificateListResponse:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/CertificateResponseSchema'
-    ErrorResponse:
-      type: object
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: integer
-            message:
-              type: string
     CertificateResponseSchema:
       type: object
       properties:
@@ -178,6 +161,23 @@ components:
           type: object
           properties:
             status:
+              type: string
+    CertificateListResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/CertificateResponseSchema'
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: integer
+            message:
               type: string
   securitySchemes:
     api_key_header:

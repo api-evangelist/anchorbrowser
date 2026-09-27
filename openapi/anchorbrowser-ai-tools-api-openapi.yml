@@ -134,31 +134,21 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    PerformWebTaskStatusFailedResponseData:
+    PerformWebTaskStatusSuccessResponseData:
       type: object
-      title: failed
+      title: success
       properties:
         status:
           type: string
           enum:
-          - FAILED
-          description: The workflow has failed.
-        error:
-          type: string
-          description: Error message describing why the workflow failed.
+          - COMPLETED
+          description: The workflow has completed successfully.
+        result:
+          type: object
+          description: The outcome or answer produced by the autonomous task.
       required:
       - status
-      - error
-    PerformWebTaskResponseSchema:
-      type: object
-      properties:
-        data:
-          oneOf:
-          - $ref: '#/components/schemas/PerformWebTaskSyncResponseData'
-          - $ref: '#/components/schemas/PerformWebTaskAsyncResponseData'
-          x-oneOf-labels:
-          - sync
-          - async
+      - result
     PerformWebTaskAsyncResponseData:
       type: object
       title: async
@@ -174,36 +164,16 @@ components:
       required:
       - status
       - workflow_id
-    ErrorResponse:
+    PerformWebTaskResponseSchema:
       type: object
       properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: integer
-            message:
-              type: string
-    PerformWebTaskStatusRunningResponseData:
-      type: object
-      title: running
-      properties:
-        status:
-          type: string
-          enum:
-          - RUNNING
-          description: The workflow is currently running.
-      required:
-      - status
-    PerformWebTaskSyncResponseData:
-      type: object
-      title: sync
-      properties:
-        result:
-          type: object
-          description: The outcome or answer produced by the autonomous task.
-      required:
-      - result
+        data:
+          oneOf:
+          - $ref: '#/components/schemas/PerformWebTaskSyncResponseData'
+          - $ref: '#/components/schemas/PerformWebTaskAsyncResponseData'
+          x-oneOf-labels:
+          - sync
+          - async
     PerformWebTaskRequestSchema:
       type: object
       required:
@@ -271,21 +241,51 @@ components:
           - $ref: '#/components/schemas/PerformWebTaskStatusFailedResponseData'
       required:
       - data
-    PerformWebTaskStatusSuccessResponseData:
+    PerformWebTaskStatusRunningResponseData:
       type: object
-      title: success
+      title: running
       properties:
         status:
           type: string
           enum:
-          - COMPLETED
-          description: The workflow has completed successfully.
+          - RUNNING
+          description: The workflow is currently running.
+      required:
+      - status
+    PerformWebTaskSyncResponseData:
+      type: object
+      title: sync
+      properties:
         result:
           type: object
           description: The outcome or answer produced by the autonomous task.
       required:
-      - status
       - result
+    PerformWebTaskStatusFailedResponseData:
+      type: object
+      title: failed
+      properties:
+        status:
+          type: string
+          enum:
+          - FAILED
+          description: The workflow has failed.
+        error:
+          type: string
+          description: Error message describing why the workflow failed.
+      required:
+      - status
+      - error
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: integer
+            message:
+              type: string
   securitySchemes:
     api_key_header:
       type: apiKey

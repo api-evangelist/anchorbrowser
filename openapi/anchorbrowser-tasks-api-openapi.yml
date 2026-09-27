@@ -96,6 +96,26 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    RunTaskV2Request:
+      type: object
+      properties:
+        input_params:
+          type: object
+          additionalProperties:
+            type: string
+          description: Key-value pairs of input parameters for the task
+        identity_id:
+          type: string
+          description: Optional identity ID to use for the task
+        session_id:
+          type: string
+          description: Optional session ID to run the task in
+        cleanup_sessions:
+          type: boolean
+          description: 'Whether to clean up sessions after execution (default: true)'
+          default: true
+      required:
+      - input_params
     TaskRunStatusV2Response:
       type: object
       properties:
@@ -125,26 +145,6 @@ components:
       required:
       - run_id
       - status
-    RunTaskV2Request:
-      type: object
-      properties:
-        input_params:
-          type: object
-          additionalProperties:
-            type: string
-          description: Key-value pairs of input parameters for the task
-        identity_id:
-          type: string
-          description: Optional identity ID to use for the task
-        session_id:
-          type: string
-          description: Optional session ID to run the task in
-        cleanup_sessions:
-          type: boolean
-          description: 'Whether to clean up sessions after execution (default: true)'
-          default: true
-      required:
-      - input_params
     ErrorResponse:
       type: object
       properties:

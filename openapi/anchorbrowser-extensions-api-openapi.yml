@@ -158,39 +158,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    ExtensionManifest:
-      type: object
-      properties:
-        name:
-          type: string
-        version:
-          type: string
-        manifest_version:
-          type: integer
-        description:
-          type: string
-        permissions:
-          type: array
-          items:
-            type: string
-      additionalProperties: true
-    ExtensionListResponse:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/ExtensionResponseSchema'
-    ErrorResponse:
-      type: object
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: integer
-            message:
-              type: string
     ExtensionResponseSchema:
       type: object
       properties:
@@ -211,6 +178,29 @@ components:
           type: string
           format: date-time
           description: Timestamp when the extension was last updated
+    ExtensionListResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExtensionResponseSchema'
+    ExtensionManifest:
+      type: object
+      properties:
+        name:
+          type: string
+        version:
+          type: string
+        manifest_version:
+          type: integer
+        description:
+          type: string
+        permissions:
+          type: array
+          items:
+            type: string
+      additionalProperties: true
     SuccessResponse:
       type: object
       properties:
@@ -218,6 +208,16 @@ components:
           type: object
           properties:
             status:
+              type: string
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: integer
+            message:
               type: string
   securitySchemes:
     api_key_header:

@@ -126,22 +126,14 @@ components:
             message: Task completed
             result: success
             timestamp: '2024-01-01T12:00:00Z'
-    ErrorResponse:
+    SuccessResponse:
       type: object
       properties:
-        error:
+        data:
           type: object
           properties:
-            code:
-              type: integer
-            message:
+            status:
               type: string
-    WaitForEventRequestSchema:
-      type: object
-      properties:
-        timeoutMs:
-          type: integer
-          description: Timeout in milliseconds to wait for the event. Defaults to 60000ms (1 minute).
     EventResponseSchema:
       type: object
       properties:
@@ -153,13 +145,21 @@ components:
             message: Task completed
             result: success
             timestamp: '2024-01-01T12:00:00Z'
-    SuccessResponse:
+    WaitForEventRequestSchema:
       type: object
       properties:
-        data:
+        timeoutMs:
+          type: integer
+          description: Timeout in milliseconds to wait for the event. Defaults to 60000ms (1 minute).
+    ErrorResponse:
+      type: object
+      properties:
+        error:
           type: object
           properties:
-            status:
+            code:
+              type: integer
+            message:
               type: string
   securitySchemes:
     api_key_header:

@@ -252,6 +252,19 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    RecordingListResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            count:
+              type: integer
+              description: Total number of video recordings
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/RecordingItem'
     SuccessResponse:
       type: object
       properties:
@@ -259,6 +272,16 @@ components:
           type: object
           properties:
             status:
+              type: string
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: integer
+            message:
               type: string
     RecordingItem:
       type: object
@@ -285,29 +308,6 @@ components:
           type: string
           format: date-time
           description: Timestamp when the recording was created
-    RecordingListResponse:
-      type: object
-      properties:
-        data:
-          type: object
-          properties:
-            count:
-              type: integer
-              description: Total number of video recordings
-            items:
-              type: array
-              items:
-                $ref: '#/components/schemas/RecordingItem'
-    ErrorResponse:
-      type: object
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: integer
-            message:
-              type: string
   securitySchemes:
     api_key_header:
       type: apiKey
