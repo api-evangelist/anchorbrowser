@@ -132,6 +132,65 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    IntegrationType:
+      type: string
+      enum:
+      - 1PASSWORD
+      description: The type of integration
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: integer
+            message:
+              type: string
+    IntegrationResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            integration:
+              $ref: '#/components/schemas/IntegrationItem'
+    ServiceAccountCredentials:
+      type: object
+      required:
+      - type
+      - data
+      properties:
+        type:
+          type: string
+          enum:
+          - serviceAccount
+          description: Credential type
+        data:
+          type: object
+          required:
+          - serviceAccount
+          properties:
+            serviceAccount:
+              type: string
+              description: Service account token
+              example: ops_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    CreateIntegrationRequest:
+      type: object
+      required:
+      - name
+      - type
+      - credentials
+      properties:
+        name:
+          type: string
+          minLength: 1
+          description: Name for the integration
+          example: My 1Password Integration
+        type:
+          $ref: '#/components/schemas/IntegrationType'
+        credentials:
+          $ref: '#/components/schemas/ServiceAccountCredentials'
     IntegrationItem:
       type: object
       properties:
@@ -155,26 +214,6 @@ components:
           format: date-time
           description: Timestamp when the integration was created
           example: '2024-01-01T00:00:00.000Z'
-    ServiceAccountCredentials:
-      type: object
-      required:
-      - type
-      - data
-      properties:
-        type:
-          type: string
-          enum:
-          - serviceAccount
-          description: Credential type
-        data:
-          type: object
-          required:
-          - serviceAccount
-          properties:
-            serviceAccount:
-              type: string
-              description: Service account token
-              example: ops_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
     IntegrationListResponse:
       type: object
       properties:
@@ -185,45 +224,6 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/IntegrationItem'
-    IntegrationType:
-      type: string
-      enum:
-      - 1PASSWORD
-      description: The type of integration
-    CreateIntegrationRequest:
-      type: object
-      required:
-      - name
-      - type
-      - credentials
-      properties:
-        name:
-          type: string
-          minLength: 1
-          description: Name for the integration
-          example: My 1Password Integration
-        type:
-          $ref: '#/components/schemas/IntegrationType'
-        credentials:
-          $ref: '#/components/schemas/ServiceAccountCredentials'
-    IntegrationResponse:
-      type: object
-      properties:
-        data:
-          type: object
-          properties:
-            integration:
-              $ref: '#/components/schemas/IntegrationItem'
-    ErrorResponse:
-      type: object
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: integer
-            message:
-              type: string
   securitySchemes:
     api_key_header:
       type: apiKey

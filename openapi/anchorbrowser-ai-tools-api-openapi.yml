@@ -134,21 +134,40 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    PerformWebTaskStatusSuccessResponseData:
+    PerformWebTaskSyncResponseData:
       type: object
-      title: success
+      title: sync
       properties:
-        status:
-          type: string
-          enum:
-          - COMPLETED
-          description: The workflow has completed successfully.
         result:
           type: object
           description: The outcome or answer produced by the autonomous task.
       required:
-      - status
       - result
+    PerformWebTaskStatusFailedResponseData:
+      type: object
+      title: failed
+      properties:
+        status:
+          type: string
+          enum:
+          - FAILED
+          description: The workflow has failed.
+        error:
+          type: string
+          description: Error message describing why the workflow failed.
+      required:
+      - status
+      - error
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: integer
+            message:
+              type: string
     PerformWebTaskAsyncResponseData:
       type: object
       title: async
@@ -174,6 +193,43 @@ components:
           x-oneOf-labels:
           - sync
           - async
+    PerformWebTaskStatusSuccessResponseData:
+      type: object
+      title: success
+      properties:
+        status:
+          type: string
+          enum:
+          - COMPLETED
+          description: The workflow has completed successfully.
+        result:
+          type: object
+          description: The outcome or answer produced by the autonomous task.
+      required:
+      - status
+      - result
+    PerformWebTaskStatusResponseSchema:
+      type: object
+      properties:
+        data:
+          type: object
+          oneOf:
+          - $ref: '#/components/schemas/PerformWebTaskStatusSuccessResponseData'
+          - $ref: '#/components/schemas/PerformWebTaskStatusRunningResponseData'
+          - $ref: '#/components/schemas/PerformWebTaskStatusFailedResponseData'
+      required:
+      - data
+    PerformWebTaskStatusRunningResponseData:
+      type: object
+      title: running
+      properties:
+        status:
+          type: string
+          enum:
+          - RUNNING
+          description: The workflow is currently running.
+      required:
+      - status
     PerformWebTaskRequestSchema:
       type: object
       required:
@@ -230,62 +286,6 @@ components:
           type: boolean
           description: Whether to run the task asynchronously. If true, the task will be run asynchronously and the response will include a workflow ID.
           default: false
-    PerformWebTaskStatusResponseSchema:
-      type: object
-      properties:
-        data:
-          type: object
-          oneOf:
-          - $ref: '#/components/schemas/PerformWebTaskStatusSuccessResponseData'
-          - $ref: '#/components/schemas/PerformWebTaskStatusRunningResponseData'
-          - $ref: '#/components/schemas/PerformWebTaskStatusFailedResponseData'
-      required:
-      - data
-    PerformWebTaskStatusRunningResponseData:
-      type: object
-      title: running
-      properties:
-        status:
-          type: string
-          enum:
-          - RUNNING
-          description: The workflow is currently running.
-      required:
-      - status
-    PerformWebTaskSyncResponseData:
-      type: object
-      title: sync
-      properties:
-        result:
-          type: object
-          description: The outcome or answer produced by the autonomous task.
-      required:
-      - result
-    PerformWebTaskStatusFailedResponseData:
-      type: object
-      title: failed
-      properties:
-        status:
-          type: string
-          enum:
-          - FAILED
-          description: The workflow has failed.
-        error:
-          type: string
-          description: Error message describing why the workflow failed.
-      required:
-      - status
-      - error
-    ErrorResponse:
-      type: object
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: integer
-            message:
-              type: string
   securitySchemes:
     api_key_header:
       type: apiKey

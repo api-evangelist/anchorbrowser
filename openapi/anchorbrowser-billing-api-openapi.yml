@@ -53,6 +53,16 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: integer
+            message:
+              type: string
     BillingInfoResponse:
       type: object
       properties:
@@ -90,16 +100,6 @@ components:
           - included_credits
           - billing_period
           - tier
-    ErrorResponse:
-      type: object
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: integer
-            message:
-              type: string
   securitySchemes:
     api_key_header:
       type: apiKey

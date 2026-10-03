@@ -842,125 +842,65 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    TaskExecutionResultResponse:
+    UpdateTaskMetadataRequest:
       type: object
       properties:
-        data:
-          $ref: '#/components/schemas/TaskExecutionResult'
-    TaskMetadata:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Unique identifier for the task
-        name:
-          type: string
-          pattern: ^[a-zA-Z0-9_-]+$
-          minLength: 1
-          maxLength: 255
-          description: Task name
-        teamId:
-          type: string
-          format: uuid
-          description: Team identifier that owns this task
-        description:
-          type: string
-          maxLength: 1000
-          description: Optional description of the task
-        latest:
-          type: string
-          description: Latest version identifier
-        deleted:
-          type: boolean
-          description: Whether the task is soft deleted
-        createdAt:
-          type: string
-          format: date-time
-          description: Task creation timestamp
-        updatedAt:
-          type: string
-          format: date-time
-          description: Task last update timestamp
-      required:
-      - id
-      - name
-      - teamId
-      - latest
-      - deleted
-      - createdAt
-      - updatedAt
-    Task:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Unique identifier for the task
         name:
           type: string
           pattern: ^[a-zA-Z0-9_-]+$
           minLength: 1
           maxLength: 255
           description: Task name (letters, numbers, hyphens, and underscores only)
-        teamId:
-          type: string
-          format: uuid
-          description: Team identifier that owns this task
         description:
           type: string
           maxLength: 1000
           description: Optional description of the task
-        latestVersion:
-          type: string
-          description: Latest version identifier (draft, latest, or version number)
-        code:
-          type: string
-          description: Base64 encoded task code
-        language:
-          type: string
-          enum:
-          - typescript
-          description: Programming language for the task
-        browserConfiguration:
-          $ref: '#/components/schemas/SessionConfig'
-          description: Browser configuration for task execution
-        deleted:
-          type: boolean
-          description: Whether the task is soft deleted
-        createdAt:
-          type: string
-          format: date-time
-          description: Task creation timestamp
-        updatedAt:
-          type: string
-          format: date-time
-          description: Task last update timestamp
-      required:
-      - id
-      - name
-      - teamId
-      - latestVersion
-      - code
-      - language
-      - deleted
-      - createdAt
-      - updatedAt
-    DeleteTaskResponse:
+    SessionConfig:
       type: object
+      description: Session-related configurations.
       properties:
-        data:
+        initial_url:
+          type: string
+          format: uri
+          description: The URL to navigate to when the browser session starts. If not provided, the browser will load an empty page.
+        tags:
+          type: array
+          items:
+            type: string
+          description: Custom labels to categorize and identify browser sessions. Useful for filtering, organizing, and tracking sessions across your workflows.
+          example:
+          - production
+          - scraping
+          - customer-123
+        recording:
           type: object
+          description: Configuration for session recording.
           properties:
-            success:
+            active:
               type: boolean
-              description: Whether the deletion was successful
-            message:
-              type: string
-              description: Deletion result message
-          required:
-          - success
-          - message
+              description: Enable or disable video recording of the browser session. Defaults to `true`.
+        proxy:
+          $ref: '#/components/schemas/ProxyConfig'
+        timeout:
+          type: object
+          description: Timeout configurations for the browser session.
+          properties:
+            max_duration:
+              type: integer
+              description: Maximum time (in minutes) the session can run before automatically terminating. Defaults to `20`. Set to `-1` to disable this limit.
+            idle_timeout:
+              type: integer
+              description: Time (in minutes) the session waits for new connections after all others are closed before stopping. Defaults to `5`. Set to `-1` to disable this limit.
+        live_view:
+          type: object
+          description: Configuration for live viewing the browser session.
+          properties:
+            read_only:
+              type: boolean
+              description: Enable or disable read-only mode for live viewing. Defaults to `false`.
+            one_time_url:
+              type: boolean
+              description: Generate a single-use live view URL. After the first viewer connects, the link becomes invalid. Requires a headful browser. Defaults to `false`.
     CustomProxy:
       title: Custom Proxy
       type: object
@@ -986,39 +926,149 @@ components:
       - username
       - password
       - active
-    AnchorProxy:
-      title: Anchor Proxy
+    TaskListResponse:
       type: object
       properties:
-        active:
-          type: boolean
-        type:
+        data:
+          type: object
+          properties:
+            tasks:
+              type: array
+              items:
+                $ref: '#/components/schemas/Task'
+            total:
+              type: integer
+              minimum: 0
+              description: Total number of tasks
+            page:
+              type: integer
+              minimum: 1
+              description: Current page number
+            limit:
+              type: integer
+              minimum: 1
+              maximum: 100
+              description: Number of tasks per page
+          required:
+          - tasks
+          - total
+          - page
+          - limit
+    TaskVersion:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the task version
+        taskId:
+          type: string
+          format: uuid
+          description: Parent task identifier
+        version:
+          type: string
+          description: Version identifier (draft, latest, or version number)
+        code:
+          type: string
+          description: Base64 encoded task code
+        language:
           type: string
           enum:
-          - anchor_proxy
-          description: Create a session with a proxy to access websites as if you're browsing from a computer in that country.
-          title: anchor_proxy
-        country_code:
-          $ref: '#/components/schemas/AnchorProxyCountryCode'
-          description: 'Supported country codes ISO 2 lowercase
-
-            '
-        region:
+          - typescript
+          description: Programming language for the task
+        description:
           type: string
-          description: 'Region code for more specific geographic targeting.
-
-            The city parameter can only be used when region is also provided.
-
-            '
-        city:
+          maxLength: 1000
+          description: Optional description of the version
+        browserConfiguration:
+          $ref: '#/components/schemas/SessionConfig'
+          description: Browser configuration for task execution
+        deleted:
+          type: boolean
+          description: Whether the version is soft deleted
+        createdAt:
           type: string
-          description: 'City name for precise geographic targeting. Supported for anchor_proxy only.
-
-            Can only be used when region is also provided.
-
-            '
+          format: date-time
+          description: Version creation timestamp
+        updatedAt:
+          type: string
+          format: date-time
+          description: Version last update timestamp
       required:
-      - active
+      - id
+      - taskId
+      - version
+      - code
+      - deleted
+      - createdAt
+      - updatedAt
+    TaskResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Task'
+    DeleteTaskResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            success:
+              type: boolean
+              description: Whether the deletion was successful
+            message:
+              type: string
+              description: Deletion result message
+          required:
+          - success
+          - message
+    RunTaskByNameRequest:
+      type: object
+      properties:
+        sessionId:
+          type: string
+          format: uuid
+          description: Optional existing browser session ID to use for task execution
+        async:
+          type: boolean
+          description: Whether to run the task asynchronously
+        overrideBrowserConfiguration:
+          $ref: '#/components/schemas/SessionConfig'
+          description: Override browser configuration for this execution
+        inputs:
+          type: object
+          additionalProperties:
+            type: string
+          patternProperties:
+            ^ANCHOR_.*$:
+              type: string
+          description: Environment variables for task execution (keys must start with ANCHOR_)
+        cleanupSessions:
+          type: boolean
+          description: Whether to cleanup browser sessions after task execution. Defaults to true.
+          default: true
+    DraftTaskRequest:
+      type: object
+      properties:
+        code:
+          type: string
+          minLength: 1
+          pattern: ^[A-Za-z0-9+/]*={0,2}$
+          description: Base64 encoded task code
+        language:
+          type: string
+          enum:
+          - typescript
+          description: Programming language for the task
+        description:
+          type: string
+          maxLength: 1000
+          description: Optional description of the version
+        browserConfiguration:
+          $ref: '#/components/schemas/SessionConfig'
+          description: Browser configuration for task execution
+      required:
+      - code
     ProxyConfig:
       description: 'Proxy Documentation available at [Proxy Documentation](/advanced/proxy)
 
@@ -1027,11 +1077,6 @@ components:
       oneOf:
       - $ref: '#/components/schemas/AnchorProxy'
       - $ref: '#/components/schemas/CustomProxy'
-    TaskResponse:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/Task'
     AnchorProxyCountryCode:
       type: string
       title: anchor_proxy
@@ -1192,247 +1237,49 @@ components:
               type: integer
             message:
               type: string
-    DraftTaskRequest:
+    TaskMetadata:
       type: object
       properties:
-        code:
+        id:
           type: string
-          minLength: 1
-          pattern: ^[A-Za-z0-9+/]*={0,2}$
-          description: Base64 encoded task code
-        language:
-          type: string
-          enum:
-          - typescript
-          description: Programming language for the task
-        description:
-          type: string
-          maxLength: 1000
-          description: Optional description of the version
-        browserConfiguration:
-          $ref: '#/components/schemas/SessionConfig'
-          description: Browser configuration for task execution
-      required:
-      - code
-    RunTaskResponse:
-      type: object
-      properties:
-        data:
-          type: object
-          properties:
-            success:
-              type: boolean
-              description: Whether the task executed successfully
-            async:
-              type: boolean
-              description: Whether the task was executed asynchronously
-            message:
-              type: string
-              description: Execution result message
-            taskId:
-              type: string
-              format: uuid
-              description: Task identifier
-            executionTime:
-              type: number
-              description: Execution duration in milliseconds (only present in sync mode)
-            output:
-              type: string
-              description: Task execution output (only present in sync mode)
-            error:
-              type: string
-              description: Error message if execution failed (only present in sync mode)
-            executionResultId:
-              type: string
-              format: uuid
-              description: Execution result identifier for tracking and polling (present in async mode)
-          required:
-          - success
-          - async
-          - message
-          - taskId
-    SessionConfig:
-      type: object
-      description: Session-related configurations.
-      properties:
-        initial_url:
-          type: string
-          format: uri
-          description: The URL to navigate to when the browser session starts. If not provided, the browser will load an empty page.
-        tags:
-          type: array
-          items:
-            type: string
-          description: Custom labels to categorize and identify browser sessions. Useful for filtering, organizing, and tracking sessions across your workflows.
-          example:
-          - production
-          - scraping
-          - customer-123
-        recording:
-          type: object
-          description: Configuration for session recording.
-          properties:
-            active:
-              type: boolean
-              description: Enable or disable video recording of the browser session. Defaults to `true`.
-        proxy:
-          $ref: '#/components/schemas/ProxyConfig'
-        timeout:
-          type: object
-          description: Timeout configurations for the browser session.
-          properties:
-            max_duration:
-              type: integer
-              description: Maximum time (in minutes) the session can run before automatically terminating. Defaults to `20`. Set to `-1` to disable this limit.
-            idle_timeout:
-              type: integer
-              description: Time (in minutes) the session waits for new connections after all others are closed before stopping. Defaults to `5`. Set to `-1` to disable this limit.
-        live_view:
-          type: object
-          description: Configuration for live viewing the browser session.
-          properties:
-            read_only:
-              type: boolean
-              description: Enable or disable read-only mode for live viewing. Defaults to `false`.
-            one_time_url:
-              type: boolean
-              description: Generate a single-use live view URL. After the first viewer connects, the link becomes invalid. Requires a headful browser. Defaults to `false`.
-    TaskExecutionResultsListResponse:
-      type: object
-      properties:
-        data:
-          type: object
-          properties:
-            results:
-              type: array
-              items:
-                $ref: '#/components/schemas/TaskExecutionResult'
-            pagination:
-              type: object
-              properties:
-                page:
-                  type: integer
-                  minimum: 1
-                  description: Current page number
-                limit:
-                  type: integer
-                  minimum: 1
-                  description: Number of results per page
-                total:
-                  type: integer
-                  minimum: 0
-                  description: Total number of results
-                totalPages:
-                  type: integer
-                  minimum: 0
-                  description: Total number of pages
-              required:
-              - page
-              - limit
-              - total
-              - totalPages
-          required:
-          - results
-          - pagination
-    CreateTaskRequest:
-      type: object
-      properties:
+          format: uuid
+          description: Unique identifier for the task
         name:
           type: string
           pattern: ^[a-zA-Z0-9_-]+$
           minLength: 1
           maxLength: 255
-          description: Task name (letters, numbers, hyphens, and underscores only)
-        code:
+          description: Task name
+        teamId:
           type: string
-          pattern: ^[A-Za-z0-9+/]*={0,2}$
-          description: Base64 encoded task code (optional)
-        language:
-          type: string
-          enum:
-          - typescript
-          description: Programming language for the task
+          format: uuid
+          description: Team identifier that owns this task
         description:
           type: string
           maxLength: 1000
           description: Optional description of the task
-        browserConfiguration:
-          $ref: '#/components/schemas/SessionConfig'
-          description: Browser configuration for task execution
+        latest:
+          type: string
+          description: Latest version identifier
+        deleted:
+          type: boolean
+          description: Whether the task is soft deleted
+        createdAt:
+          type: string
+          format: date-time
+          description: Task creation timestamp
+        updatedAt:
+          type: string
+          format: date-time
+          description: Task last update timestamp
       required:
+      - id
       - name
-      - language
-    UpdateTaskMetadataRequest:
-      type: object
-      properties:
-        name:
-          type: string
-          pattern: ^[a-zA-Z0-9_-]+$
-          minLength: 1
-          maxLength: 255
-          description: Task name (letters, numbers, hyphens, and underscores only)
-        description:
-          type: string
-          maxLength: 1000
-          description: Optional description of the task
-    TaskVersionResponse:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/TaskVersion'
-    TaskListResponse:
-      type: object
-      properties:
-        data:
-          type: object
-          properties:
-            tasks:
-              type: array
-              items:
-                $ref: '#/components/schemas/Task'
-            total:
-              type: integer
-              minimum: 0
-              description: Total number of tasks
-            page:
-              type: integer
-              minimum: 1
-              description: Current page number
-            limit:
-              type: integer
-              minimum: 1
-              maximum: 100
-              description: Number of tasks per page
-          required:
-          - tasks
-          - total
-          - page
-          - limit
-    PublishVersionRequest:
-      type: object
-      properties:
-        code:
-          type: string
-          minLength: 1
-          pattern: ^[A-Za-z0-9+/]*={0,2}$
-          description: Base64 encoded task code (required for new versions)
-        language:
-          type: string
-          enum:
-          - typescript
-          description: Programming language for the task
-        description:
-          type: string
-          maxLength: 1000
-          description: Optional description of the version
-        browserConfiguration:
-          $ref: '#/components/schemas/SessionConfig'
-          description: Browser configuration for task execution
-    TaskMetadataResponse:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/TaskMetadata'
+      - teamId
+      - latest
+      - deleted
+      - createdAt
+      - updatedAt
     TaskExecutionResult:
       type: object
       properties:
@@ -1479,114 +1326,48 @@ components:
       - version
       - status
       - startTime
-    RunTaskByNameRequest:
+    RunTaskResponse:
       type: object
       properties:
-        sessionId:
-          type: string
-          format: uuid
-          description: Optional existing browser session ID to use for task execution
-        async:
-          type: boolean
-          description: Whether to run the task asynchronously
-        overrideBrowserConfiguration:
-          $ref: '#/components/schemas/SessionConfig'
-          description: Override browser configuration for this execution
-        inputs:
+        data:
           type: object
-          additionalProperties:
-            type: string
-          patternProperties:
-            ^ANCHOR_.*$:
+          properties:
+            success:
+              type: boolean
+              description: Whether the task executed successfully
+            async:
+              type: boolean
+              description: Whether the task was executed asynchronously
+            message:
               type: string
-          description: Environment variables for task execution (keys must start with ANCHOR_)
-        cleanupSessions:
-          type: boolean
-          description: Whether to cleanup browser sessions after task execution. Defaults to true.
-          default: true
-    RunTaskRequest:
+              description: Execution result message
+            taskId:
+              type: string
+              format: uuid
+              description: Task identifier
+            executionTime:
+              type: number
+              description: Execution duration in milliseconds (only present in sync mode)
+            output:
+              type: string
+              description: Task execution output (only present in sync mode)
+            error:
+              type: string
+              description: Error message if execution failed (only present in sync mode)
+            executionResultId:
+              type: string
+              format: uuid
+              description: Execution result identifier for tracking and polling (present in async mode)
+          required:
+          - success
+          - async
+          - message
+          - taskId
+    TaskVersionResponse:
       type: object
       properties:
-        taskId:
-          type: string
-          format: uuid
-          description: Task identifier
-        version:
-          type: string
-          pattern: ^(draft|latest|\d+)$
-          description: Version to run (draft, latest, or version number)
-        sessionId:
-          type: string
-          format: uuid
-          description: Optional existing browser session ID to use for task execution
-        async:
-          type: boolean
-          description: Whether to run the task asynchronously.
-        overrideBrowserConfiguration:
-          $ref: '#/components/schemas/SessionConfig'
-          description: Override browser configuration for this execution
-        inputs:
-          type: object
-          additionalProperties:
-            type: string
-          patternProperties:
-            ^ANCHOR_.*$:
-              type: string
-          description: Environment variables for task execution (keys must start with ANCHOR_)
-        cleanupSessions:
-          type: boolean
-          description: Whether to cleanup browser sessions after task execution. Defaults to true.
-          default: true
-      required:
-      - taskId
-    TaskVersion:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Unique identifier for the task version
-        taskId:
-          type: string
-          format: uuid
-          description: Parent task identifier
-        version:
-          type: string
-          description: Version identifier (draft, latest, or version number)
-        code:
-          type: string
-          description: Base64 encoded task code
-        language:
-          type: string
-          enum:
-          - typescript
-          description: Programming language for the task
-        description:
-          type: string
-          maxLength: 1000
-          description: Optional description of the version
-        browserConfiguration:
-          $ref: '#/components/schemas/SessionConfig'
-          description: Browser configuration for task execution
-        deleted:
-          type: boolean
-          description: Whether the version is soft deleted
-        createdAt:
-          type: string
-          format: date-time
-          description: Version creation timestamp
-        updatedAt:
-          type: string
-          format: date-time
-          description: Version last update timestamp
-      required:
-      - id
-      - taskId
-      - version
-      - code
-      - deleted
-      - createdAt
-      - updatedAt
+        data:
+          $ref: '#/components/schemas/TaskVersion'
     TaskVersionsListResponse:
       type: object
       properties:
@@ -1623,6 +1404,225 @@ components:
           required:
           - taskId
           - versions
+    CreateTaskRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          pattern: ^[a-zA-Z0-9_-]+$
+          minLength: 1
+          maxLength: 255
+          description: Task name (letters, numbers, hyphens, and underscores only)
+        code:
+          type: string
+          pattern: ^[A-Za-z0-9+/]*={0,2}$
+          description: Base64 encoded task code (optional)
+        language:
+          type: string
+          enum:
+          - typescript
+          description: Programming language for the task
+        description:
+          type: string
+          maxLength: 1000
+          description: Optional description of the task
+        browserConfiguration:
+          $ref: '#/components/schemas/SessionConfig'
+          description: Browser configuration for task execution
+      required:
+      - name
+      - language
+    TaskMetadataResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/TaskMetadata'
+    AnchorProxy:
+      title: Anchor Proxy
+      type: object
+      properties:
+        active:
+          type: boolean
+        type:
+          type: string
+          enum:
+          - anchor_proxy
+          description: Create a session with a proxy to access websites as if you're browsing from a computer in that country.
+          title: anchor_proxy
+        country_code:
+          $ref: '#/components/schemas/AnchorProxyCountryCode'
+          description: 'Supported country codes ISO 2 lowercase
+
+            '
+        region:
+          type: string
+          description: 'Region code for more specific geographic targeting.
+
+            The city parameter can only be used when region is also provided.
+
+            '
+        city:
+          type: string
+          description: 'City name for precise geographic targeting. Supported for anchor_proxy only.
+
+            Can only be used when region is also provided.
+
+            '
+      required:
+      - active
+    TaskExecutionResultsListResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            results:
+              type: array
+              items:
+                $ref: '#/components/schemas/TaskExecutionResult'
+            pagination:
+              type: object
+              properties:
+                page:
+                  type: integer
+                  minimum: 1
+                  description: Current page number
+                limit:
+                  type: integer
+                  minimum: 1
+                  description: Number of results per page
+                total:
+                  type: integer
+                  minimum: 0
+                  description: Total number of results
+                totalPages:
+                  type: integer
+                  minimum: 0
+                  description: Total number of pages
+              required:
+              - page
+              - limit
+              - total
+              - totalPages
+          required:
+          - results
+          - pagination
+    Task:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the task
+        name:
+          type: string
+          pattern: ^[a-zA-Z0-9_-]+$
+          minLength: 1
+          maxLength: 255
+          description: Task name (letters, numbers, hyphens, and underscores only)
+        teamId:
+          type: string
+          format: uuid
+          description: Team identifier that owns this task
+        description:
+          type: string
+          maxLength: 1000
+          description: Optional description of the task
+        latestVersion:
+          type: string
+          description: Latest version identifier (draft, latest, or version number)
+        code:
+          type: string
+          description: Base64 encoded task code
+        language:
+          type: string
+          enum:
+          - typescript
+          description: Programming language for the task
+        browserConfiguration:
+          $ref: '#/components/schemas/SessionConfig'
+          description: Browser configuration for task execution
+        deleted:
+          type: boolean
+          description: Whether the task is soft deleted
+        createdAt:
+          type: string
+          format: date-time
+          description: Task creation timestamp
+        updatedAt:
+          type: string
+          format: date-time
+          description: Task last update timestamp
+      required:
+      - id
+      - name
+      - teamId
+      - latestVersion
+      - code
+      - language
+      - deleted
+      - createdAt
+      - updatedAt
+    RunTaskRequest:
+      type: object
+      properties:
+        taskId:
+          type: string
+          format: uuid
+          description: Task identifier
+        version:
+          type: string
+          pattern: ^(draft|latest|\d+)$
+          description: Version to run (draft, latest, or version number)
+        sessionId:
+          type: string
+          format: uuid
+          description: Optional existing browser session ID to use for task execution
+        async:
+          type: boolean
+          description: Whether to run the task asynchronously.
+        overrideBrowserConfiguration:
+          $ref: '#/components/schemas/SessionConfig'
+          description: Override browser configuration for this execution
+        inputs:
+          type: object
+          additionalProperties:
+            type: string
+          patternProperties:
+            ^ANCHOR_.*$:
+              type: string
+          description: Environment variables for task execution (keys must start with ANCHOR_)
+        cleanupSessions:
+          type: boolean
+          description: Whether to cleanup browser sessions after task execution. Defaults to true.
+          default: true
+      required:
+      - taskId
+    TaskExecutionResultResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/TaskExecutionResult'
+    PublishVersionRequest:
+      type: object
+      properties:
+        code:
+          type: string
+          minLength: 1
+          pattern: ^[A-Za-z0-9+/]*={0,2}$
+          description: Base64 encoded task code (required for new versions)
+        language:
+          type: string
+          enum:
+          - typescript
+          description: Programming language for the task
+        description:
+          type: string
+          maxLength: 1000
+          description: Optional description of the version
+        browserConfiguration:
+          $ref: '#/components/schemas/SessionConfig'
+          description: Browser configuration for task execution
   securitySchemes:
     api_key_header:
       type: apiKey

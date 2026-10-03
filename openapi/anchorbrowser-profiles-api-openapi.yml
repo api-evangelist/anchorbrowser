@@ -157,6 +157,11 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    ProfileResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/ProfileResponseSchema'
     ProfileRequestSchema:
       type: object
       required:
@@ -180,6 +185,16 @@ components:
         dedicated_sticky_ip:
           type: boolean
           description: Whether to use a dedicated sticky IP for this profile. Defaults to false.
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: integer
+            message:
+              type: string
     ProfileResponseSchema:
       type: object
       properties:
@@ -205,11 +220,6 @@ components:
           type: string
           format: date-time
           description: The timestamp when the profile was created.
-    ProfileResponse:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/ProfileResponseSchema'
     ProfileListResponse:
       type: object
       properties:
@@ -230,16 +240,6 @@ components:
           type: object
           properties:
             status:
-              type: string
-    ErrorResponse:
-      type: object
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: integer
-            message:
               type: string
   securitySchemes:
     api_key_header:

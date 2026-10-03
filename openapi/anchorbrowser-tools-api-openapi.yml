@@ -298,6 +298,14 @@ components:
         return_partial_on_timeout:
           type: boolean
           description: Whether to return partial content if the content is not loaded within the 20 seconds.
+    WebUnlockerRequestSchema:
+      type: object
+      required:
+      - url
+      properties:
+        url:
+          type: string
+          description: The fully-qualified URL to fetch (e.g. `https://www.linkedin.com/company/openai`).
     ScreenshotRequestSchema:
       type: object
       properties:
@@ -325,14 +333,6 @@ components:
         s3_target_address:
           type: string
           description: Presigned S3 url target to upload the image to.
-    WebUnlockerRequestSchema:
-      type: object
-      required:
-      - url
-      properties:
-        url:
-          type: string
-          description: The fully-qualified URL to fetch (e.g. `https://www.linkedin.com/company/openai`).
     ErrorResponse:
       type: object
       properties:
