@@ -162,29 +162,14 @@ components:
       properties:
         data:
           $ref: '#/components/schemas/ProfileResponseSchema'
-    ProfileRequestSchema:
+    SuccessResponse:
       type: object
-      required:
-      - name
       properties:
-        name:
-          type: string
-          description: The name of the profile.
-        description:
-          type: string
-          description: A description of the profile.
-        source:
-          type: string
-          description: The source of the profile data. currently only `session` is supported.
-          enum:
-          - session
-        session_id:
-          type: string
-          format: uuid
-          description: The browser session ID is required if the source is set to `session`. The browser session must be running, and the profile will be stored once the browser session terminates.
-        dedicated_sticky_ip:
-          type: boolean
-          description: Whether to use a dedicated sticky IP for this profile. Defaults to false.
+        data:
+          type: object
+          properties:
+            status:
+              type: string
     ErrorResponse:
       type: object
       properties:
@@ -195,6 +180,19 @@ components:
               type: integer
             message:
               type: string
+    ProfileListResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            count:
+              type: integer
+              description: Total number of profiles
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/ProfileResponseSchema'
     ProfileResponseSchema:
       type: object
       properties:
@@ -220,27 +218,29 @@ components:
           type: string
           format: date-time
           description: The timestamp when the profile was created.
-    ProfileListResponse:
+    ProfileRequestSchema:
       type: object
+      required:
+      - name
       properties:
-        data:
-          type: object
-          properties:
-            count:
-              type: integer
-              description: Total number of profiles
-            items:
-              type: array
-              items:
-                $ref: '#/components/schemas/ProfileResponseSchema'
-    SuccessResponse:
-      type: object
-      properties:
-        data:
-          type: object
-          properties:
-            status:
-              type: string
+        name:
+          type: string
+          description: The name of the profile.
+        description:
+          type: string
+          description: A description of the profile.
+        source:
+          type: string
+          description: The source of the profile data. currently only `session` is supported.
+          enum:
+          - session
+        session_id:
+          type: string
+          format: uuid
+          description: The browser session ID is required if the source is set to `session`. The browser session must be running, and the profile will be stored once the browser session terminates.
+        dedicated_sticky_ip:
+          type: boolean
+          description: Whether to use a dedicated sticky IP for this profile. Defaults to false.
   securitySchemes:
     api_key_header:
       type: apiKey

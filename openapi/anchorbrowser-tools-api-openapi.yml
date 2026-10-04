@@ -274,38 +274,16 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    FetchWebpageRequestSchema:
+    ErrorResponse:
       type: object
       properties:
-        url:
-          type: string
-          description: The URL of the webpage or PDF to fetch content from. When left empty, the current webpage is used.
-        format:
-          type: string
-          description: The output format of the content.
-          enum:
-          - html
-          - markdown
-        wait:
-          type: integer
-          description: The time to wait for **dynamic** content to load in **milliseconds**.
-        new_page:
-          type: boolean
-          description: Whether to create a new page for the content.
-        page_index:
-          type: integer
-          description: The index of the page to fetch content from. **Overides new_page**.
-        return_partial_on_timeout:
-          type: boolean
-          description: Whether to return partial content if the content is not loaded within the 20 seconds.
-    WebUnlockerRequestSchema:
-      type: object
-      required:
-      - url
-      properties:
-        url:
-          type: string
-          description: The fully-qualified URL to fetch (e.g. `https://www.linkedin.com/company/openai`).
+        error:
+          type: object
+          properties:
+            code:
+              type: integer
+            message:
+              type: string
     ScreenshotRequestSchema:
       type: object
       properties:
@@ -333,16 +311,38 @@ components:
         s3_target_address:
           type: string
           description: Presigned S3 url target to upload the image to.
-    ErrorResponse:
+    WebUnlockerRequestSchema:
+      type: object
+      required:
+      - url
+      properties:
+        url:
+          type: string
+          description: The fully-qualified URL to fetch (e.g. `https://www.linkedin.com/company/openai`).
+    FetchWebpageRequestSchema:
       type: object
       properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: integer
-            message:
-              type: string
+        url:
+          type: string
+          description: The URL of the webpage or PDF to fetch content from. When left empty, the current webpage is used.
+        format:
+          type: string
+          description: The output format of the content.
+          enum:
+          - html
+          - markdown
+        wait:
+          type: integer
+          description: The time to wait for **dynamic** content to load in **milliseconds**.
+        new_page:
+          type: boolean
+          description: Whether to create a new page for the content.
+        page_index:
+          type: integer
+          description: The index of the page to fetch content from. **Overides new_page**.
+        return_partial_on_timeout:
+          type: boolean
+          description: Whether to return partial content if the content is not loaded within the 20 seconds.
   securitySchemes:
     api_key_header:
       type: apiKey

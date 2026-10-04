@@ -132,29 +132,16 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    IntegrationType:
-      type: string
-      enum:
-      - 1PASSWORD
-      description: The type of integration
-    ErrorResponse:
-      type: object
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: integer
-            message:
-              type: string
-    IntegrationResponse:
+    IntegrationListResponse:
       type: object
       properties:
         data:
           type: object
           properties:
-            integration:
-              $ref: '#/components/schemas/IntegrationItem'
+            integrations:
+              type: array
+              items:
+                $ref: '#/components/schemas/IntegrationItem'
     ServiceAccountCredentials:
       type: object
       required:
@@ -175,6 +162,21 @@ components:
               type: string
               description: Service account token
               example: ops_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    IntegrationType:
+      type: string
+      enum:
+      - 1PASSWORD
+      description: The type of integration
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: integer
+            message:
+              type: string
     CreateIntegrationRequest:
       type: object
       required:
@@ -214,16 +216,14 @@ components:
           format: date-time
           description: Timestamp when the integration was created
           example: '2024-01-01T00:00:00.000Z'
-    IntegrationListResponse:
+    IntegrationResponse:
       type: object
       properties:
         data:
           type: object
           properties:
-            integrations:
-              type: array
-              items:
-                $ref: '#/components/schemas/IntegrationItem'
+            integration:
+              $ref: '#/components/schemas/IntegrationItem'
   securitySchemes:
     api_key_header:
       type: apiKey

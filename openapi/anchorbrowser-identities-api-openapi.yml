@@ -209,6 +209,99 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    CustomCredential:
+      title: custom
+      type: object
+      required:
+      - type
+      - fields
+      properties:
+        type:
+          type: string
+          enum:
+          - custom
+          description: Credential type
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomFieldItem'
+          description: Array of custom fields
+    CredentialData:
+      oneOf:
+      - $ref: '#/components/schemas/UsernamePasswordCredential'
+      - $ref: '#/components/schemas/AuthenticatorCredential'
+      - $ref: '#/components/schemas/CustomCredential'
+      discriminator:
+        propertyName: type
+    CustomFieldItem:
+      type: object
+      required:
+      - name
+      - value
+      properties:
+        name:
+          type: string
+          description: Field name
+        value:
+          type: string
+          description: Field value
+    CreateIdentityResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the identity
+        name:
+          type: string
+          description: Name of the identity
+        status:
+          type: string
+          enum:
+          - pending
+          - validated
+          - failed
+          description: Status of the identity
+        metadata:
+          type: object
+          additionalProperties: true
+          description: Metadata associated with the identity
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp when the identity was created
+    GetIdentityResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the identity
+        name:
+          type: string
+          description: Name of the identity
+        source:
+          type: string
+          description: Source URL for the identity
+        status:
+          type: string
+          enum:
+          - pending
+          - validated
+          - failed
+          description: Status of the identity
+        metadata:
+          type: object
+          additionalProperties: true
+          description: Metadata associated with the identity
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp when the identity was created
+        updated_at:
+          type: string
+          format: date-time
+          description: Timestamp when the identity was last updated
     UsernamePasswordCredential:
       title: username_password
       type: object
@@ -228,6 +321,24 @@ components:
         password:
           type: string
           description: Password for authentication
+    AuthenticatorCredential:
+      title: authenticator
+      type: object
+      required:
+      - type
+      - secret
+      properties:
+        type:
+          type: string
+          enum:
+          - authenticator
+          description: Credential type
+        secret:
+          type: string
+          description: TOTP secret for authenticator
+        otp:
+          type: string
+          description: Optional OTP code
     ErrorResponse:
       type: object
       properties:
@@ -256,6 +367,27 @@ components:
           type: string
           format: date-time
           description: Timestamp when the identity was last updated
+    DeleteIdentityResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Deletion result message
+    UpdateIdentityRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the identity
+        metadata:
+          type: object
+          additionalProperties: true
+          description: Metadata for the identity
+        credentials:
+          type: array
+          items:
+            $ref: '#/components/schemas/CredentialData'
+          description: Array of credentials for authentication
     CreateIdentityRequest:
       type: object
       required:
@@ -289,138 +421,6 @@ components:
         applicationDescription:
           type: string
           description: Optional application description
-    CreateIdentityResponse:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Unique identifier for the identity
-        name:
-          type: string
-          description: Name of the identity
-        status:
-          type: string
-          enum:
-          - pending
-          - validated
-          - failed
-          description: Status of the identity
-        metadata:
-          type: object
-          additionalProperties: true
-          description: Metadata associated with the identity
-        created_at:
-          type: string
-          format: date-time
-          description: Timestamp when the identity was created
-    CredentialData:
-      oneOf:
-      - $ref: '#/components/schemas/UsernamePasswordCredential'
-      - $ref: '#/components/schemas/AuthenticatorCredential'
-      - $ref: '#/components/schemas/CustomCredential'
-      discriminator:
-        propertyName: type
-    UpdateIdentityRequest:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Name of the identity
-        metadata:
-          type: object
-          additionalProperties: true
-          description: Metadata for the identity
-        credentials:
-          type: array
-          items:
-            $ref: '#/components/schemas/CredentialData'
-          description: Array of credentials for authentication
-    DeleteIdentityResponse:
-      type: object
-      properties:
-        message:
-          type: string
-          description: Deletion result message
-    CustomCredential:
-      title: custom
-      type: object
-      required:
-      - type
-      - fields
-      properties:
-        type:
-          type: string
-          enum:
-          - custom
-          description: Credential type
-        fields:
-          type: array
-          items:
-            $ref: '#/components/schemas/CustomFieldItem'
-          description: Array of custom fields
-    GetIdentityResponse:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Unique identifier for the identity
-        name:
-          type: string
-          description: Name of the identity
-        source:
-          type: string
-          description: Source URL for the identity
-        status:
-          type: string
-          enum:
-          - pending
-          - validated
-          - failed
-          description: Status of the identity
-        metadata:
-          type: object
-          additionalProperties: true
-          description: Metadata associated with the identity
-        created_at:
-          type: string
-          format: date-time
-          description: Timestamp when the identity was created
-        updated_at:
-          type: string
-          format: date-time
-          description: Timestamp when the identity was last updated
-    AuthenticatorCredential:
-      title: authenticator
-      type: object
-      required:
-      - type
-      - secret
-      properties:
-        type:
-          type: string
-          enum:
-          - authenticator
-          description: Credential type
-        secret:
-          type: string
-          description: TOTP secret for authenticator
-        otp:
-          type: string
-          description: Optional OTP code
-    CustomFieldItem:
-      type: object
-      required:
-      - name
-      - value
-      properties:
-        name:
-          type: string
-          description: Field name
-        value:
-          type: string
-          description: Field value
   securitySchemes:
     api_key_header:
       type: apiKey

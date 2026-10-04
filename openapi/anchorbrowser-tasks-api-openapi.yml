@@ -96,6 +96,35 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    TaskRunStatusV2Response:
+      type: object
+      properties:
+        run_id:
+          type: string
+          description: The ID of the task run
+        status:
+          type: string
+          enum:
+          - queued
+          - running
+          - success
+          - failure
+          - timeout
+          - cancelled
+          description: Current task run status
+        result:
+          type: object
+          additionalProperties: true
+          description: Task output when available
+        error:
+          type: string
+          description: Error message when the run fails
+        session_id:
+          type: string
+          description: Session ID used for this task run
+      required:
+      - run_id
+      - status
     ErrorResponse:
       type: object
       properties:
@@ -126,35 +155,6 @@ components:
           default: true
       required:
       - input_params
-    TaskRunStatusV2Response:
-      type: object
-      properties:
-        run_id:
-          type: string
-          description: The ID of the task run
-        status:
-          type: string
-          enum:
-          - queued
-          - running
-          - success
-          - failure
-          - timeout
-          - cancelled
-          description: Current task run status
-        result:
-          type: object
-          additionalProperties: true
-          description: Task output when available
-        error:
-          type: string
-          description: Error message when the run fails
-        session_id:
-          type: string
-          description: Session ID used for this task run
-      required:
-      - run_id
-      - status
   securitySchemes:
     api_key_header:
       type: apiKey

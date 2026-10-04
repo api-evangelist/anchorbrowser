@@ -134,6 +134,14 @@ components:
               type: integer
             message:
               type: string
+    SuccessResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            status:
+              type: string
     WaitForEventRequestSchema:
       type: object
       properties:
@@ -153,14 +161,6 @@ components:
             message: Task completed
             result: success
             timestamp: '2024-01-01T12:00:00Z'
-    SuccessResponse:
-      type: object
-      properties:
-        data:
-          type: object
-          properties:
-            status:
-              type: string
   securitySchemes:
     api_key_header:
       type: apiKey
