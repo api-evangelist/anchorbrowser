@@ -59,7 +59,7 @@
     published: '2026-01-10T08:52:39.828Z'
     matched_on: publisher-email
     builder: provider (package published from the provider's own domain)
-  status: pending-generation
+  status: not-a-workflow
   arazzo: null
 - slug: anchorbrowser-pipedream
   label: Pipedream
@@ -85,5 +85,5 @@
     actions: true
     sources: false
     builder: Pipedream repo (component)
-  status: pending-generation
+  status: not-a-workflow
   arazzo: null
