@@ -226,50 +226,55 @@ components:
           items:
             $ref: '#/components/schemas/CustomFieldItem'
           description: Array of custom fields
-    CredentialData:
-      oneOf:
-      - $ref: '#/components/schemas/UsernamePasswordCredential'
-      - $ref: '#/components/schemas/AuthenticatorCredential'
-      - $ref: '#/components/schemas/CustomCredential'
-      discriminator:
-        propertyName: type
-    CustomFieldItem:
+    DeleteIdentityResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Deletion result message
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: integer
+            message:
+              type: string
+    CreateIdentityRequest:
       type: object
       required:
-      - name
-      - value
+      - source
       properties:
         name:
           type: string
-          description: Field name
-        value:
+          description: Name of the identity. Defaults to "Unnamed Identity" if not provided.
+        source:
           type: string
-          description: Field value
-    CreateIdentityResponse:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Unique identifier for the identity
-        name:
-          type: string
-          description: Name of the identity
-        status:
-          type: string
-          enum:
-          - pending
-          - validated
-          - failed
-          description: Status of the identity
+          format: uri
+          description: The source URL for the identity (e.g., login page URL)
+        credentials:
+          type: array
+          items:
+            $ref: '#/components/schemas/CredentialData'
+          description: 'Optional credentials to associate with this identity (for example username/password
+
+            or authenticator secrets). Omit this field or supply an empty array when you only
+
+            need an identity for the given source URL and optional metadata.
+
+            '
         metadata:
           type: object
           additionalProperties: true
-          description: Metadata associated with the identity
-        created_at:
+          description: Optional metadata for the identity
+        applicationName:
           type: string
-          format: date-time
-          description: Timestamp when the identity was created
+          description: Optional application name to associate with the identity
+        applicationDescription:
+          type: string
+          description: Optional application description
     GetIdentityResponse:
       type: object
       properties:
@@ -321,34 +326,6 @@ components:
         password:
           type: string
           description: Password for authentication
-    AuthenticatorCredential:
-      title: authenticator
-      type: object
-      required:
-      - type
-      - secret
-      properties:
-        type:
-          type: string
-          enum:
-          - authenticator
-          description: Credential type
-        secret:
-          type: string
-          description: TOTP secret for authenticator
-        otp:
-          type: string
-          description: Optional OTP code
-    ErrorResponse:
-      type: object
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: integer
-            message:
-              type: string
     UpdateIdentityResponse:
       type: object
       properties:
@@ -367,12 +344,6 @@ components:
           type: string
           format: date-time
           description: Timestamp when the identity was last updated
-    DeleteIdentityResponse:
-      type: object
-      properties:
-        message:
-          type: string
-          description: Deletion result message
     UpdateIdentityRequest:
       type: object
       properties:
@@ -388,39 +359,68 @@ components:
           items:
             $ref: '#/components/schemas/CredentialData'
           description: Array of credentials for authentication
-    CreateIdentityRequest:
+    CredentialData:
+      oneOf:
+      - $ref: '#/components/schemas/UsernamePasswordCredential'
+      - $ref: '#/components/schemas/AuthenticatorCredential'
+      - $ref: '#/components/schemas/CustomCredential'
+      discriminator:
+        propertyName: type
+    CustomFieldItem:
       type: object
       required:
-      - source
+      - name
+      - value
       properties:
         name:
           type: string
-          description: Name of the identity. Defaults to "Unnamed Identity" if not provided.
-        source:
+          description: Field name
+        value:
           type: string
-          format: uri
-          description: The source URL for the identity (e.g., login page URL)
-        credentials:
-          type: array
-          items:
-            $ref: '#/components/schemas/CredentialData'
-          description: 'Optional credentials to associate with this identity (for example username/password
-
-            or authenticator secrets). Omit this field or supply an empty array when you only
-
-            need an identity for the given source URL and optional metadata.
-
-            '
+          description: Field value
+    AuthenticatorCredential:
+      title: authenticator
+      type: object
+      required:
+      - type
+      - secret
+      properties:
+        type:
+          type: string
+          enum:
+          - authenticator
+          description: Credential type
+        secret:
+          type: string
+          description: TOTP secret for authenticator
+        otp:
+          type: string
+          description: Optional OTP code
+    CreateIdentityResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the identity
+        name:
+          type: string
+          description: Name of the identity
+        status:
+          type: string
+          enum:
+          - pending
+          - validated
+          - failed
+          description: Status of the identity
         metadata:
           type: object
           additionalProperties: true
-          description: Optional metadata for the identity
-        applicationName:
+          description: Metadata associated with the identity
+        created_at:
           type: string
-          description: Optional application name to associate with the identity
-        applicationDescription:
-          type: string
-          description: Optional application description
+          format: date-time
+          description: Timestamp when the identity was created
   securitySchemes:
     api_key_header:
       type: apiKey

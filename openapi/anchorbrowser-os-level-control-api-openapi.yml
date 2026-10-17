@@ -610,6 +610,16 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: integer
+            message:
+              type: string
     MouseSingleClickRequestSchema:
       type: object
       description: Mouse click request. Must provide either (x, y) coordinates or a selector, but not both.
@@ -641,72 +651,6 @@ components:
         index:
           type: number
           description: If a selector was passed and multiple elements match the selector, the index of the element in the list (0-based). Defaults to 0.
-    CoordinatesRequestSchema:
-      type: object
-      required:
-      - x
-      - y
-      properties:
-        x:
-          type: integer
-          description: X coordinate
-        y:
-          type: integer
-          description: Y coordinate
-    CopyResponseSchema:
-      type: object
-      properties:
-        text:
-          type: string
-          description: The text that was copied
-    ClipboardResponseSchema:
-      type: object
-      properties:
-        data:
-          type: object
-          properties:
-            text:
-              type: string
-              description: Text content of the clipboard
-    PasteRequestSchema:
-      type: object
-      required:
-      - text
-      properties:
-        text:
-          type: string
-          description: Text to paste
-    ErrorResponse:
-      type: object
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: integer
-            message:
-              type: string
-    ClipboardRequestSchema:
-      type: object
-      required:
-      - text
-      properties:
-        text:
-          type: string
-          description: Text to set in the clipboard
-    KeyboardShortcutRequestSchema:
-      type: object
-      required:
-      - keys
-      properties:
-        keys:
-          type: array
-          description: Array of keys to press simultaneously
-          items:
-            type: string
-        holdTime:
-          type: integer
-          description: Time to hold the keys down in milliseconds
     ScrollRequestSchema:
       allOf:
       - $ref: '#/components/schemas/CoordinatesRequestSchema'
@@ -726,14 +670,27 @@ components:
           useOs:
             type: boolean
             description: Whether to use the OS scroll or the Playwright scroll
-    NavigateRequestSchema:
+    CoordinatesRequestSchema:
       type: object
       required:
-      - url
+      - x
+      - y
       properties:
-        url:
-          type: string
-          description: The URL to navigate to
+        x:
+          type: integer
+          description: X coordinate
+        y:
+          type: integer
+          description: Y coordinate
+    ClipboardResponseSchema:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            text:
+              type: string
+              description: Text content of the clipboard
     DragDropRequestSchema:
       type: object
       required:
@@ -761,6 +718,39 @@ components:
           - left
           - middle
           - right
+    CopyResponseSchema:
+      type: object
+      properties:
+        text:
+          type: string
+          description: The text that was copied
+    PasteRequestSchema:
+      type: object
+      required:
+      - text
+      properties:
+        text:
+          type: string
+          description: Text to paste
+    ClipboardRequestSchema:
+      type: object
+      required:
+      - text
+      properties:
+        text:
+          type: string
+          description: Text to set in the clipboard
+    TypeTextRequestSchema:
+      type: object
+      required:
+      - text
+      properties:
+        text:
+          type: string
+          description: Text to type
+        delay:
+          type: integer
+          description: Delay between keystrokes in milliseconds
     MouseClickRequestSchema:
       allOf:
       - $ref: '#/components/schemas/CoordinatesRequestSchema'
@@ -773,17 +763,27 @@ components:
             - left
             - middle
             - right
-    TypeTextRequestSchema:
+    KeyboardShortcutRequestSchema:
       type: object
       required:
-      - text
+      - keys
       properties:
-        text:
-          type: string
-          description: Text to type
-        delay:
+        keys:
+          type: array
+          description: Array of keys to press simultaneously
+          items:
+            type: string
+        holdTime:
           type: integer
-          description: Delay between keystrokes in milliseconds
+          description: Time to hold the keys down in milliseconds
+    NavigateRequestSchema:
+      type: object
+      required:
+      - url
+      properties:
+        url:
+          type: string
+          description: The URL to navigate to
   securitySchemes:
     api_key_header:
       type: apiKey

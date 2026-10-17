@@ -131,6 +131,29 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    SuccessResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            status:
+              type: string
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: integer
+            message:
+              type: string
+    CertificateResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/CertificateResponseSchema'
     CertificateResponseSchema:
       type: object
       properties:
@@ -149,14 +172,6 @@ components:
           type: string
           format: date-time
           description: Timestamp when the certificate was uploaded
-    SuccessResponse:
-      type: object
-      properties:
-        data:
-          type: object
-          properties:
-            status:
-              type: string
     CertificateListResponse:
       type: object
       properties:
@@ -164,21 +179,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/CertificateResponseSchema'
-    CertificateResponse:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/CertificateResponseSchema'
-    ErrorResponse:
-      type: object
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: integer
-            message:
-              type: string
   securitySchemes:
     api_key_header:
       type: apiKey

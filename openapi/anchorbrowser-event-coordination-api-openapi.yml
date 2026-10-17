@@ -113,6 +113,30 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    WaitForEventRequestSchema:
+      type: object
+      properties:
+        timeoutMs:
+          type: integer
+          description: Timeout in milliseconds to wait for the event. Defaults to 60000ms (1 minute).
+    SuccessResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            status:
+              type: string
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: integer
+            message:
+              type: string
     EventResponseSchema:
       type: object
       properties:
@@ -124,30 +148,6 @@ components:
             message: Task completed
             result: success
             timestamp: '2024-01-01T12:00:00Z'
-    ErrorResponse:
-      type: object
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: integer
-            message:
-              type: string
-    SuccessResponse:
-      type: object
-      properties:
-        data:
-          type: object
-          properties:
-            status:
-              type: string
-    WaitForEventRequestSchema:
-      type: object
-      properties:
-        timeoutMs:
-          type: integer
-          description: Timeout in milliseconds to wait for the event. Defaults to 60000ms (1 minute).
     SignalEventRequestSchema:
       type: object
       required:
