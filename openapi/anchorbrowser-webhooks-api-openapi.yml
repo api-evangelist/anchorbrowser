@@ -1,0 +1,802 @@
+openapi: 3.2.0
+info:
+  title: AnchorBrowser Webhooks API
+  version: 1.0.0
+  description: 'Anchor Browser (anchorbrowser.io) provides cloud browsers built
+
+    for AI agents and automation. Use this API to launch and control browser sessions, run
+
+    natural-language web tasks, authenticate into third-party web apps with managed identities,
+
+    and capture recordings — reliably and at scale, without operating browser infrastructure
+
+    yourself.
+
+
+    ## Core resources
+
+    - **Sessions** (`/v1/sessions`): launch configurable cloud browsers — residential proxies,
+
+    stealth browsing, captcha solving, profiles, extensions, recording — and connect over CDP
+
+    with Playwright, Puppeteer, or any CDP client.
+
+    - **AI tools** (`/v1/tools/perform-web-task`): state a goal in natural language and the
+
+    built-in agent completes it inside the browser. Related tools fetch webpages, take
+
+    screenshots, render PDFs, and execute code in a session.
+
+    - **Tasks** (`/v1/task`): create, version, deploy, and monitor repeatable browser
+
+    automations built to run reliably in production.
+
+    - **Applications and identities** (`/v1/applications`, `/v1/identities`): managed
+
+    authentication into third-party web apps — including multi-step logins and TOTP-based
+
+    2FA — so agents can act on behalf of users.
+
+    - **Profiles** (`/v1/profiles`): persist cookies and login state across sessions.
+
+    - **OS-level control** (`/v1/sessions/{sessionId}/mouse`, `/keyboard`, `/clipboard`):
+
+    raw input for flows that resist DOM automation.
+
+    - Plus batch sessions for running browser fleets in parallel, session recordings, webhooks,
+
+    events, extensions, client certificates, and billing usage.
+
+
+    ## Authentication
+
+    Pass an API key in the `anchor-api-key` header on every request. Create keys at
+
+    app.anchorbrowser.io under API Access. AI agents that have
+
+    no key yet can obtain one autonomously through the unauthenticated
+
+    agent-access flow
+
+    (`POST /v1/agent-access`).
+
+
+    ## For AI agents and LLMs
+
+    - Docs: docs.anchorbrowser.io, with a machine-readable
+
+    index at /llms.txt and the full corpus at
+
+    /llms-full.txt.
+
+    - MCP server for hosted browser control: `https://api.anchorbrowser.io/mcp`.
+
+    - Official SDKs: `anchorbrowser` on npm and
+
+    PyPI.
+
+
+    `DELETE` operations terminate sessions or permanently remove resources (profiles,
+
+    identities, extensions); `GET` operations are safe and read-only.'
+servers:
+- url: https://api.anchorbrowser.io
+  description: API server
+tags:
+- name: Webhooks
+paths:
+  /v1/webhooks:
+    post:
+      summary: Create Webhook
+      operationId: createWebhook
+      description: 'Register a new HTTPS endpoint to receive events. The response includes
+
+        a one-time `secret` (HMAC-SHA256 signing key) — store it; Anchor never
+
+        returns it again. Up to 5 webhooks per project.'
+      security:
+      - api_key_header: []
+      tags:
+      - Webhooks
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebhookCreateRequest'
+            examples:
+              taskLifecycle:
+                summary: Subscribe to task lifecycle events
+                value:
+                  url: https://your-app.example.com/anchor/webhooks
+                  description: Production task notifications
+                  subscribed_events:
+                  - task.completed
+                  - task.failed
+                  - task.healed
+              slackForwarder:
+                summary: Forward to a Slack incoming webhook
+                value:
+                  url: https://hooks.slack.com/services/YOUR/WEBHOOK/URL
+                  description: '#ops alerts'
+                  subscribed_events:
+                  - task.failed
+                  - session.failed
+                  - identity.authentication_failed
+      responses:
+        '201':
+          description: Webhook created. The `secret` field is returned ONCE — copy it now.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebhookWithSecret'
+        '400':
+          description: 'Validation error. Common causes — non-HTTPS URL, URL targets a private/loopback IP,
+
+            cloud metadata service, internal-only TLD (`*.local`/`*.internal`), AWS STS/IAM/EKS
+
+            endpoint, contains basic-auth credentials, exceeds 2048 chars, or `subscribed_events` is empty.
+
+            '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FlatErrorResponse'
+        '409':
+          description: Per-project webhook limit (5) reached. Delete or reuse an existing webhook.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FlatErrorResponse'
+        '500':
+          description: Failed to create webhook.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FlatErrorResponse'
+    get:
+      summary: List Webhooks
+      operationId: listWebhooks
+      description: List every active webhook for the authenticated project. The signing secret is never included.
+      security:
+      - api_key_header: []
+      tags:
+      - Webhooks
+      responses:
+        '200':
+          description: All webhooks for this project.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebhookListResponse'
+        '500':
+          description: Failed to list webhooks.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FlatErrorResponse'
+  /v1/webhooks/{id}:
+    get:
+      summary: Get Webhook
+      operationId: getWebhook
+      description: Fetch a single webhook config. The signing secret is never returned.
+      security:
+      - api_key_header: []
+      tags:
+      - Webhooks
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Webhook id.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Webhook config.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebhookPublic'
+        '404':
+          description: Webhook not found in this project.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FlatErrorResponse'
+        '500':
+          description: Failed to load webhook.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FlatErrorResponse'
+    patch:
+      summary: Update Webhook
+      operationId: updateWebhook
+      description: 'Partial update — pass only the fields you want to change. Setting `enabled: false`
+
+        immediately stops events from fanning out to this webhook (existing in-flight
+
+        deliveries finish their attempts).'
+      security:
+      - api_key_header: []
+      tags:
+      - Webhooks
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Webhook id.
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebhookUpdateRequest'
+            examples:
+              changeUrl:
+                summary: Move to a new endpoint URL
+                value:
+                  url: https://new-host.example.com/anchor/webhooks
+              addEvents:
+                summary: Add session events to subscriptions
+                value:
+                  subscribed_events:
+                  - task.completed
+                  - task.failed
+                  - session.completed
+                  - session.failed
+              disable:
+                summary: Pause delivery without losing config
+                value:
+                  enabled: false
+      responses:
+        '200':
+          description: Webhook updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebhookPublic'
+        '400':
+          description: Validation error (URL constraints same as create).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FlatErrorResponse'
+        '404':
+          description: Webhook not found in this project.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FlatErrorResponse'
+        '500':
+          description: Failed to update webhook.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FlatErrorResponse'
+    delete:
+      summary: Delete Webhook
+      operationId: deleteWebhook
+      description: 'Soft-delete a webhook. New events stop fanning out immediately. The events
+
+        history (`/v1/webhooks/{id}/events`) is still queryable for the retention
+
+        window even after delete.'
+      security:
+      - api_key_header: []
+      tags:
+      - Webhooks
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Webhook id.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Webhook deleted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebhookDeleteResponse'
+        '404':
+          description: Webhook not found in this project.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FlatErrorResponse'
+        '500':
+          description: Failed to delete webhook.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FlatErrorResponse'
+  /v1/webhooks/{id}/rotate-secret:
+    post:
+      summary: Rotate Webhook Signing Secret
+      operationId: rotateWebhookSecret
+      description: 'Mint a new HMAC-SHA256 signing secret. The previous secret remains valid
+
+        for 24 hours so you can update your verification code at your own pace,
+
+        then drop the old secret.
+
+
+        The new secret is returned exactly once, in the `secret` field.'
+      security:
+      - api_key_header: []
+      tags:
+      - Webhooks
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Webhook id.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: New signing secret issued.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebhookWithSecret'
+        '404':
+          description: Webhook not found in this project.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FlatErrorResponse'
+        '500':
+          description: Failed to rotate secret.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FlatErrorResponse'
+  /v1/webhooks/{id}/test:
+    post:
+      summary: Send Test Event
+      operationId: sendWebhookTestEvent
+      description: 'Fire a synthetic event of the given type through the real signing + retry
+
+        path. Useful during development for confirming your endpoint can verify
+
+        the signature and is reachable from Anchor''s egress IPs.
+
+
+        The synthetic delivery counts toward your delivery log so you can see it
+
+        in `GET /v1/webhooks/{id}/events`.'
+      security:
+      - api_key_header: []
+      tags:
+      - Webhooks
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Webhook id.
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebhookTestRequest'
+            examples:
+              taskCompleted:
+                summary: Test a task.completed event
+                value:
+                  event_type: task.completed
+              sessionRecordingReady:
+                summary: Test a session.recording.ready event
+                value:
+                  event_type: session.recording.ready
+      responses:
+        '202':
+          description: Synthetic event accepted and enqueued for delivery.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebhookTestResponse'
+        '400':
+          description: Unknown event type.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FlatErrorResponse'
+        '404':
+          description: Webhook not found in this project.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FlatErrorResponse'
+        '500':
+          description: Failed to enqueue test event.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FlatErrorResponse'
+  /v1/webhooks/{id}/events:
+    get:
+      summary: List Webhook Deliveries
+      operationId: listWebhookEvents
+      description: 'Paginated history of every delivery attempt for this webhook (succeeded,
+
+        failed, or dead-lettered). Filter by status, event type, or time range.
+
+        Retention: 7 days.'
+      security:
+      - api_key_header: []
+      tags:
+      - Webhooks
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Webhook id.
+        schema:
+          type: string
+      - name: limit
+        in: query
+        required: false
+        description: Page size, 1–100. Defaults to 25.
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 25
+      - name: offset
+        in: query
+        required: false
+        description: Number of rows to skip from the beginning of the result set.
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+      - name: status
+        in: query
+        required: false
+        description: Filter by delivery status.
+        schema:
+          type: string
+          enum:
+          - pending
+          - succeeded
+          - failed
+          - dead
+      - name: event_type
+        in: query
+        required: false
+        description: Filter by event type.
+        schema:
+          $ref: '#/components/schemas/WebhookEventType'
+      - name: since
+        in: query
+        required: false
+        description: Only include deliveries scheduled at or after this ISO 8601 timestamp.
+        schema:
+          type: string
+          format: date-time
+      - name: until
+        in: query
+        required: false
+        description: Only include deliveries scheduled at or before this ISO 8601 timestamp.
+        schema:
+          type: string
+          format: date-time
+      - name: include_payload
+        in: query
+        required: false
+        description: 'Set to `true` to include each delivery''s sanitized event `data` (as delivered to your endpoint) in the `payload` field of every row.
+
+          '
+        schema:
+          type: string
+          enum:
+          - 'true'
+          - 'false'
+      responses:
+        '200':
+          description: Page of delivery rows plus pagination metadata.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebhookEventsListResponse'
+        '404':
+          description: Webhook not found in this project.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FlatErrorResponse'
+        '500':
+          description: Failed to load webhook events.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FlatErrorResponse'
+components:
+  schemas:
+    WebhookEventDeliveryRow:
+      type: object
+      description: One row from the events / deliveries history for a webhook.
+      required:
+      - id
+      - external_event_id
+      - event_type
+      - status
+      - attempt
+      properties:
+        id:
+          type: string
+          description: Internal events-row id (one row per logical delivery to one webhook).
+        external_event_id:
+          type: string
+          description: Customer-facing event id. Same value lands in the envelope `id` field.
+          example: evt_56a4c6e7f11e4b44eafce28a
+        event_type:
+          $ref: '#/components/schemas/WebhookEventType'
+        status:
+          type: string
+          enum:
+          - pending
+          - succeeded
+          - failed
+          - dead
+          description: '* `pending` — accepted; delivery in progress or awaiting retry.
+
+            * `succeeded` — receiver returned 2xx.
+
+            * `failed` — receiver returned non-retryable 4xx.
+
+            * `dead` — exhausted all retry attempts.
+
+            '
+        attempt:
+          type: integer
+          minimum: 0
+          description: Attempt number for the most recent completed try (0 = no attempt finished yet, 1 = first attempt, ≤ 6 with default policy).
+        response_status:
+          type: integer
+          nullable: true
+          description: HTTP status code from the most recent attempt, if any.
+        error_message:
+          type: string
+          nullable: true
+        scheduled_at:
+          type: string
+          format: date-time
+          nullable: true
+        completed_at:
+          type: string
+          format: date-time
+          nullable: true
+        payload:
+          type: object
+          additionalProperties: true
+          description: 'The sanitized event `data` exactly as delivered to your endpoint. Only present when the request sets `include_payload=true`.
+
+            '
+    WebhookCreateRequest:
+      type: object
+      required:
+      - url
+      - subscribed_events
+      properties:
+        url:
+          type: string
+          format: uri
+          minLength: 1
+          maxLength: 2048
+          description: 'HTTPS endpoint Anchor will POST events to. Rejected (400) if it points at
+
+            loopback / private / link-local IPs, cloud metadata services, internal-only
+
+            TLDs, AWS STS / IAM / EKS endpoints, or contains basic-auth credentials.
+
+            '
+          example: https://your-app.example.com/anchor/webhooks
+        description:
+          type: string
+          maxLength: 256
+          description: Optional human-readable description.
+          example: Production task notifications
+        subscribed_events:
+          type: array
+          description: Events this webhook should receive. At least one is required.
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/WebhookEventType'
+    WebhookUpdateRequest:
+      type: object
+      description: Partial update — only the fields you include are changed.
+      properties:
+        url:
+          type: string
+          format: uri
+          minLength: 1
+          maxLength: 2048
+        description:
+          type: string
+          nullable: true
+          maxLength: 256
+        subscribed_events:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/WebhookEventType'
+        enabled:
+          type: boolean
+    WebhookTestRequest:
+      type: object
+      required:
+      - event_type
+      properties:
+        event_type:
+          $ref: '#/components/schemas/WebhookEventType'
+    WebhookDeleteResponse:
+      type: object
+      required:
+      - ok
+      properties:
+        ok:
+          type: boolean
+          example: true
+    WebhookListResponse:
+      type: object
+      required:
+      - webhooks
+      properties:
+        webhooks:
+          type: array
+          items:
+            $ref: '#/components/schemas/WebhookPublic'
+    WebhookPublic:
+      type: object
+      description: A registered webhook subscription. The signing secret is NEVER returned by GET/list endpoints.
+      required:
+      - id
+      - project_id
+      - url
+      - description
+      - subscribed_events
+      - enabled
+      - created_at
+      - updated_at
+      properties:
+        id:
+          type: string
+          description: Webhook id. Use as the path parameter on subsequent calls.
+          example: wh_01HXJ4MZ7K9P3Q6R8S2T4V5W7Y
+        project_id:
+          type: string
+          format: uuid
+          description: The project (team) the webhook belongs to.
+          example: 5d2c31f6-ab7e-481a-b6fd-8b4a96a4e197
+        url:
+          type: string
+          format: uri
+          description: HTTPS URL Anchor will POST events to.
+          example: https://your-app.example.com/anchor/webhooks
+        description:
+          type: string
+          nullable: true
+          maxLength: 256
+          description: Optional human-readable description.
+          example: Production task notifications
+        subscribed_events:
+          type: array
+          description: Event types this webhook is currently subscribed to.
+          items:
+            $ref: '#/components/schemas/WebhookEventType'
+        enabled:
+          type: boolean
+          description: When `false`, no events fan out to this webhook.
+          example: true
+        created_at:
+          type: string
+          format: date-time
+          nullable: true
+        updated_at:
+          type: string
+          format: date-time
+          nullable: true
+    WebhookTestResponse:
+      type: object
+      required:
+      - external_event_id
+      - event_type
+      properties:
+        external_event_id:
+          type: string
+          description: The synthetic event id that will appear on the receiver as `id` in the envelope.
+          example: evt_56a4c6e7f11e4b44eafce28a
+        event_type:
+          $ref: '#/components/schemas/WebhookEventType'
+    WebhookEventType:
+      type: string
+      description: 'Catalog of webhook event types Anchor can deliver. Adding a new event
+
+        type is a coordinated change between session-manager (publisher),
+
+        webhook-dispatcher (consumer), and the dashboard.
+
+        '
+      enum:
+      - task.completed
+      - task.failed
+      - task.cancelled
+      - task.healed
+      - session.ready
+      - session.completed
+      - session.failed
+      - session.recording.ready
+      - batch.completed
+      - batch.failed
+      - intervention.requested
+      - intervention.resolved
+      - identity.authenticated
+      - identity.authentication_failed
+    WebhookEventsListResponse:
+      type: object
+      required:
+      - events
+      - pagination
+      properties:
+        events:
+          type: array
+          items:
+            $ref: '#/components/schemas/WebhookEventDeliveryRow'
+        pagination:
+          type: object
+          required:
+          - limit
+          - offset
+          - total
+          properties:
+            limit:
+              type: integer
+              description: Number of rows in this response (max 100).
+            offset:
+              type: integer
+              description: How many rows were skipped from the beginning of the result set.
+            total:
+              type: integer
+              description: Total matching rows across all pages.
+    WebhookWithSecret:
+      description: 'Same shape as `WebhookPublic` plus the freshly minted signing secret.
+
+        Returned ONLY by create and rotate-secret. Store it the first time —
+
+        Anchor never returns it again. If lost, rotate to mint a new one.
+
+        '
+      allOf:
+      - $ref: '#/components/schemas/WebhookPublic'
+      - type: object
+        required:
+        - secret
+        properties:
+          secret:
+            type: string
+            description: HMAC-SHA256 signing secret. Use this to verify the `Anchor-Signature` header on each delivery.
+            example: 36da51b166a69268a59a8d5ee0b32c9f5e5aaee7d301c7a5a36844318e116fc6
+  securitySchemes:
+    api_key_header:
+      type: apiKey
+      in: header
+      name: anchor-api-key
+      description: 'API key for your Anchor Browser account, sent as the `anchor-api-key` header on every
+
+        request. Create one at [app.anchorbrowser.io](https://app.anchorbrowser.io) (API Access),
+
+        or obtain one programmatically via the unauthenticated agent-access flow
+
+        (`POST /v1/agent-access`).
+
+        '

@@ -5,6 +5,7 @@
   ],
   "outputs": [
     "anchorbrowser-ai-tools-api-openapi.yml",
+    "anchorbrowser-agent-access-api-openapi.yml",
     "anchorbrowser-agentic-capabilities-api-openapi.yml",
     "anchorbrowser-applications-api-openapi.yml",
     "anchorbrowser-batch-sessions-api-openapi.yml",
@@ -20,15 +21,21 @@
     "anchorbrowser-session-recordings-api-openapi.yml",
     "anchorbrowser-tasks-api-openapi.yml",
     "anchorbrowser-tasks-legacy-api-openapi.yml",
-    "anchorbrowser-tools-api-openapi.yml"
+    "anchorbrowser-tools-api-openapi.yml",
+    "anchorbrowser-volume-files-api-openapi.yml",
+    "anchorbrowser-volumes-api-openapi.yml",
+    "anchorbrowser-webhooks-api-openapi.yml"
   ],
   "archived": [],
-  "errors": [],
+  "errors": [
+    "anchorbrowser-openapi.yml: dangling $ref: #/components/schemas/FlatErrorResponse"
+  ],
   "warnings": [],
   "notes": [
     "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
     "anchorbrowser-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
     "anchorbrowser-openapi.yml: declared missing tag: AI Tools",
+    "anchorbrowser-openapi.yml: declared missing tag: Agent Access",
     "anchorbrowser-openapi.yml: declared missing tag: Agentic capabilities",
     "anchorbrowser-openapi.yml: declared missing tag: Applications",
     "anchorbrowser-openapi.yml: declared missing tag: Batch Sessions",
@@ -45,25 +52,10 @@
     "anchorbrowser-openapi.yml: declared missing tag: Tasks",
     "anchorbrowser-openapi.yml: declared missing tag: Tasks (Legacy)",
     "anchorbrowser-openapi.yml: declared missing tag: Tools",
-    "apis.yml register: already-registered"
+    "anchorbrowser-openapi.yml: declared missing tag: Volume Files",
+    "anchorbrowser-openapi.yml: declared missing tag: Volumes",
+    "anchorbrowser-openapi.yml: declared missing tag: Webhooks",
+    "apis.yml register: written (+4 apis, 24 total)"
   ],
-  "skipped": [
-    "anchorbrowser-agentic-capabilities-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "anchorbrowser-ai-tools-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "anchorbrowser-applications-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "anchorbrowser-batch-sessions-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "anchorbrowser-billing-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "anchorbrowser-browser-sessions-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "anchorbrowser-certificates-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "anchorbrowser-event-coordination-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "anchorbrowser-extensions-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "anchorbrowser-identities-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "anchorbrowser-integrations-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "anchorbrowser-os-level-control-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "anchorbrowser-profiles-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "anchorbrowser-session-recordings-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "anchorbrowser-tasks-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "anchorbrowser-tasks-legacy-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "anchorbrowser-tools-api-openapi.yml: previously refined output, superseded by openapi/_original/"
-  ]
+  "skipped": []
 }

@@ -2,7 +2,83 @@ openapi: 3.2.0
 info:
   title: AnchorBrowser Session Recordings API
   version: 1.0.0
-  description: APIs to manage all browser-related actions and configuration.
+  description: 'Anchor Browser (anchorbrowser.io) provides cloud browsers built
+
+    for AI agents and automation. Use this API to launch and control browser sessions, run
+
+    natural-language web tasks, authenticate into third-party web apps with managed identities,
+
+    and capture recordings — reliably and at scale, without operating browser infrastructure
+
+    yourself.
+
+
+    ## Core resources
+
+    - **Sessions** (`/v1/sessions`): launch configurable cloud browsers — residential proxies,
+
+    stealth browsing, captcha solving, profiles, extensions, recording — and connect over CDP
+
+    with Playwright, Puppeteer, or any CDP client.
+
+    - **AI tools** (`/v1/tools/perform-web-task`): state a goal in natural language and the
+
+    built-in agent completes it inside the browser. Related tools fetch webpages, take
+
+    screenshots, render PDFs, and execute code in a session.
+
+    - **Tasks** (`/v1/task`): create, version, deploy, and monitor repeatable browser
+
+    automations built to run reliably in production.
+
+    - **Applications and identities** (`/v1/applications`, `/v1/identities`): managed
+
+    authentication into third-party web apps — including multi-step logins and TOTP-based
+
+    2FA — so agents can act on behalf of users.
+
+    - **Profiles** (`/v1/profiles`): persist cookies and login state across sessions.
+
+    - **OS-level control** (`/v1/sessions/{sessionId}/mouse`, `/keyboard`, `/clipboard`):
+
+    raw input for flows that resist DOM automation.
+
+    - Plus batch sessions for running browser fleets in parallel, session recordings, webhooks,
+
+    events, extensions, client certificates, and billing usage.
+
+
+    ## Authentication
+
+    Pass an API key in the `anchor-api-key` header on every request. Create keys at
+
+    app.anchorbrowser.io under API Access. AI agents that have
+
+    no key yet can obtain one autonomously through the unauthenticated
+
+    agent-access flow
+
+    (`POST /v1/agent-access`).
+
+
+    ## For AI agents and LLMs
+
+    - Docs: docs.anchorbrowser.io, with a machine-readable
+
+    index at /llms.txt and the full corpus at
+
+    /llms-full.txt.
+
+    - MCP server for hosted browser control: `https://api.anchorbrowser.io/mcp`.
+
+    - Official SDKs: `anchorbrowser` on npm and
+
+    PyPI.
+
+
+    `DELETE` operations terminate sessions or permanently remove resources (profiles,
+
+    identities, extensions); `GET` operations are safe and read-only.'
 servers:
 - url: https://api.anchorbrowser.io
   description: API server
@@ -252,16 +328,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    ErrorResponse:
-      type: object
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: integer
-            message:
-              type: string
     RecordingListResponse:
       type: object
       properties:
@@ -308,9 +374,27 @@ components:
           type: string
           format: date-time
           description: Timestamp when the recording was created
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: integer
+            message:
+              type: string
   securitySchemes:
     api_key_header:
       type: apiKey
       in: header
       name: anchor-api-key
-      description: API key passed in the header
+      description: 'API key for your Anchor Browser account, sent as the `anchor-api-key` header on every
+
+        request. Create one at [app.anchorbrowser.io](https://app.anchorbrowser.io) (API Access),
+
+        or obtain one programmatically via the unauthenticated agent-access flow
+
+        (`POST /v1/agent-access`).
+
+        '

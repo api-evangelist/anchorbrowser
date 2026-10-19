@@ -2,7 +2,83 @@ openapi: 3.2.0
 info:
   title: AnchorBrowser Agentic capabilities API
   version: 1.0.0
-  description: APIs to manage all browser-related actions and configuration.
+  description: 'Anchor Browser (anchorbrowser.io) provides cloud browsers built
+
+    for AI agents and automation. Use this API to launch and control browser sessions, run
+
+    natural-language web tasks, authenticate into third-party web apps with managed identities,
+
+    and capture recordings — reliably and at scale, without operating browser infrastructure
+
+    yourself.
+
+
+    ## Core resources
+
+    - **Sessions** (`/v1/sessions`): launch configurable cloud browsers — residential proxies,
+
+    stealth browsing, captcha solving, profiles, extensions, recording — and connect over CDP
+
+    with Playwright, Puppeteer, or any CDP client.
+
+    - **AI tools** (`/v1/tools/perform-web-task`): state a goal in natural language and the
+
+    built-in agent completes it inside the browser. Related tools fetch webpages, take
+
+    screenshots, render PDFs, and execute code in a session.
+
+    - **Tasks** (`/v1/task`): create, version, deploy, and monitor repeatable browser
+
+    automations built to run reliably in production.
+
+    - **Applications and identities** (`/v1/applications`, `/v1/identities`): managed
+
+    authentication into third-party web apps — including multi-step logins and TOTP-based
+
+    2FA — so agents can act on behalf of users.
+
+    - **Profiles** (`/v1/profiles`): persist cookies and login state across sessions.
+
+    - **OS-level control** (`/v1/sessions/{sessionId}/mouse`, `/keyboard`, `/clipboard`):
+
+    raw input for flows that resist DOM automation.
+
+    - Plus batch sessions for running browser fleets in parallel, session recordings, webhooks,
+
+    events, extensions, client certificates, and billing usage.
+
+
+    ## Authentication
+
+    Pass an API key in the `anchor-api-key` header on every request. Create keys at
+
+    app.anchorbrowser.io under API Access. AI agents that have
+
+    no key yet can obtain one autonomously through the unauthenticated
+
+    agent-access flow
+
+    (`POST /v1/agent-access`).
+
+
+    ## For AI agents and LLMs
+
+    - Docs: docs.anchorbrowser.io, with a machine-readable
+
+    index at /llms.txt and the full corpus at
+
+    /llms-full.txt.
+
+    - MCP server for hosted browser control: `https://api.anchorbrowser.io/mcp`.
+
+    - Official SDKs: `anchorbrowser` on npm and
+
+    PyPI.
+
+
+    `DELETE` operations terminate sessions or permanently remove resources (profiles,
+
+    identities, extensions); `GET` operations are safe and read-only.'
 servers:
 - url: https://api.anchorbrowser.io
   description: API server
@@ -14,7 +90,9 @@ paths:
       summary: Upload Agent Resources
       description: 'Upload files as agent resources to a browser session using multipart/form-data.
 
-        If you upload a ZIP file, it will be automatically extracted and the files will be made available as agent resources.
+        If you upload a ZIP file, it will be automatically extracted and the files will be made available as agent resources
+
+        (pass `extract=false` to keep the archive itself instead).
 
         If you upload a single file, it will be saved directly as an agent resource.
 
@@ -31,6 +109,22 @@ paths:
         schema:
           type: string
           format: uuid
+      - name: extract
+        in: query
+        required: false
+        description: 'Whether a `.zip` upload is unpacked into the uploads directory. Defaults to `true`.
+
+          Set to `false` to keep the archive itself. Any other value is treated as `true`.
+
+          Has no effect on non-zip files.
+
+          '
+        schema:
+          type: string
+          enum:
+          - 'true'
+          - 'false'
+          default: 'true'
       requestBody:
         required: true
         content:
@@ -43,7 +137,7 @@ paths:
                 file:
                   type: string
                   format: binary
-                  description: File to upload as agent resource (ZIP files will be extracted automatically)
+                  description: File to upload as agent resource (ZIP files are extracted unless extract=false)
       responses:
         '200':
           description: Agent resources uploaded successfully
@@ -59,6 +153,11 @@ paths:
                         type: string
                       message:
                         type: string
+                      file_paths:
+                        type: array
+                        description: Absolute paths of the saved files inside the session (the archive entries when a zip was extracted)
+                        items:
+                          type: string
         '400':
           description: Invalid request (no resource uploaded or file too large)
           content:
@@ -254,8 +353,240 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
       operationId: postV1SessionsBySessionIdAgentResume
       x-operation-id-source: derived
+  /v1/sessions/pending-interventions:
+    get:
+      summary: List Pending Human Interventions
+      description: 'Returns all pending human-in-the-loop (HITL) requests across the team''s active
+
+        browser sessions. Each item includes the intervention request plus the session
+
+        ID and tags for routing responses.'
+      security:
+      - api_key_header: []
+      tags:
+      - Agentic capabilities
+      responses:
+        '200':
+          description: Pending interventions retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PendingInterventionsResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Failed to get pending interventions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      operationId: getV1SessionsPendingInterventions
+      x-operation-id-source: derived
+  /v1/sessions/{session_id}/agent/requested-human-intervention:
+    get:
+      summary: Get Requested Human Interventions
+      description: 'Retrieves pending human-in-the-loop (HITL) requests for a specific active browser
+
+        session. Requires `human_intervention: true` on the task that is running in the
+
+        session. The agent pauses until a response is submitted via
+
+        `POST /v1/sessions/{session_id}/agent/respond-to-human-intervention`.'
+      security:
+      - api_key_header: []
+      tags:
+      - Agentic capabilities
+      parameters:
+      - name: session_id
+        in: path
+        required: true
+        description: The ID of the browser session
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: Pending intervention requests retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanInterventionRequestsResponse'
+        '400':
+          description: Session is not running
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Session not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Failed to get agent requested human intervention
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      operationId: getV1SessionsBySessionIdAgentRequestedHumanIntervention
+      x-operation-id-source: derived
+  /v1/sessions/{session_id}/agent/respond-to-human-intervention:
+    post:
+      summary: Respond to Human Intervention
+      description: 'Sends a response to a pending human-in-the-loop (HITL) request for the specified
+
+        session. Resolving a request unblocks the agent and emits an `intervention.resolved`
+
+        webhook event when `requestId` is provided.'
+      security:
+      - api_key_header: []
+      tags:
+      - Agentic capabilities
+      parameters:
+      - name: session_id
+        in: path
+        required: true
+        description: The ID of the browser session
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HumanInterventionResponseRequest'
+            example:
+              requestId: 550e8400-e29b-41d4-a716-446655440000
+              response: Approve and continue with the current approach.
+      responses:
+        '200':
+          description: Human intervention response submitted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HumanInterventionResponseResponse'
+        '400':
+          description: Session is not running
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Session not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Failed to respond to human intervention
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      operationId: postV1SessionsBySessionIdAgentRespondToHumanIntervention
+      x-operation-id-source: derived
 components:
   schemas:
+    HumanInterventionField:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Field identifier used in the response payload.
+        label:
+          type: string
+          description: Human-readable label displayed in the UI.
+        description:
+          type: string
+          nullable: true
+          description: Optional helper text for the field.
+        required:
+          type: boolean
+          nullable: true
+          description: Whether the field must be filled before submitting a response.
+        type:
+          type: string
+          nullable: true
+          enum:
+          - text
+          - number
+          - url
+          - email
+          - password
+          description: Input type for the field.
+        placeholder:
+          type: string
+          nullable: true
+          description: Placeholder text shown in the input.
+        defaultValue:
+          type: string
+          nullable: true
+          description: Default value for the field (camelCase alias).
+      required:
+      - name
+      - label
+    PendingInterventionsResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            count:
+              type: integer
+              description: Total number of pending intervention requests across active sessions.
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/PendingInterventionItem'
+          required:
+          - count
+          - items
+      required:
+      - data
+    HumanInterventionResponseResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            status:
+              type: string
+              description: Operation status (e.g. `success`).
+            message:
+              type: string
+              description: Human-readable confirmation from the browser agent.
+          required:
+          - status
+      required:
+      - data
+    HumanInterventionRequestsResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            status:
+              type: string
+              description: Operation status (e.g. `success`).
+            message:
+              type: string
+              description: Human-readable status message from the browser agent.
+            requests:
+              type: array
+              description: Pending intervention requests for this session.
+              items:
+                $ref: '#/components/schemas/HumanInterventionRequest'
+          required:
+          - status
+          - requests
+      required:
+      - data
     SuccessResponse:
       type: object
       properties:
@@ -274,9 +605,82 @@ components:
               type: integer
             message:
               type: string
+    HumanInterventionRequest:
+      type: object
+      description: A pending human-in-the-loop request from the agent.
+      properties:
+        requestId:
+          type: string
+          description: Unique identifier for the intervention request. Use this when responding.
+        message:
+          type: string
+          description: The agent's prompt or question for the human operator.
+        inputType:
+          type: string
+          enum:
+          - text
+          - confirm
+          - fields
+          description: Expected response format (camelCase alias).
+        fields:
+          type: array
+          nullable: true
+          description: Form fields to collect when `inputType` is `fields`.
+          items:
+            $ref: '#/components/schemas/HumanInterventionField'
+      required:
+      - requestId
+      - message
+    HumanInterventionResponseRequest:
+      type: object
+      properties:
+        requestId:
+          type: string
+          description: 'ID of the intervention request to respond to. If omitted, the most recent
+
+            pending request for the session is used.
+
+            '
+        response:
+          description: 'Response payload. For `text` input type, pass a string. For `confirm`, pass
+
+            a boolean or confirmation string. For `fields`, pass an object keyed by field name.
+
+            '
+          oneOf:
+          - type: string
+          - type: boolean
+          - type: object
+            additionalProperties: true
+      required:
+      - response
+    PendingInterventionItem:
+      allOf:
+      - $ref: '#/components/schemas/HumanInterventionRequest'
+      - type: object
+        properties:
+          sessionId:
+            type: string
+            description: The browser session that raised the intervention request.
+          tags:
+            type: array
+            items:
+              type: string
+            description: Tags associated with the session.
+        required:
+        - sessionId
+        - tags
   securitySchemes:
     api_key_header:
       type: apiKey
       in: header
       name: anchor-api-key
-      description: API key passed in the header
+      description: 'API key for your Anchor Browser account, sent as the `anchor-api-key` header on every
+
+        request. Create one at [app.anchorbrowser.io](https://app.anchorbrowser.io) (API Access),
+
+        or obtain one programmatically via the unauthenticated agent-access flow
+
+        (`POST /v1/agent-access`).
+
+        '

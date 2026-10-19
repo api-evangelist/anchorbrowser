@@ -2,7 +2,83 @@ openapi: 3.2.0
 info:
   title: AnchorBrowser Billing API
   version: 1.0.0
-  description: APIs to manage all browser-related actions and configuration.
+  description: 'Anchor Browser (anchorbrowser.io) provides cloud browsers built
+
+    for AI agents and automation. Use this API to launch and control browser sessions, run
+
+    natural-language web tasks, authenticate into third-party web apps with managed identities,
+
+    and capture recordings — reliably and at scale, without operating browser infrastructure
+
+    yourself.
+
+
+    ## Core resources
+
+    - **Sessions** (`/v1/sessions`): launch configurable cloud browsers — residential proxies,
+
+    stealth browsing, captcha solving, profiles, extensions, recording — and connect over CDP
+
+    with Playwright, Puppeteer, or any CDP client.
+
+    - **AI tools** (`/v1/tools/perform-web-task`): state a goal in natural language and the
+
+    built-in agent completes it inside the browser. Related tools fetch webpages, take
+
+    screenshots, render PDFs, and execute code in a session.
+
+    - **Tasks** (`/v1/task`): create, version, deploy, and monitor repeatable browser
+
+    automations built to run reliably in production.
+
+    - **Applications and identities** (`/v1/applications`, `/v1/identities`): managed
+
+    authentication into third-party web apps — including multi-step logins and TOTP-based
+
+    2FA — so agents can act on behalf of users.
+
+    - **Profiles** (`/v1/profiles`): persist cookies and login state across sessions.
+
+    - **OS-level control** (`/v1/sessions/{sessionId}/mouse`, `/keyboard`, `/clipboard`):
+
+    raw input for flows that resist DOM automation.
+
+    - Plus batch sessions for running browser fleets in parallel, session recordings, webhooks,
+
+    events, extensions, client certificates, and billing usage.
+
+
+    ## Authentication
+
+    Pass an API key in the `anchor-api-key` header on every request. Create keys at
+
+    app.anchorbrowser.io under API Access. AI agents that have
+
+    no key yet can obtain one autonomously through the unauthenticated
+
+    agent-access flow
+
+    (`POST /v1/agent-access`).
+
+
+    ## For AI agents and LLMs
+
+    - Docs: docs.anchorbrowser.io, with a machine-readable
+
+    index at /llms.txt and the full corpus at
+
+    /llms-full.txt.
+
+    - MCP server for hosted browser control: `https://api.anchorbrowser.io/mcp`.
+
+    - Official SDKs: `anchorbrowser` on npm and
+
+    PyPI.
+
+
+    `DELETE` operations terminate sessions or permanently remove resources (profiles,
+
+    identities, extensions); `GET` operations are safe and read-only.'
 servers:
 - url: https://api.anchorbrowser.io
   description: API server
@@ -12,11 +88,38 @@ paths:
   /v1/billing:
     get:
       summary: Get Billing Info
-      description: Retrieves credit balance, current-period credit usage, tier, and billing limits for the authenticated project.
+      description: Retrieves credit balance, current-period credit usage, tier, and billing limits for the authenticated project. Pass `from_date`, `to_date`, or `granularity` to additionally receive a `usage` time series of credits used per period, matching `GET /v1/sessions/history?metrics=credits_used`.
       security:
       - api_key_header: []
       tags:
       - Billing
+      parameters:
+      - in: query
+        name: from_date
+        required: false
+        description: Start of the usage window (ISO 8601 format, UTC). Passing any of `from_date`, `to_date`, or `granularity` adds a `usage` block to the response. Defaults to 30 days ago.
+        schema:
+          type: string
+          format: date-time
+      - in: query
+        name: to_date
+        required: false
+        description: End of the usage window (ISO 8601 format, UTC). Defaults to now.
+        schema:
+          type: string
+          format: date-time
+      - in: query
+        name: granularity
+        required: false
+        description: Time granularity for the usage time series.
+        schema:
+          type: string
+          enum:
+          - hour
+          - day
+          - week
+          - month
+          default: day
       responses:
         '200':
           description: Billing information retrieved successfully.
@@ -37,6 +140,36 @@ paths:
                       gifts_balance: 42.5
                       max_concurrent_browsers: 25
                       cost_limit: 100
+                billingInfoWithUsage:
+                  summary: Example billing info with a usage time series (granularity=day)
+                  value:
+                    data:
+                      credits: 42.5
+                      credits_used: 12.5
+                      included_credits: 50
+                      billing_period: 2026-04
+                      tier: monthly_starter
+                      gifts_balance: 42.5
+                      max_concurrent_browsers: 25
+                      cost_limit: 100
+                    usage:
+                      from_date: '2026-04-01T00:00:00.000Z'
+                      to_date: '2026-04-03T23:59:59.000Z'
+                      granularity: day
+                      total_credits_used: 12.5
+                      data:
+                      - date: '2026-04-03T00:00:00.000Z'
+                        credits_used: 4.25
+                      - date: '2026-04-02T00:00:00.000Z'
+                        credits_used: 5.5
+                      - date: '2026-04-01T00:00:00.000Z'
+                        credits_used: 2.75
+        '400':
+          description: Invalid usage query — malformed date, `from_date` after `to_date`, or a date range spanning too many buckets for the requested granularity.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         '401':
           description: Invalid API Key
           content:
@@ -53,16 +186,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    ErrorResponse:
-      type: object
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: integer
-            message:
-              type: string
     BillingInfoResponse:
       type: object
       properties:
@@ -100,9 +223,72 @@ components:
           - included_credits
           - billing_period
           - tier
+        usage:
+          type: object
+          description: Credits-usage time series. Present only when at least one of the `from_date`, `to_date`, or `granularity` query parameters is provided. Sums per-session credits bucketed by session creation time (UTC); recent buckets can still grow while sessions settle. Unlocker credits are tracked per calendar month and are not included in this series, so the bucket total can be lower than `credits_used`. The series matches `GET /v1/sessions/history?metrics=credits_used`.
+          properties:
+            from_date:
+              type: string
+              format: date-time
+              description: Resolved start of the aggregation window.
+            to_date:
+              type: string
+              format: date-time
+              description: Resolved end of the aggregation window.
+            granularity:
+              type: string
+              enum:
+              - hour
+              - day
+              - week
+              - month
+              description: Bucket size used for aggregation.
+            total_credits_used:
+              type: number
+              description: Sum of credits used across the window.
+            data:
+              type: array
+              description: Buckets ordered newest first. Periods with no sessions are omitted.
+              items:
+                type: object
+                properties:
+                  date:
+                    type: string
+                    format: date-time
+                    description: Start of the bucket (ISO 8601, UTC).
+                  credits_used:
+                    type: number
+                    description: Credits used in this bucket.
+                required:
+                - date
+                - credits_used
+          required:
+          - from_date
+          - to_date
+          - granularity
+          - total_credits_used
+          - data
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: integer
+            message:
+              type: string
   securitySchemes:
     api_key_header:
       type: apiKey
       in: header
       name: anchor-api-key
-      description: API key passed in the header
+      description: 'API key for your Anchor Browser account, sent as the `anchor-api-key` header on every
+
+        request. Create one at [app.anchorbrowser.io](https://app.anchorbrowser.io) (API Access),
+
+        or obtain one programmatically via the unauthenticated agent-access flow
+
+        (`POST /v1/agent-access`).
+
+        '

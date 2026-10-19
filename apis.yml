@@ -56,8 +56,9 @@ specificationVersion: '0.23'
 apis:
 - aid: anchorbrowser:anchor-browser-api
   name: Anchor Browser API
-  description: The Anchor Browser REST API exposes cloud browser sessions for AI agents. It covers session
-    lifecycle (create, async create, status, end, list history), batch session creation (up to 5,000 simultaneous
+  description: >-
+    The Anchor Browser REST API exposes cloud browser sessions for AI agents. It covers session lifecycle
+    (create, async create, status, end, list history), batch session creation (up to 5,000 simultaneous
     sessions), browser profiles (save/load cookies, local storage, cache), file upload/download inside
     sessions, recording with pause/resume, custom browser extensions, AI-driven task execution (Claude,
     Gemini, OpenAI), web unlocker for bot-protected sites, captcha solving, ad/popup blocking, sticky
@@ -82,8 +83,9 @@ apis:
     url: https://app.anchorbrowser.io/playground
 - aid: anchorbrowser:anchor-browser-mcp
   name: Anchor Browser MCP Server
-  description: A Model Context Protocol server (hosted and open-source) that lets MCP-compatible AI clients
-    drive Anchor Browser sessions as tools.
+  description: >-
+    A Model Context Protocol server (hosted and open-source) that lets MCP-compatible AI clients drive
+    Anchor Browser sessions as tools.
   humanURL: https://browsermcp.com
   tags:
   - MCP
@@ -96,8 +98,9 @@ apis:
     url: https://browsermcp.com
 - aid: anchorbrowser:anchor-browser-langchain
   name: LangChain Anchor Browser Tools
-  description: LangChain-ready tools that wrap Anchor Browser-powered browser actions for use inside LangChain
-    and LangGraph agent workflows.
+  description: >-
+    LangChain-ready tools that wrap Anchor Browser-powered browser actions for use inside LangChain and
+    LangGraph agent workflows.
   humanURL: https://github.com/anchorbrowser/langchain-anchorbrowser
   tags:
   - LangChain
@@ -108,7 +111,8 @@ apis:
     url: https://github.com/anchorbrowser/langchain-anchorbrowser
 - aid: anchorbrowser:anchorbrowser-agentic-capabilities-api
   name: Anchor Browser Agentic capabilities API
-  description: The Agentic capabilities API from Anchor Browser — 3 operation(s) for agentic capabilities.
+  description: >-
+    The Agentic capabilities API from Anchor Browser — 3 operation(s) for agentic capabilities.
   humanURL: https://docs.anchorbrowser.io
   tags:
   - Agentic capabilities
@@ -265,6 +269,42 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/anchorbrowser-tools-api-openapi.yml
+- aid: anchorbrowser:anchorbrowser-agent-access-api
+  name: Anchor Browser Agent Access API
+  description: The Agent Access API from Anchor Browser — 3 operation(s) for agent access.
+  humanURL: https://docs.anchorbrowser.io
+  tags:
+  - Agent Access
+  properties:
+  - type: OpenAPI
+    url: openapi/anchorbrowser-agent-access-api-openapi.yml
+- aid: anchorbrowser:anchorbrowser-volume-files-api
+  name: Anchor Browser Volume Files API
+  description: The Volume Files API from Anchor Browser — 6 operation(s) for volume files.
+  humanURL: https://docs.anchorbrowser.io
+  tags:
+  - Volume Files
+  properties:
+  - type: OpenAPI
+    url: openapi/anchorbrowser-volume-files-api-openapi.yml
+- aid: anchorbrowser:anchorbrowser-volumes-api
+  name: Anchor Browser Volumes API
+  description: The Volumes API from Anchor Browser — 3 operation(s) for volumes.
+  humanURL: https://docs.anchorbrowser.io
+  tags:
+  - Volumes
+  properties:
+  - type: OpenAPI
+    url: openapi/anchorbrowser-volumes-api-openapi.yml
+- aid: anchorbrowser:anchorbrowser-webhooks-api
+  name: Anchor Browser Webhooks API
+  description: The Webhooks API from Anchor Browser — 5 operation(s) for webhooks.
+  humanURL: https://docs.anchorbrowser.io
+  tags:
+  - Webhooks
+  properties:
+  - type: OpenAPI
+    url: openapi/anchorbrowser-webhooks-api-openapi.yml
 common:
 - type: Plans
   url: plans/anchorbrowser-plans-pricing.yml

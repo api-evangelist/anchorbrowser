@@ -2,7 +2,83 @@ openapi: 3.2.0
 info:
   title: AnchorBrowser Identities API
   version: 1.0.0
-  description: APIs to manage all browser-related actions and configuration.
+  description: 'Anchor Browser (anchorbrowser.io) provides cloud browsers built
+
+    for AI agents and automation. Use this API to launch and control browser sessions, run
+
+    natural-language web tasks, authenticate into third-party web apps with managed identities,
+
+    and capture recordings — reliably and at scale, without operating browser infrastructure
+
+    yourself.
+
+
+    ## Core resources
+
+    - **Sessions** (`/v1/sessions`): launch configurable cloud browsers — residential proxies,
+
+    stealth browsing, captcha solving, profiles, extensions, recording — and connect over CDP
+
+    with Playwright, Puppeteer, or any CDP client.
+
+    - **AI tools** (`/v1/tools/perform-web-task`): state a goal in natural language and the
+
+    built-in agent completes it inside the browser. Related tools fetch webpages, take
+
+    screenshots, render PDFs, and execute code in a session.
+
+    - **Tasks** (`/v1/task`): create, version, deploy, and monitor repeatable browser
+
+    automations built to run reliably in production.
+
+    - **Applications and identities** (`/v1/applications`, `/v1/identities`): managed
+
+    authentication into third-party web apps — including multi-step logins and TOTP-based
+
+    2FA — so agents can act on behalf of users.
+
+    - **Profiles** (`/v1/profiles`): persist cookies and login state across sessions.
+
+    - **OS-level control** (`/v1/sessions/{sessionId}/mouse`, `/keyboard`, `/clipboard`):
+
+    raw input for flows that resist DOM automation.
+
+    - Plus batch sessions for running browser fleets in parallel, session recordings, webhooks,
+
+    events, extensions, client certificates, and billing usage.
+
+
+    ## Authentication
+
+    Pass an API key in the `anchor-api-key` header on every request. Create keys at
+
+    app.anchorbrowser.io under API Access. AI agents that have
+
+    no key yet can obtain one autonomously through the unauthenticated
+
+    agent-access flow
+
+    (`POST /v1/agent-access`).
+
+
+    ## For AI agents and LLMs
+
+    - Docs: docs.anchorbrowser.io, with a machine-readable
+
+    index at /llms.txt and the full corpus at
+
+    /llms-full.txt.
+
+    - MCP server for hosted browser control: `https://api.anchorbrowser.io/mcp`.
+
+    - Official SDKs: `anchorbrowser` on npm and
+
+    PyPI.
+
+
+    `DELETE` operations terminate sessions or permanently remove resources (profiles,
+
+    identities, extensions); `GET` operations are safe and read-only.'
 servers:
 - url: https://api.anchorbrowser.io
   description: API server
@@ -207,8 +283,675 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
       operationId: deleteV1IdentitiesByIdentityId
       x-operation-id-source: derived
+  /v1/identities/{identityId}/reauthenticate:
+    post:
+      summary: Reauthenticate Identity
+      description: 'Re-authenticates an identity on demand: validates the saved browser profile and runs login if
+
+        it is no longer signed in, then persists the refreshed profile and tears the temporary session
+
+        down. Equivalent to a session with `identity_skip_validation: false` that ends after auth.'
+      security:
+      - api_key_header: []
+      tags:
+      - Identities
+      parameters:
+      - name: identityId
+        in: path
+        required: true
+        description: The ID of the identity to reauthenticate
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReauthenticateIdentityRequest'
+            examples:
+              syncReauthenticate:
+                summary: Wait for authentication to finish (default)
+                value:
+                  sync: true
+              asyncReauthenticate:
+                summary: Start authentication in the background
+                value:
+                  sync: false
+      responses:
+        '200':
+          description: Identity reauthentication started or completed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReauthenticateIdentityResponse'
+        '401':
+          description: Missing API key for team
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Identity not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '412':
+          description: Identity has no credentials to authenticate with
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Identity authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Failed to reauthenticate identity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      operationId: postV1IdentitiesByIdentityIdReauthenticate
+      x-operation-id-source: derived
+  /v1/identities/dynamic/start/{session_id}:
+    post:
+      summary: Start Dynamic Auth Flow
+      description: 'Starts (or restarts) a dynamic auth flow in an existing browser session.
+
+        `session_id` is required in the path. Advances until the next presentation
+
+        (`decision`, `form`, `detection_failed`, `authenticated`, or `failed`).
+
+
+        If the response is `detection_failed` with `retryable: true`, or the request
+
+        times out, keep polling `GET /v1/identities/dynamic/state/{session_id}` —
+
+        some login steps take longer than a single start/resolve call. If
+
+        `detection_failed` and `retryable` is false, open `live_view_url` to finish
+
+        signing in. Do not treat a timeout as a hard stop until `view.type` is
+
+        `failed` or `detection_failed` and `retryable` is false.'
+      security:
+      - api_key_header: []
+      tags:
+      - Identities
+      parameters:
+      - name: session_id
+        in: path
+        required: true
+        description: Active browser session that will drive the login.
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthFlowV2StartRequest'
+            examples:
+              startLogin:
+                summary: Start at a login URL
+                value:
+                  url: https://example.com/login
+                  host: example.com
+      responses:
+        '200':
+          description: First presentation of the auth flow
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthFlowV2View'
+              examples:
+                decision:
+                  summary: Decision — choose one of several sign-in methods
+                  value:
+                    type: decision
+                    session_id: abc-123
+                    host: example.com
+                    current_step_label: Sign in
+                    step_id: root/login
+                    options:
+                    - step_id: root/login/password
+                      label: Email and password
+                      automatable: true
+                    - step_id: root/login/google
+                      label: Continue with Google
+                      automatable: false
+                    - step_id: root/login/sso
+                      label: Continue with SSO
+                      automatable: false
+                form:
+                  summary: Form — choose an option, then submit its values
+                  value:
+                    type: form
+                    session_id: abc-123
+                    host: example.com
+                    current_step_label: Sign in
+                    step_id: root/credentials
+                    options:
+                    - type: credentials
+                      automatable: true
+                      inputs:
+                      - name: username
+                        type: text
+                        label: Email
+                      - name: password
+                        type: password
+                        label: Password
+                    - type: gmail_one_click_integration
+                      automatable: true
+                      inputs:
+                      - name: gmail_tokens
+                        type: text
+                        label: Gmail token
+        '400':
+          description: Invalid request or host does not match url hostname
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Session not found or not active
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Auth flow transition already in progress, or navigation/discovery failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Failed to start auth flow
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      operationId: postV1IdentitiesDynamicStartBySessionId
+      x-operation-id-source: derived
+  /v1/identities/dynamic/state/{session_id}:
+    get:
+      summary: Get Dynamic Auth Flow State
+      description: 'Read-only snapshot of an in-progress dynamic auth flow. Does not acquire the
+
+        flow lock or mutate state.
+
+
+        Poll this endpoint when:
+
+        - start/resolve returned `type: detection_failed` with `retryable: true`
+
+        (the next login step is still being determined and may take longer than
+
+        the request timeout)
+
+        - start/resolve timed out or returned 409 while a transition is in flight
+
+        - you need the current presentation without submitting an answer
+
+
+        `view` is that presentation — the same object start/resolve return. Treat it
+
+        as the live step when `phase` is `settled`. While `phase` is `navigating`,
+
+        `view` may already describe the next step; `target` is only a progress
+
+        label for the in-flight transition.
+
+
+        Keep polling until `view.type` is `decision`, `form`, `authenticated`, a
+
+        non-retryable `detection_failed`, or a non-retryable `failed`. Then call
+
+        `/resolve` only for `decision`/`form`, `/finalize` for `authenticated`, or
+
+        open `live_view_url` for `detection_failed`.'
+      security:
+      - api_key_header: []
+      tags:
+      - Identities
+      parameters:
+      - name: session_id
+        in: path
+        required: true
+        description: Session whose auth flow state to read.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Current auth flow state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthFlowV2State'
+        '404':
+          description: Auth flow not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Failed to read auth flow state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      operationId: getV1IdentitiesDynamicStateBySessionId
+      x-operation-id-source: derived
+  /v1/identities/dynamic/resolve/{session_id}:
+    post:
+      summary: Resolve Dynamic Auth Flow Step
+      description: 'Advances the flow by answering the current step. The body depends on the
+
+        last presentation''s `type` — do not mix the two shapes:
+
+
+        - **`decision`**: send only `choice` (a `step_id` from `options`).
+
+        Do not send `option_index` or `values`.
+
+        - **`form`**: send `option_index` (index into `options`) and `values`
+
+        (field name → string). Do not send `choice`.
+
+
+        Do not call `/resolve` for `detection_failed`, `authenticated`, or `failed`.
+
+        For retryable `detection_failed`, a timeout, or a 409 (another transition
+
+        still in flight), poll `GET .../state/{session_id}` until a
+
+        `decision`/`form`/`authenticated` view appears, then continue. If
+
+        `detection_failed` is not retryable, open `live_view_url` to finish signing in.'
+      security:
+      - api_key_header: []
+      tags:
+      - Identities
+      parameters:
+      - name: session_id
+        in: path
+        required: true
+        description: Session whose auth flow to advance.
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthFlowV2ResolveRequest'
+            examples:
+              form:
+                summary: Submit values for a form option
+                description: 'Use the same shape for every form option. For an email MFA
+
+                  option, send `gmail_tokens` in `values` instead of username
+
+                  and password.
+
+                  '
+                value:
+                  option_index: 0
+                  values:
+                    username: user@example.com
+                    password: secret
+              decision:
+                summary: Choose one option from a decision response
+                value:
+                  choice: <step_id from response.options>
+      responses:
+        '200':
+          description: Next presentation of the auth flow
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthFlowV2View'
+              examples:
+                decision:
+                  summary: Next step asks you to choose a sign-in method
+                  value:
+                    type: decision
+                    session_id: abc-123
+                    host: example.com
+                    current_step_label: Sign in
+                    step_id: root/login
+                    options:
+                    - step_id: root/login/password
+                      label: Email and password
+                      automatable: true
+                    - step_id: root/login/google
+                      label: Continue with Google
+                      automatable: false
+                    - step_id: root/login/sso
+                      label: Continue with SSO
+                      automatable: false
+                form:
+                  summary: Next step asks you to submit form values
+                  value:
+                    type: form
+                    session_id: abc-123
+                    host: example.com
+                    current_step_label: Sign in
+                    step_id: root/credentials
+                    options:
+                    - type: credentials
+                      automatable: true
+                      inputs:
+                      - name: username
+                        type: text
+                        label: Email
+                      - name: password
+                        type: password
+                        label: Password
+                    - type: gmail_one_click_integration
+                      automatable: true
+                      inputs:
+                      - name: gmail_tokens
+                        type: text
+                        label: Gmail token
+        '400':
+          description: Invalid choice, option index, or missing field
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Session, flow, or step not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Auth flow transition already in progress
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Failed to resolve auth flow
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      operationId: postV1IdentitiesDynamicResolveBySessionId
+      x-operation-id-source: derived
+  /v1/identities/dynamic/finalize/{session_id}:
+    post:
+      summary: Finalize Dynamic Auth Flow
+      description: 'Persists the identity, browser profile, and captured credentials after the
+
+        flow reaches `authenticated`. The response reports whether the saved login
+
+        can be replayed unattended (`automatable`).'
+      security:
+      - api_key_header: []
+      tags:
+      - Identities
+      parameters:
+      - name: session_id
+        in: path
+        required: true
+        description: Session whose authenticated flow to persist.
+        schema:
+          type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthFlowV2FinalizeRequest'
+      responses:
+        '200':
+          description: Identity created from the completed flow
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthFlowV2FinalizeResult'
+        '401':
+          description: Missing team context
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Auth flow or current step not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Flow must be authenticated before finalizing
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Failed to finalize
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      operationId: postV1IdentitiesDynamicFinalizeBySessionId
+      x-operation-id-source: derived
 components:
   schemas:
+    ReauthenticateIdentityRequest:
+      type: object
+      properties:
+        sync:
+          type: boolean
+          default: true
+          description: 'When `true` (default), wait for authentication to finish and persist the refreshed
+
+            profile before returning. When `false`, start authentication asynchronously.
+
+            '
+    AuthFlowV2ResolveRequest:
+      oneOf:
+      - $ref: '#/components/schemas/AuthFlowV2FormResolve'
+      - $ref: '#/components/schemas/AuthFlowV2DecisionResolve'
+      description: 'Body depends on the last `view.type`. Use the `decision` shape or the `form`
+
+        shape — not both.
+
+        '
+    AuthFlowV2DecisionView:
+      title: decision
+      allOf:
+      - $ref: '#/components/schemas/AuthFlowV2ViewBase'
+      - type: object
+        required:
+        - type
+        - options
+        properties:
+          type:
+            type: string
+            enum:
+            - decision
+          options:
+            type: array
+            description: 'Each item is `{ step_id, label, automatable }`.
+
+              POST `/resolve` with `{ "choice": "<step_id>" }`.
+
+              '
+            items:
+              $ref: '#/components/schemas/AuthFlowV2DecisionOption'
+    GetIdentityResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the identity
+        name:
+          type: string
+          description: Name of the identity
+        source:
+          type: string
+          description: Source URL for the identity
+        status:
+          type: string
+          enum:
+          - pending
+          - validated
+          - failed
+          description: Status of the identity
+        metadata:
+          type: object
+          additionalProperties: true
+          description: Metadata associated with the identity
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp when the identity was created
+        updated_at:
+          type: string
+          format: date-time
+          description: Timestamp when the identity was last updated
+    AuthFlowV2FormResolve:
+      title: form
+      type: object
+      required:
+      - option_index
+      - values
+      description: Send this when the last presentation was a form step.
+      properties:
+        option_index:
+          type: integer
+          minimum: 0
+          description: Index into that form's `options` list.
+          example: 0
+        values:
+          type: object
+          additionalProperties:
+            type: string
+          description: Map of input name → value for the selected option (`options[option_index].inputs` lists the names).
+          example:
+            username: user@example.com
+            password: secret
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: integer
+            message:
+              type: string
+    AuthFlowV2FormView:
+      title: form
+      allOf:
+      - $ref: '#/components/schemas/AuthFlowV2ViewBase'
+      - type: object
+        required:
+        - type
+        - options
+        properties:
+          type:
+            type: string
+            enum:
+            - form
+          options:
+            type: array
+            description: 'Each item includes `type` and `automatable`.
+
+              POST `/resolve` with `{ "option_index": n, "values": { ... } }`.
+
+              '
+            items:
+              $ref: '#/components/schemas/AuthFlowV2FormOption'
+          credentials_rejected:
+            type: boolean
+            description: The last submission was rejected (e.g. wrong password) and the same form is re-presented.
+          credentials_passed:
+            type: boolean
+            description: The previous step just cleared. Transient.
+    AuthFlowV2FinalizeRequest:
+      type: object
+      properties:
+        identity_name:
+          type: string
+          description: Optional name for the created identity.
+        profile_name:
+          type: string
+          description: Optional browser profile name. Defaults to `profile-<session_id>`.
+    AuthFlowV2ViewBase:
+      type: object
+      required:
+      - session_id
+      - host
+      - current_step_label
+      - step_id
+      - cdp_url
+      - live_view_url
+      properties:
+        session_id:
+          type: string
+        host:
+          type: string
+          description: Hostname the flow was started for.
+        current_step_label:
+          type: string
+          description: Human-readable label of the current login step.
+        step_id:
+          type: string
+          description: Identifier of the current login step.
+        cdp_url:
+          type: string
+          description: CDP websocket URL of the session driving the login.
+        live_view_url:
+          type: string
+          description: URL to watch or take over the session in a browser.
+        discovery_error:
+          type: string
+          description: Set when automatic step detection hit an error. A partial flow may still be presented.
+    AuthFlowV2FinalizeResult:
+      type: object
+      required:
+      - identityId
+      - profileName
+      - automatable
+      - nonAutomatableReasons
+      properties:
+        identityId:
+          type: string
+        profileName:
+          type: string
+        automatable:
+          type: boolean
+          description: 'Identity-level replay flag. False if any passed form option was not automatable.
+
+            Distinct from `options[].automatable` on `decision`/`form` views, which is per choice.
+
+            '
+        nonAutomatableReasons:
+          type: array
+          description: Why the login cannot be replayed unattended. Empty when `automatable` is true.
+          items:
+            type: string
+    CustomFieldItem:
+      type: object
+      required:
+      - name
+      - value
+      properties:
+        name:
+          type: string
+          description: Field name
+        value:
+          type: string
+          description: Field value
     CustomCredential:
       title: custom
       type: object
@@ -226,22 +969,281 @@ components:
           items:
             $ref: '#/components/schemas/CustomFieldItem'
           description: Array of custom fields
-    DeleteIdentityResponse:
+    AuthFlowV2AuthenticatedView:
+      title: authenticated
+      allOf:
+      - $ref: '#/components/schemas/AuthFlowV2ViewBase'
+      - type: object
+        required:
+        - type
+        properties:
+          type:
+            type: string
+            enum:
+            - authenticated
+          message:
+            type: string
+            description: Human-readable status. POST `/finalize` to persist the identity.
+    UpdateIdentityResponse:
       type: object
       properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier for the identity
+        name:
+          type: string
+          description: Name of the identity
+        metadata:
+          type: object
+          additionalProperties: true
+          description: Metadata associated with the identity
+        updated_at:
+          type: string
+          format: date-time
+          description: Timestamp when the identity was last updated
+    AuthFlowV2DecisionOption:
+      type: object
+      required:
+      - step_id
+      - label
+      - automatable
+      description: 'One option on a `decision` step. The option''s `step_id` is the value to
+
+        send as `choice` on `/resolve`; the decision view''s `step_id` identifies
+
+        the step that is asking you to choose.
+
+        '
+      properties:
+        step_id:
+          type: string
+          description: Opaque identifier for this option; pass it back as `choice`.
+        label:
+          type: string
+          description: Human-readable name of the login path (e.g. "Continue with Google").
+        automatable:
+          type: boolean
+          description: True if this path is known to be replayable unattended, without a human.
+    AuthFlowV2FormOption:
+      type: object
+      required:
+      - type
+      - automatable
+      description: 'One way to complete a `form` step. Pick it with `option_index` on `/resolve`.
+
+        `automatable` is true when this option can be replayed unattended (typically
+
+        `credentials`, `totp_secret`, `gmail_one_click_integration`). Captcha, passkey,
+
+        consent, and magic_link are typically false.
+
+
+        `gmail_one_click_integration`: open `extra_data.create_integration_url` in a
+
+        browser once; it returns a value to send as `values.gmail_tokens` on `/resolve`.
+
+        The token is bound to the Gmail account, not to this flow — reuse it on any
+
+        later email MFA form for that account, across applications, without
+
+        authorizing again.
+
+        '
+      properties:
+        type:
+          type: string
+          enum:
+          - credentials
+          - mfa_totp
+          - mfa_sms
+          - mfa_email
+          - sso
+          - captcha
+          - consent
+          - magic_link
+          - passkey
+          - generic
+          - totp_secret
+          - gmail_one_click_integration
+        automatable:
+          type: boolean
+          description: True if this option can be replayed unattended without a human.
+        inputs:
+          type: array
+          items:
+            type: object
+            required:
+            - name
+            - type
+            properties:
+              name:
+                type: string
+              type:
+                type: string
+              label:
+                type: string
+              placeholder:
+                type: string
+              value:
+                type: string
+        extra_data:
+          type: object
+          additionalProperties: true
+          description: Type-specific extras. Present only when the option has any.
+          properties:
+            create_integration_url:
+              type: string
+              format: uri
+              description: On `gmail_one_click_integration`. Browser URL to connect Gmail; see the option description for the token it returns.
+            number:
+              type: string
+              description: On `consent`. Device confirmation number from the live page, when shown.
         message:
           type: string
-          description: Deletion result message
-    ErrorResponse:
+        provider:
+          type: string
+        phoneHint:
+          type: string
+    CredentialData:
+      oneOf:
+      - $ref: '#/components/schemas/UsernamePasswordCredential'
+      - $ref: '#/components/schemas/AuthenticatorCredential'
+      - $ref: '#/components/schemas/CustomCredential'
+      discriminator:
+        propertyName: type
+    AuthFlowV2State:
       type: object
+      description: 'Poll this after retryable `detection_failed`, a request timeout, or 409.
+
+
+        `view` is the same presentation start/resolve return (`type` discriminant).
+
+        When `phase` is `settled`, it is the current step. When `phase` is `navigating`,
+
+        it may already describe the next step so you can render (or answer) before the
+
+        browser finishes moving; it is omitted until there is something to show.
+
+
+        Call `/resolve` only when `view.type` is `decision` or `form`.
+
+        '
+      required:
+      - session_id
+      - graph_id
+      - current_step_id
+      - discovery_status
+      - phase
+      - updated_at
+      - nav
       properties:
-        error:
+        session_id:
+          type: string
+        graph_id:
+          type: integer
+          description: Internal identifier for this auth flow.
+        current_step_id:
+          type: string
+          description: 'Identifier of the step the flow last committed. While `phase` is `navigating`,
+
+            `view` may already describe a later step.
+
+            '
+        discovery_status:
+          type: string
+          enum:
+          - in_progress
+          - complete
+          - failed
+          description: Whether automatic detection of the login steps is still running.
+        discovery_error:
+          type: string
+        phase:
+          type: string
+          enum:
+          - navigating
+          - settled
+          description: '`navigating` — a browser transition is in flight; `view` may already be the next step.
+
+            `settled` — idle at a step; `view` is that step.
+
+            '
+        updated_at:
+          type: number
+          description: Unix epoch milliseconds of the last state change.
+        target:
           type: object
+          description: 'Step the browser is moving toward. Present only while `phase` is `navigating`.
+
+            Use for progress copy (for example "Preparing {label}…"). Not a second
+
+            presentation — `view` is what to show.
+
+            '
           properties:
-            code:
-              type: integer
-            message:
+            step_id:
               type: string
+            label:
+              type: string
+        nav:
+          type: object
+          required:
+          - status
+          description: Outcome of the latest navigation operation.
+          properties:
+            status:
+              type: string
+              enum:
+              - pending
+              - succeeded
+              - failed
+              - none
+            error:
+              type: string
+            credentials_rejected:
+              type: boolean
+        view:
+          allOf:
+          - $ref: '#/components/schemas/AuthFlowV2View'
+          description: 'What to render or answer. Same shape as start/resolve, derived read-only.
+
+
+            - `phase: settled` — the current step.
+
+            - `phase: navigating` — the upcoming step, when known; omitted until then.
+
+            '
+    ReauthenticateIdentityResponse:
+      type: object
+      required:
+      - identityId
+      - async
+      - sessionId
+      - auth_status
+      properties:
+        identityId:
+          type: string
+          description: The identity that was reauthenticated
+        async:
+          type: boolean
+          description: Whether authentication is still running in the background
+        sessionId:
+          type: string
+          description: Browser session that ran the reauthentication; its recording shows what happened
+        auth_status:
+          type: string
+          enum:
+          - authenticated
+          - pending
+          description: 'authenticated: the identity is signed in again; pending: an async run is still in progress'
+        method:
+          type: string
+          enum:
+          - profile
+          - task
+          - mixed
+          description: 'How the identity got authenticated: profile = stored profile was still signed in, task = agentic authentication task, mixed = both. Absent while pending.'
     CreateIdentityRequest:
       type: object
       required:
@@ -275,38 +1277,32 @@ components:
         applicationDescription:
           type: string
           description: Optional application description
-    GetIdentityResponse:
+    AuthFlowV2DecisionResolve:
+      title: decision
+      type: object
+      required:
+      - choice
+      description: Send this when the last presentation was a decision step.
+      properties:
+        choice:
+          type: string
+          description: One of `options[].step_id` from the decision view.
+          example: root/login/google
+    UpdateIdentityRequest:
       type: object
       properties:
-        id:
-          type: string
-          format: uuid
-          description: Unique identifier for the identity
         name:
           type: string
           description: Name of the identity
-        source:
-          type: string
-          description: Source URL for the identity
-        status:
-          type: string
-          enum:
-          - pending
-          - validated
-          - failed
-          description: Status of the identity
         metadata:
           type: object
           additionalProperties: true
-          description: Metadata associated with the identity
-        created_at:
-          type: string
-          format: date-time
-          description: Timestamp when the identity was created
-        updated_at:
-          type: string
-          format: date-time
-          description: Timestamp when the identity was last updated
+          description: Metadata for the identity
+        credentials:
+          type: array
+          items:
+            $ref: '#/components/schemas/CredentialData'
+          description: Array of credentials for authentication
     UsernamePasswordCredential:
       title: username_password
       type: object
@@ -326,76 +1322,63 @@ components:
         password:
           type: string
           description: Password for authentication
-    UpdateIdentityResponse:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Unique identifier for the identity
-        name:
-          type: string
-          description: Name of the identity
-        metadata:
-          type: object
-          additionalProperties: true
-          description: Metadata associated with the identity
-        updated_at:
-          type: string
-          format: date-time
-          description: Timestamp when the identity was last updated
-    UpdateIdentityRequest:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Name of the identity
-        metadata:
-          type: object
-          additionalProperties: true
-          description: Metadata for the identity
-        credentials:
-          type: array
-          items:
-            $ref: '#/components/schemas/CredentialData'
-          description: Array of credentials for authentication
-    CredentialData:
+    AuthFlowV2View:
+      description: 'Presentation returned by start/resolve. GET `/state` nests the same object as
+
+        `view` when there is something to show. Discriminated on `type`. Call `/resolve`
+
+        only for `decision` or `form`.
+
+        '
       oneOf:
-      - $ref: '#/components/schemas/UsernamePasswordCredential'
-      - $ref: '#/components/schemas/AuthenticatorCredential'
-      - $ref: '#/components/schemas/CustomCredential'
+      - $ref: '#/components/schemas/AuthFlowV2DecisionView'
+      - $ref: '#/components/schemas/AuthFlowV2FormView'
+      - $ref: '#/components/schemas/AuthFlowV2DetectionFailedView'
+      - $ref: '#/components/schemas/AuthFlowV2AuthenticatedView'
+      - $ref: '#/components/schemas/AuthFlowV2FailedView'
       discriminator:
         propertyName: type
-    CustomFieldItem:
-      type: object
-      required:
-      - name
-      - value
-      properties:
-        name:
-          type: string
-          description: Field name
-        value:
-          type: string
-          description: Field value
-    AuthenticatorCredential:
-      title: authenticator
-      type: object
-      required:
-      - type
-      - secret
-      properties:
-        type:
-          type: string
-          enum:
-          - authenticator
-          description: Credential type
-        secret:
-          type: string
-          description: TOTP secret for authenticator
-        otp:
-          type: string
-          description: Optional OTP code
+        mapping:
+          decision: '#/components/schemas/AuthFlowV2DecisionView'
+          form: '#/components/schemas/AuthFlowV2FormView'
+          detection_failed: '#/components/schemas/AuthFlowV2DetectionFailedView'
+          authenticated: '#/components/schemas/AuthFlowV2AuthenticatedView'
+          failed: '#/components/schemas/AuthFlowV2FailedView'
+    AuthFlowV2DetectionFailedView:
+      title: detection_failed
+      allOf:
+      - $ref: '#/components/schemas/AuthFlowV2ViewBase'
+      - type: object
+        required:
+        - type
+        - node_status
+        - retryable
+        - message
+        properties:
+          type:
+            type: string
+            enum:
+            - detection_failed
+          node_status:
+            type: string
+            enum:
+            - detected
+            - failed
+            - explored
+            description: How far the current step has been analyzed.
+          last_error:
+            type: string
+            description: The most recent navigation error, if any.
+          retryable:
+            type: boolean
+            description: True means keep polling `/state`; false means stop and use `live_view_url`.
+          message:
+            type: string
+            description: 'Why detection stopped. Open `live_view_url` to finish signing in in the browser.
+
+              Do not resolve. If `retryable` is true, you may also poll GET `/state`.
+
+              '
     CreateIdentityResponse:
       type: object
       properties:
@@ -421,9 +1404,76 @@ components:
           type: string
           format: date-time
           description: Timestamp when the identity was created
+    AuthenticatorCredential:
+      title: authenticator
+      type: object
+      required:
+      - type
+      - secret
+      properties:
+        type:
+          type: string
+          enum:
+          - authenticator
+          description: Credential type
+        secret:
+          type: string
+          description: TOTP secret for authenticator
+        otp:
+          type: string
+          description: Optional OTP code
+    AuthFlowV2FailedView:
+      title: failed
+      allOf:
+      - $ref: '#/components/schemas/AuthFlowV2ViewBase'
+      - type: object
+        required:
+        - type
+        - error
+        - retryable
+        properties:
+          type:
+            type: string
+            enum:
+            - failed
+          error:
+            type: string
+            description: What went wrong.
+          retryable:
+            type: boolean
+            description: True means keep polling `/state`; false means stop.
+    AuthFlowV2StartRequest:
+      type: object
+      required:
+      - url
+      - host
+      properties:
+        url:
+          type: string
+          format: uri
+          description: Landing URL to open in the session (login page).
+          example: https://example.com/login
+        host:
+          type: string
+          description: Hostname of `url`. Must match the URL hostname after normalization.
+          example: example.com
+    DeleteIdentityResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Deletion result message
   securitySchemes:
     api_key_header:
       type: apiKey
       in: header
       name: anchor-api-key
-      description: API key passed in the header
+      description: 'API key for your Anchor Browser account, sent as the `anchor-api-key` header on every
+
+        request. Create one at [app.anchorbrowser.io](https://app.anchorbrowser.io) (API Access),
+
+        or obtain one programmatically via the unauthenticated agent-access flow
+
+        (`POST /v1/agent-access`).
+
+        '

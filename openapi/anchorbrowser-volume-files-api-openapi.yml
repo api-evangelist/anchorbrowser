@@ -1,0 +1,638 @@
+openapi: 3.2.0
+info:
+  title: AnchorBrowser Volume Files API
+  version: 1.0.0
+  description: 'Anchor Browser (anchorbrowser.io) provides cloud browsers built
+
+    for AI agents and automation. Use this API to launch and control browser sessions, run
+
+    natural-language web tasks, authenticate into third-party web apps with managed identities,
+
+    and capture recordings — reliably and at scale, without operating browser infrastructure
+
+    yourself.
+
+
+    ## Core resources
+
+    - **Sessions** (`/v1/sessions`): launch configurable cloud browsers — residential proxies,
+
+    stealth browsing, captcha solving, profiles, extensions, recording — and connect over CDP
+
+    with Playwright, Puppeteer, or any CDP client.
+
+    - **AI tools** (`/v1/tools/perform-web-task`): state a goal in natural language and the
+
+    built-in agent completes it inside the browser. Related tools fetch webpages, take
+
+    screenshots, render PDFs, and execute code in a session.
+
+    - **Tasks** (`/v1/task`): create, version, deploy, and monitor repeatable browser
+
+    automations built to run reliably in production.
+
+    - **Applications and identities** (`/v1/applications`, `/v1/identities`): managed
+
+    authentication into third-party web apps — including multi-step logins and TOTP-based
+
+    2FA — so agents can act on behalf of users.
+
+    - **Profiles** (`/v1/profiles`): persist cookies and login state across sessions.
+
+    - **OS-level control** (`/v1/sessions/{sessionId}/mouse`, `/keyboard`, `/clipboard`):
+
+    raw input for flows that resist DOM automation.
+
+    - Plus batch sessions for running browser fleets in parallel, session recordings, webhooks,
+
+    events, extensions, client certificates, and billing usage.
+
+
+    ## Authentication
+
+    Pass an API key in the `anchor-api-key` header on every request. Create keys at
+
+    app.anchorbrowser.io under API Access. AI agents that have
+
+    no key yet can obtain one autonomously through the unauthenticated
+
+    agent-access flow
+
+    (`POST /v1/agent-access`).
+
+
+    ## For AI agents and LLMs
+
+    - Docs: docs.anchorbrowser.io, with a machine-readable
+
+    index at /llms.txt and the full corpus at
+
+    /llms-full.txt.
+
+    - MCP server for hosted browser control: `https://api.anchorbrowser.io/mcp`.
+
+    - Official SDKs: `anchorbrowser` on npm and
+
+    PyPI.
+
+
+    `DELETE` operations terminate sessions or permanently remove resources (profiles,
+
+    identities, extensions); `GET` operations are safe and read-only.'
+servers:
+- url: https://api.anchorbrowser.io
+  description: API server
+tags:
+- name: Volume Files
+paths:
+  /v1/volumes/{volume_id}/files:
+    get:
+      summary: List Files
+      description: List the contents of a folder in the volume (one level, like `ls`), or the whole tree with `recursive=true`. Files written by a running session appear here about a minute after the session stops writing to them.
+      security:
+      - api_key_header: []
+      tags:
+      - Volume Files
+      parameters:
+      - name: volume_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: path
+        in: query
+        required: false
+        description: Folder to list, relative to the volume root. Omit for the root.
+        schema:
+          type: string
+          example: downloads
+      - name: recursive
+        in: query
+        required: false
+        description: List every file under `path` instead of one level
+        schema:
+          type: string
+          enum:
+          - 'true'
+          - 'false'
+      - name: cursor
+        in: query
+        required: false
+        description: '`next_cursor` from the previous page'
+        schema:
+          type: string
+      - name: limit
+        in: query
+        required: false
+        description: Page size, 1 to 1000
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Folder listing
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VolumeFileListResponse'
+        '404':
+          description: Volume not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '412':
+          description: The volume is not `ready`
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      operationId: getV1VolumesByVolumeIdFiles
+      x-operation-id-source: derived
+    post:
+      summary: Upload File
+      description: Upload a file into the volume in one multipart request. For files larger than 10 MB use `POST /v1/volumes/{volume_id}/files/upload-url` instead.
+      security:
+      - api_key_header: []
+      tags:
+      - Volume Files
+      parameters:
+      - name: volume_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+              - file
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: The file to upload
+                path:
+                  type: string
+                  description: Destination path relative to the volume root, e.g. `downloads/report.pdf`. Defaults to the uploaded file's name at the root.
+                overwrite:
+                  type: string
+                  enum:
+                  - 'true'
+                  - 'false'
+                  description: Replace an existing file at `path`. Defaults to `false`.
+      responses:
+        '200':
+          description: File uploaded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VolumeFileInfoResponse'
+        '400':
+          description: Missing file or invalid path
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: A file already exists at `path` and `overwrite` is not set
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '413':
+          description: File too large for a multipart upload; use an upload URL
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      operationId: postV1VolumesByVolumeIdFiles
+      x-operation-id-source: derived
+    delete:
+      summary: Delete Files
+      description: Delete one file (`path`) or everything under a folder (`prefix` with `recursive=true`).
+      security:
+      - api_key_header: []
+      tags:
+      - Volume Files
+      parameters:
+      - name: volume_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: path
+        in: query
+        required: false
+        description: File to delete, relative to the volume root
+        schema:
+          type: string
+      - name: prefix
+        in: query
+        required: false
+        description: Folder to delete recursively; requires `recursive=true`
+        schema:
+          type: string
+      - name: recursive
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - 'true'
+          - 'false'
+      responses:
+        '200':
+          description: Files deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      status:
+                        type: string
+                        enum:
+                        - success
+                      deleted_count:
+                        type: integer
+        '404':
+          description: Volume or file not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      operationId: deleteV1VolumesByVolumeIdFiles
+      x-operation-id-source: derived
+  /v1/volumes/{volume_id}/files/upload-url:
+    post:
+      summary: Create Upload URL
+      description: Get a pre-signed URL to upload a file of any size (up to 5 GB) directly to storage. `PUT` the file body to `signed_url` and send the returned `headers` unchanged.
+      security:
+      - api_key_header: []
+      tags:
+      - Volume Files
+      parameters:
+      - name: volume_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - path
+              properties:
+                path:
+                  type: string
+                  description: Destination path relative to the volume root
+                  example: inputs/dataset.csv
+                content_type:
+                  type: string
+                  description: MIME type of the file. Defaults to `application/octet-stream`.
+                size:
+                  type: integer
+                  description: Size in bytes, if known
+      responses:
+        '200':
+          description: Upload URL created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VolumeUploadUrlResponse'
+        '400':
+          description: Invalid path or size
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      operationId: postV1VolumesByVolumeIdFilesUploadUrl
+      x-operation-id-source: derived
+  /v1/volumes/{volume_id}/files/stat:
+    get:
+      summary: Get File Info
+      description: Size, type and modification time of one file.
+      security:
+      - api_key_header: []
+      tags:
+      - Volume Files
+      parameters:
+      - name: volume_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: path
+        in: query
+        required: true
+        description: File path relative to the volume root
+        schema:
+          type: string
+          example: downloads/report.pdf
+      responses:
+        '200':
+          description: File metadata
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VolumeFileInfoResponse'
+        '404':
+          description: Volume or file not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      operationId: getV1VolumesByVolumeIdFilesStat
+      x-operation-id-source: derived
+  /v1/volumes/{volume_id}/files/download:
+    get:
+      summary: Download File
+      description: Get a pre-signed URL for a file. Pass `redirect=true` to be redirected to the file instead of receiving the URL.
+      security:
+      - api_key_header: []
+      tags:
+      - Volume Files
+      parameters:
+      - name: volume_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: path
+        in: query
+        required: true
+        description: File path relative to the volume root
+        schema:
+          type: string
+          example: downloads/report.pdf
+      - name: redirect
+        in: query
+        required: false
+        description: Respond with a `302` to the file instead of JSON
+        schema:
+          type: string
+          enum:
+          - 'true'
+          - 'false'
+      responses:
+        '200':
+          description: Download URL
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VolumeDownloadUrlResponse'
+        '302':
+          description: Redirect to the file (`redirect=true`)
+        '404':
+          description: Volume or file not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      operationId: getV1VolumesByVolumeIdFilesDownload
+      x-operation-id-source: derived
+  /v1/volumes/{volume_id}/paths:
+    get:
+      summary: List All Paths
+      description: Flat list of every path in the volume, optionally under a prefix. Folders appear with a trailing slash (for example `downloads/`).
+      security:
+      - api_key_header: []
+      tags:
+      - Volume Files
+      parameters:
+      - name: volume_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: prefix
+        in: query
+        required: false
+        description: Only paths under this folder
+        schema:
+          type: string
+      - name: cursor
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        required: false
+        description: Page size, 1 to 1000
+        schema:
+          type: string
+      responses:
+        '200':
+          description: File paths
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VolumePathListResponse'
+      operationId: getV1VolumesByVolumeIdPaths
+      x-operation-id-source: derived
+  /v1/volumes/{volume_id}/directories:
+    post:
+      summary: Create Directory
+      description: Create an empty folder in the volume. Folders are also created implicitly when a file is uploaded to a path inside them.
+      security:
+      - api_key_header: []
+      tags:
+      - Volume Files
+      parameters:
+      - name: volume_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - path
+              properties:
+                path:
+                  type: string
+                  example: reports/2026
+      responses:
+        '200':
+          description: Directory created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      path:
+                        type: string
+                      type:
+                        type: string
+                        enum:
+                        - directory
+        '409':
+          description: A file already exists at this path
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      operationId: postV1VolumesByVolumeIdDirectories
+      x-operation-id-source: derived
+components:
+  schemas:
+    VolumePathListResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            items:
+              type: array
+              items:
+                type: string
+              description: Every file path in the volume, relative to its root
+            next_cursor:
+              type: string
+              nullable: true
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: integer
+            message:
+              type: string
+    VolumeFileInfoResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/VolumeFileInfoSchema'
+    VolumeFileListResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/VolumeFileEntrySchema'
+            next_cursor:
+              type: string
+              nullable: true
+              description: Pass as `cursor` to fetch the next page; `null` when there are no more entries
+    VolumeDownloadUrlResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            signed_url:
+              type: string
+              description: Pre-signed URL that serves the file with a `GET`
+            expires_in:
+              type: integer
+              description: Seconds until the URL expires
+            size:
+              type: integer
+              description: Size in bytes
+            content_type:
+              type: string
+              nullable: true
+    VolumeFileInfoSchema:
+      type: object
+      properties:
+        path:
+          type: string
+        size:
+          type: integer
+          description: Size in bytes
+        etag:
+          type: string
+          nullable: true
+        content_type:
+          type: string
+          nullable: true
+        last_modified:
+          type: string
+          format: date-time
+          nullable: true
+    VolumeUploadUrlResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            signed_url:
+              type: string
+              description: Pre-signed URL to `PUT` the file body to
+            method:
+              type: string
+              enum:
+              - PUT
+            headers:
+              type: object
+              additionalProperties:
+                type: string
+              description: Headers that must be sent with the `PUT` exactly as returned; they are part of the signature
+            expires_in:
+              type: integer
+              description: Seconds until the URL expires
+    VolumeFileEntrySchema:
+      type: object
+      properties:
+        path:
+          type: string
+          description: Path relative to the volume root, e.g. `downloads/report.pdf`
+        type:
+          type: string
+          enum:
+          - file
+          - directory
+        size:
+          type: integer
+          nullable: true
+          description: Size in bytes (`null` for directories)
+        last_modified:
+          type: string
+          format: date-time
+          nullable: true
+        etag:
+          type: string
+          nullable: true
+  securitySchemes:
+    api_key_header:
+      type: apiKey
+      in: header
+      name: anchor-api-key
+      description: 'API key for your Anchor Browser account, sent as the `anchor-api-key` header on every
+
+        request. Create one at [app.anchorbrowser.io](https://app.anchorbrowser.io) (API Access),
+
+        or obtain one programmatically via the unauthenticated agent-access flow
+
+        (`POST /v1/agent-access`).
+
+        '
