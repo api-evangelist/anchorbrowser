@@ -1,4 +1,4 @@
-# Anchor Browser (anchorbrowser)
+# Anchor Browser
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,110 +66,163 @@
 
 Anchor Browser is an AI-native cloud browser infrastructure platform that lets AI agents interact with the web the same way a human would. It provides hosted, isolated Chromium sessions ("Anchor Chromium"), built-in stealth and bot-evasion tuning, an authentication layer (OmniConnect) for managing logged-in user credentials, a built-in enterprise VPN, residential and sticky-IP proxies, a Web Action Cache that hardens flaky workflows into deterministic code, and a REST API plus SDKs for Playwright, Puppeteer, MCP, LangChain, and CrewAI. The platform is positioned as the sandbox runtime for agentic browser automation.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/anchorbrowser/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/anchorbrowser/refs/heads/main/apis.yml)
+**Areas:** Browser Infrastructure · AI Agents · Cloud Browser · Browser Automation · Sandbox · Stealth Browser · MCP
 
-## Scope
+## Anchor Browser on APIs.io
 
-- **Type:** Index
+Everything profiled for Anchor Browser is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/anchorbrowser/](https://apis.io/providers/anchorbrowser/)** — or go straight to one of the APIs or properties below.
 
-## Tags
+### APIs (20)
 
-- Browser Infrastructure
-- AI Agents
-- Cloud Browser
-- Browser Automation
-- Sandbox
-- Stealth Browser
-- MCP
+- [Anchor Browser API](https://apis.io/apis/anchorbrowser/anchor-browser-api/) — The Anchor Browser REST API exposes cloud browser sessions for AI agents. It covers session lifecycle (create, async create, status, end, list history),…
+- [Anchor Browser MCP Server](https://apis.io/apis/anchorbrowser/anchor-browser-mcp/) — A Model Context Protocol server (hosted and open-source) that lets MCP-compatible AI clients drive Anchor Browser sessions as tools.
+- [LangChain Anchor Browser Tools](https://apis.io/apis/anchorbrowser/anchor-browser-langchain/) — LangChain-ready tools that wrap Anchor Browser-powered browser actions for use inside LangChain and LangGraph agent workflows.
+- [Anchor Browser Agentic capabilities API](https://apis.io/apis/anchorbrowser/anchorbrowser-agentic-capabilities-api/) — The Agentic capabilities API from Anchor Browser — 3 operation(s) for agentic capabilities.
+- [Anchor Browser AI Tools API](https://apis.io/apis/anchorbrowser/anchorbrowser-ai-tools-api/) — The AI Tools API from Anchor Browser — 2 operation(s) for ai tools.
+- [Anchor Browser Applications API](https://apis.io/apis/anchorbrowser/anchorbrowser-applications-api/) — The Applications API from Anchor Browser — 6 operation(s) for applications.
+- [Anchor Browser Batch Sessions API](https://apis.io/apis/anchorbrowser/anchorbrowser-batch-sessions-api/) — The Batch Sessions API from Anchor Browser — 3 operation(s) for batch sessions.
+- [Anchor Browser Billing API](https://apis.io/apis/anchorbrowser/anchorbrowser-billing-api/) — The Billing API from Anchor Browser — 1 operation(s) for billing.
+- [Anchor Browser Sessions API](https://apis.io/apis/anchorbrowser/anchorbrowser-browser-sessions-api/) — The Browser Sessions API from Anchor Browser — 10 operation(s) for browser sessions.
+- [Anchor Browser Certificates API](https://apis.io/apis/anchorbrowser/anchorbrowser-certificates-api/) — The Certificates API from Anchor Browser — 2 operation(s) for certificates.
+- [Anchor Browser Event Coordination API](https://apis.io/apis/anchorbrowser/anchorbrowser-event-coordination-api/) — The Event Coordination API from Anchor Browser — 2 operation(s) for event coordination.
+- [Anchor Browser Extensions API](https://apis.io/apis/anchorbrowser/anchorbrowser-extensions-api/) — The Extensions API from Anchor Browser — 2 operation(s) for extensions.
+- [Anchor Browser Identities API](https://apis.io/apis/anchorbrowser/anchorbrowser-identities-api/) — The Identities API from Anchor Browser — 2 operation(s) for identities.
+- [Anchor Browser Integrations API](https://apis.io/apis/anchorbrowser/anchorbrowser-integrations-api/) — The Integrations API from Anchor Browser — 2 operation(s) for integrations.
+- [Anchor Browser OS Level Control API](https://apis.io/apis/anchorbrowser/anchorbrowser-os-level-control-api/) — The OS Level Control API from Anchor Browser — 14 operation(s) for os level control.
+- [Anchor Browser Profiles API](https://apis.io/apis/anchorbrowser/anchorbrowser-profiles-api/) — The Profiles API from Anchor Browser — 2 operation(s) for profiles.
+- [Anchor Browser Session Recordings API](https://apis.io/apis/anchorbrowser/anchorbrowser-session-recordings-api/) — The Session Recordings API from Anchor Browser — 5 operation(s) for session recordings.
+- [Anchor Browser Tasks API](https://apis.io/apis/anchorbrowser/anchorbrowser-tasks-api/) — The Tasks API from Anchor Browser — 2 operation(s) for tasks.
+- [Anchor Browser Tasks (Legacy) API](https://apis.io/apis/anchorbrowser/anchorbrowser-tasks-legacy-api/) — The Tasks (Legacy) API from Anchor Browser — 11 operation(s) for tasks (legacy).
+- [Anchor Browser Tools API](https://apis.io/apis/anchorbrowser/anchorbrowser-tools-api/) — The Tools API from Anchor Browser — 4 operation(s) for tools.
 
-## Timestamps
+### Published properties
 
-- **Created:** 2026-05-23
-- **Modified:** 2026-05-23
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-## APIs
+#### MCP servers (2)
 
-### Anchor Browser API
+Model Context Protocol servers that expose the API to agents.
 
-The Anchor Browser REST API exposes cloud browser sessions for AI agents. It covers session lifecycle (create, async create, status, end, list history), batch session creation (up to 5,000 simultaneous sessions), browser profiles (save/load cookies, local storage, cache), file upload/download inside sessions, recording with pause/resume, custom browser extensions, AI-driven task execution (Claude, Gemini, OpenAI), web unlocker for bot-protected sites, captcha solving, ad/popup blocking, sticky residential IPs, secret management, and CA certificate management. SDKs are Stainless-generated and an OpenAPI specification is published.
+- [anchorbrowser](https://apis.io/servers/anchorbrowser/anchorbrowser/)
+- [https://browsermcp.com](https://apis.io/servers/anchorbrowser/https-browsermcp-com/)
 
-- **Human URL:** [https://docs.anchorbrowser.io](https://docs.anchorbrowser.io)
+#### Agentic access (1)
 
-#### Tags
+Which operations an agent can call, which act, and which need a human in the loop.
 
-- Browser Sessions
-- REST API
-- Browser Automation
-- AI Agents
+- [Anchorbrowser Agentic Access](https://apis.io/agentic-access/anchorbrowser/anchorbrowser-agentic-access/)
 
-#### Properties
+#### Collections (18)
 
-- [Documentation](https://docs.anchorbrowser.io/introduction)
-- [Getting Started](https://docs.anchorbrowser.io/quickstart/use-via-sdk)
-- [API Reference](https://docs.anchorbrowser.io)
-- [Authentication](https://docs.anchorbrowser.io)
-- [Console](https://app.anchorbrowser.io/playground)
-- [Postman Collection](collections/anchorbrowser.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/anchorbrowser.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+Postman and Open Collection request collections.
 
-### Anchor Browser MCP Server
+- [AnchorBrowser API](https://apis.io/collections/anchorbrowser/open-anchorbrowser/)
+- [AnchorBrowser Agentic capabilities API](https://apis.io/collections/anchorbrowser/open-anchorbrowser-agentic-capabilities-api/)
+- [AnchorBrowser Agentic capabilities AI Tools API](https://apis.io/collections/anchorbrowser/open-anchorbrowser-ai-tools-api/)
+- [AnchorBrowser Agentic capabilities Applications API](https://apis.io/collections/anchorbrowser/open-anchorbrowser-applications-api/)
+- [AnchorBrowser Agentic capabilities Batch Sessions API](https://apis.io/collections/anchorbrowser/open-anchorbrowser-batch-sessions-api/)
+- [AnchorBrowser Agentic capabilities Billing API](https://apis.io/collections/anchorbrowser/open-anchorbrowser-billing-api/)
+- [AnchorBrowser Agentic capabilities Browser Sessions API](https://apis.io/collections/anchorbrowser/open-anchorbrowser-browser-sessions-api/)
+- [AnchorBrowser Agentic capabilities Certificates API](https://apis.io/collections/anchorbrowser/open-anchorbrowser-certificates-api/)
+- [AnchorBrowser Agentic capabilities Event Coordination API](https://apis.io/collections/anchorbrowser/open-anchorbrowser-event-coordination-api/)
+- [AnchorBrowser Agentic capabilities Extensions API](https://apis.io/collections/anchorbrowser/open-anchorbrowser-extensions-api/)
+- [AnchorBrowser Agentic capabilities Identities API](https://apis.io/collections/anchorbrowser/open-anchorbrowser-identities-api/)
+- [AnchorBrowser Agentic capabilities Integrations API](https://apis.io/collections/anchorbrowser/open-anchorbrowser-integrations-api/)
+- [AnchorBrowser Agentic capabilities OS Level Control API](https://apis.io/collections/anchorbrowser/open-anchorbrowser-os-level-control-api/)
+- [AnchorBrowser Agentic capabilities Profiles API](https://apis.io/collections/anchorbrowser/open-anchorbrowser-profiles-api/)
+- [AnchorBrowser Agentic capabilities Session Recordings API](https://apis.io/collections/anchorbrowser/open-anchorbrowser-session-recordings-api/)
+- [AnchorBrowser Agentic capabilities Tasks API](https://apis.io/collections/anchorbrowser/open-anchorbrowser-tasks-api/)
+- [AnchorBrowser Agentic capabilities Tasks (Legacy) API](https://apis.io/collections/anchorbrowser/open-anchorbrowser-tasks-legacy-api/)
+- [AnchorBrowser Agentic capabilities Tools API](https://apis.io/collections/anchorbrowser/open-anchorbrowser-tools-api/)
 
-A Model Context Protocol server (hosted and open-source) that lets MCP-compatible AI clients drive Anchor Browser sessions as tools.
+#### Security (3)
 
-- **Human URL:** [https://browsermcp.com](https://browsermcp.com)
+Authentication, trust centre, and vulnerability disclosure.
 
-#### Tags
+- [Anchorbrowser Authentication](https://apis.io/security/anchorbrowser/anchorbrowser-authentication/)
+- [Anchorbrowser Domain Security](https://apis.io/security/anchorbrowser/anchorbrowser-domain-security/)
+- [Anchorbrowser Trust Center](https://apis.io/security/anchorbrowser/anchorbrowser-trust-center/)
 
-- MCP
-- AI Agents
-- Browser Automation
+#### Plans and pricing (1)
 
-#### Properties
+Published plans, tiers and prices.
 
+- [Anchorbrowser Plans Pricing](https://apis.io/plans/anchorbrowser/anchorbrowser-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Anchorbrowser Rate Limits](https://apis.io/rate-limits/anchorbrowser/anchorbrowser-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Anchorbrowser Finops](https://apis.io/finops/anchorbrowser/anchorbrowser-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://www.anchorbrowser.io/)
 - [Documentation](https://docs.anchorbrowser.io)
-- [M C P Server](https://browsermcp.com)
-- [Postman Collection](collections/anchorbrowser.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/anchorbrowser.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### LangChain Anchor Browser Tools
-
-LangChain-ready tools that wrap Anchor Browser-powered browser actions for use inside LangChain and LangGraph agent workflows.
-
-- **Human URL:** [https://github.com/anchorbrowser/langchain-anchorbrowser](https://github.com/anchorbrowser/langchain-anchorbrowser)
-
-#### Tags
-
-- LangChain
-- AI Agents
-- Integration
-
-#### Properties
-
-- [GitHub Repository](https://github.com/anchorbrowser/langchain-anchorbrowser)
-- [Postman Collection](collections/anchorbrowser.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/anchorbrowser.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-## Common Properties
-
-- [Portal](https://anchorbrowser.io)
-- [Documentation](https://docs.anchorbrowser.io)
-- [Getting Started](https://docs.anchorbrowser.io/quickstart/use-via-sdk)
-- [Authentication](https://docs.anchorbrowser.io)
-- [Sign Up](https://app.anchorbrowser.io)
-- [Console](https://app.anchorbrowser.io/playground)
+- [Getting started](https://docs.anchorbrowser.io/quickstart/use-via-sdk)
 - [Blog](https://anchorbrowser.io/blog)
-- [Status Page](https://status.anchorbrowser.io)
-- [Trust Center](https://trust.anchorbrowser.io)
-- [SDK](https://docs.anchorbrowser.io/quickstart/use-via-sdk)
-- [GitHub Repository](https://github.com/anchorbrowser/langchain-anchorbrowser)
-- [M C P Server](https://browsermcp.com)
-- [Features](undefined)
-- [Use Cases](undefined)
-- [Integrations](undefined)
-- [L L Ms Txt](https://docs.anchorbrowser.io/llms.txt)
+- [Trust centre](https://trust.anchorbrowser.io)
+- [Status](https://status.anchorbrowser.io)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
-**URL:** http://apievangelist.com
+**Kin Score 43.3** — developing · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 66.7 |
+| Contract quality | 52.7 |
+| Contract governance | 0.0 |
+| Operational transparency | 26.3 |
+| Developer ergonomics | 59.5 |
+| Access clarity | 26.3 |
+
+**Agent readiness 56.1** — agent-ready (gated down from agent-native)
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | documented (partial credit) |
+| MCP Server | verified |
+| Auth Clarity | served (partial credit) |
+| Idempotency | — |
+| Error Semantics | verified |
+| OpenAPI Examples | partial |
+| Rate Limit Signal | verified |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | served (partial credit) |
+| Protected Resource Metadata | verified |
+| Dynamic Client Registration | yes |
+| Agentic Commerce | — |
+| Pagination Ratio | — |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 16.7** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/anchorbrowser/](https://apis.io/providers/anchorbrowser/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Anchor Browser: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/anchorbrowser/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
